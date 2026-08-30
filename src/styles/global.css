@@ -380,26 +380,26 @@ h2 {
   display: block;
 }
 
-/* Bordered rather than plain text: this is the one ghost-styled control on
-   the page that isn't secondary to something else on it, so it needs to
-   read as a button on its own rather than borrow that reading from context. */
+/* Underlined rather than boxed: a border read as a stray rectangle on the
+   page, but the pencil and the underline still mark it as its own control
+   rather than a caption under the name. */
 .edit-profile {
   display: inline-block;
   margin-top: 10px;
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  padding: 6px 12px;
+  border: none;
   background: none;
+  padding: 0;
   font-family: var(--mono);
   font-size: 11.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--accent-2);
   cursor: pointer;
 }
 
 .edit-profile:hover {
-  border-color: var(--accent-2);
   color: var(--ink);
 }
 
