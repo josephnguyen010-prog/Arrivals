@@ -1913,11 +1913,18 @@ select option {
   border-bottom: 1px solid var(--rule);
 }
 
+/* Stretched rather than started: a title that wraps to two lines shouldn't
+   leave its neighbours a card shorter, so every column in a row grows to the
+   tallest one and the card underneath fills it. */
 .spot-groups {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 26px 34px;
-  align-items: start;
+}
+
+.spot-group {
+  display: flex;
+  flex-direction: column;
 }
 
 .spot-cat {
@@ -1940,11 +1947,13 @@ select option {
   padding: 0;
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 8px;
 }
 
 .spot-list li {
   display: flex;
+  flex: 1;
   gap: 12px;
   align-items: flex-start;
   padding: 10px;
