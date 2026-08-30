@@ -17,14 +17,14 @@ export interface Airport {
 
 export const AIRPORTS: Airport[] = [
   // Major international hubs
-  { code: "JFK", name: "John F. Kennedy International", city: "New York", region: "United States", lat: 40.6413, lon: -73.7781 },
-  { code: "LAX", name: "Los Angeles International", city: "Los Angeles", region: "United States", lat: 33.9416, lon: -118.4085 },
-  { code: "ORD", name: "O'Hare International", city: "Chicago", region: "United States", lat: 41.9742, lon: -87.9073 },
-  { code: "SFO", name: "San Francisco International", city: "San Francisco", region: "United States", lat: 37.6213, lon: -122.379 },
-  { code: "SEA", name: "Seattle-Tacoma International", city: "Seattle", region: "United States", lat: 47.4502, lon: -122.3088 },
-  { code: "DEN", name: "Denver International", city: "Denver", region: "United States", lat: 39.8561, lon: -104.6737 },
-  { code: "MIA", name: "Miami International", city: "Miami", region: "United States", lat: 25.7959, lon: -80.287 },
-  { code: "IAD", name: "Washington Dulles International", city: "Washington", region: "United States", lat: 38.9531, lon: -77.4565 },
+  { code: "JFK", name: "John F. Kennedy International", city: "New York", region: "New York", lat: 40.6413, lon: -73.7781 },
+  { code: "LAX", name: "Los Angeles International", city: "Los Angeles", region: "California", lat: 33.9416, lon: -118.4085 },
+  { code: "ORD", name: "O'Hare International", city: "Chicago", region: "Illinois", lat: 41.9742, lon: -87.9073 },
+  { code: "SFO", name: "San Francisco International", city: "San Francisco", region: "California", lat: 37.6213, lon: -122.379 },
+  { code: "SEA", name: "Seattle-Tacoma International", city: "Seattle", region: "Washington", lat: 47.4502, lon: -122.3088 },
+  { code: "DEN", name: "Denver International", city: "Denver", region: "Colorado", lat: 39.8561, lon: -104.6737 },
+  { code: "MIA", name: "Miami International", city: "Miami", region: "Florida", lat: 25.7959, lon: -80.287 },
+  { code: "IAD", name: "Washington Dulles International", city: "Washington", region: "Virginia", lat: 38.9531, lon: -77.4565 },
   { code: "YYZ", name: "Toronto Pearson International", city: "Toronto", region: "Canada", lat: 43.6777, lon: -79.6248 },
   { code: "MEX", name: "Mexico City International", city: "Mexico City", region: "Mexico", lat: 19.4363, lon: -99.0721 },
   { code: "EZE", name: "Ministro Pistarini International", city: "Buenos Aires", region: "Argentina", lat: -34.8222, lon: -58.5358 },

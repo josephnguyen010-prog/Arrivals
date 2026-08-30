@@ -25,6 +25,17 @@ describe("airports", () => {
       expect(airportByCode(code), code).toBeDefined();
     }
   });
+
+  /**
+   * A US airport tagged with the country instead of its state used to be
+   * invisible to a state-name search — LAX and SFO didn't turn up for
+   * "california" because Sacramento and San Diego had a state and they
+   * didn't. Every US entry needs a real state, every non-US entry a country.
+   */
+  it("never uses the country as a stand-in region for a US airport", () => {
+    const placeholders = AIRPORTS.filter((airport) => airport.region === "United States").map((a) => a.code);
+    expect(placeholders).toEqual([]);
+  });
 });
 
 describe("searchAirports", () => {
@@ -40,5 +51,10 @@ describe("searchAirports", () => {
 
   it("returns nothing for an empty term", () => {
     expect(searchAirports("   ")).toEqual([]);
+  });
+
+  it("finds every California airport by state name, hubs included", () => {
+    const codes = searchAirports("california").map((airport) => airport.code);
+    expect(codes).toEqual(expect.arrayContaining(["LAX", "SFO", "SAN", "SMF"]));
   });
 });
