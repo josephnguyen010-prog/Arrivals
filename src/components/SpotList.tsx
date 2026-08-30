@@ -83,25 +83,27 @@ function SpotPhotoCredits({ spots }: { spots: Spot[] }) {
   if (credits.length === 0) return null;
 
   return (
-    <p className="photo-credit spot-credits">
-      Spot photos{" "}
-      {credits.map((credit, index) => (
-        <Fragment key={credit.file}>
-          {index > 0 && " · "}
-          <a href={commonsUrl(credit.file)} target="_blank" rel="noreferrer noopener">
-            {credit.author}
-          </a>{" ("}
-          {credit.licenceUrl ? (
-            <a href={credit.licenceUrl} target="_blank" rel="noreferrer noopener">
-              {credit.licence}
-            </a>
-          ) : (
-            credit.licence
-          )}
-          {")"}
-        </Fragment>
-      ))}
-      , cropped
-    </p>
+    <details className="photo-credit spot-credits">
+      <summary>Photo credits</summary>
+      <p>
+        {credits.map((credit, index) => (
+          <Fragment key={credit.file}>
+            {index > 0 && " · "}
+            <a href={commonsUrl(credit.file)} target="_blank" rel="noreferrer noopener">
+              {credit.author}
+            </a>{" ("}
+            {credit.licenceUrl ? (
+              <a href={credit.licenceUrl} target="_blank" rel="noreferrer noopener">
+                {credit.licence}
+              </a>
+            ) : (
+              credit.licence
+            )}
+            {")"}
+          </Fragment>
+        ))}
+        , cropped
+      </p>
+    </details>
   );
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ChangeEvent } from "react";
 import { downscaleImage } from "../lib/images";
 import { useProfile } from "../state/ProfileContext";
+import { AirportPicker } from "./AirportPicker";
 import { Modal } from "./Modal";
 
 export function EditProfile({ onClose }: { onClose: () => void }) {
@@ -10,6 +11,7 @@ export function EditProfile({ onClose }: { onClose: () => void }) {
   const [handle, setHandle] = useState(profile.handle);
   const [bio, setBio] = useState(profile.bio);
   const [avatar, setAvatar] = useState(profile.avatar);
+  const [homeAirport, setHomeAirport] = useState(profile.homeAirport);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -76,6 +78,11 @@ export function EditProfile({ onClose }: { onClose: () => void }) {
         />
       </label>
 
+      <label className="field">
+        <span>Home airport</span>
+        <AirportPicker value={homeAirport} onChange={setHomeAirport} />
+      </label>
+
       {error && <p className="field-error block">{error}</p>}
 
       <div className="sheet-foot">
@@ -87,7 +94,7 @@ export function EditProfile({ onClose }: { onClose: () => void }) {
           disabled={busy}
           onClick={() => {
             // Favourites are edited on the profile page, not here.
-            save({ ...profile, name, handle, bio, avatar });
+            save({ ...profile, name, handle, bio, avatar, homeAirport });
             onClose();
           }}
         >

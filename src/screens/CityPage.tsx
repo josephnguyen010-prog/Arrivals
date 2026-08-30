@@ -7,7 +7,9 @@ import { ReviewEditor } from "../components/ReviewEditor";
 import { RateCity } from "../components/RateCity";
 import { SpotForm } from "../components/SpotForm";
 import { SpotList } from "../components/SpotList";
+import { FlightPath } from "../components/FlightPath";
 import { Stamp } from "../components/Stamp";
+import { TripCost } from "../components/TripCost";
 import { cityById } from "../data/cities";
 import { isWished, rankOf, ratingOf, visitsFor } from "../lib/ranking";
 import { useLog } from "../state/LogContext";
@@ -119,11 +121,15 @@ export function CityPage() {
             >
               {wished ? "✓ On your Departures board" : "+ Add to Departures"}
             </button>
+
+            <TripCost city={city} />
           </div>
 
           <CityNotes city={city} />
         </div>
       </div>
+
+      <FlightPath city={city} />
 
       {/* Both halves of what you have to say about the place, side by side: the
           verdict, and the dates it is based on. Each ran the full width alone

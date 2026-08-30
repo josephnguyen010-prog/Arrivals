@@ -1645,6 +1645,194 @@ select option {
   color: #f3f7fa;
 }
 
+/* Sits under the wishlist button rather than in the notes column: it's a
+   question about the trip you're about to plan, not a fact about the city. */
+.trip-cost {
+  margin-top: 18px;
+}
+
+.cost-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.budget-toggle {
+  display: flex;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.budget-opt {
+  border: none;
+  background: none;
+  padding: 7px 11px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.budget-opt + .budget-opt {
+  border-left: 1px solid var(--rule);
+}
+
+.budget-opt.on {
+  background: var(--accent-2);
+  color: #f3f7fa;
+}
+
+.days-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.days-field span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.days-field input {
+  width: 52px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 6px 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: none;
+}
+
+.cost-total {
+  margin-top: 12px;
+}
+
+.cost-total b {
+  display: block;
+  font-family: var(--mono);
+  font-size: 21px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.cost-total span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cost-disclaimer {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Full width of the page, not the two-column top block: the curve needs the
+   room, the way a boarding-pass strip runs edge to edge. */
+.flight-path {
+  margin: 34px 0;
+  padding-top: 26px;
+  border-top: 1px solid var(--rule);
+}
+
+.flight-map {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  margin-top: 4px;
+}
+
+.flight-line {
+  stroke: var(--rule);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 6;
+}
+
+.flight-dot {
+  fill: var(--muted);
+}
+
+.flight-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  fill: var(--ink);
+}
+
+.flight-plane path {
+  fill: var(--accent-2);
+}
+
+/* Search-as-you-type, then a short pick list — the same shape as CitySearch,
+   scaled down for one field instead of a whole modal. */
+.airport-picker {
+  margin-top: 2px;
+}
+
+.airport-current {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.airport-current b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.airport-matches {
+  margin-top: 6px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.airport-opt {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--rule);
+  background: none;
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.airport-opt:first-child {
+  border-top: none;
+}
+
+.airport-opt:hover {
+  background: var(--rule);
+}
+
+.airport-opt span {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.airport-opt small {
+  margin-left: auto;
+  color: var(--muted);
+}
+
 .departure {
   display: flex;
   flex-direction: column;
@@ -1938,6 +2126,29 @@ select option {
 
 .photo-credit a:hover {
   color: var(--accent);
+}
+
+/* A disclosure, not a caption: the credit still reaches anyone who wants it,
+   without sitting in the layout for everyone who doesn't. */
+.photo-credit summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.photo-credit summary::-webkit-details-marker {
+  display: none;
+}
+
+.photo-credit summary::before {
+  content: "ⓘ ";
+}
+
+.photo-credit summary:hover {
+  color: var(--ink);
+}
+
+.photo-credit p {
+  margin: 4px 0 0;
 }
 
 /* -------------------------------------------------------- city page --- */

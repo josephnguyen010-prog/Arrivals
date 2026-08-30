@@ -9,6 +9,12 @@ export interface Profile {
   avatar: string;
   /** Up to four, in the order you want them shown. */
   favourites: string[];
+  /**
+   * Where a trip starts, as an IATA airport code — not a city, so anywhere
+   * without a page in this catalogue can still fly from its nearest airport.
+   * Empty until you set one, on the profile screen.
+   */
+  homeAirport: string;
 }
 
 export const MAX_FAVOURITES = 4;
@@ -21,6 +27,7 @@ const DEFAULT_PROFILE: Profile = {
   bio: "",
   avatar: "",
   favourites: ["hcmc", "tokyo", "ist", "lisbon"],
+  homeAirport: "",
 };
 
 function load(): Profile {
@@ -37,6 +44,8 @@ function load(): Profile {
       favourites: Array.isArray(parsed.favourites)
         ? parsed.favourites.slice(0, MAX_FAVOURITES)
         : DEFAULT_PROFILE.favourites,
+      // Profiles saved before homeAirport existed have none.
+      homeAirport: typeof parsed.homeAirport === "string" ? parsed.homeAirport : "",
     };
   } catch {
     return DEFAULT_PROFILE;
