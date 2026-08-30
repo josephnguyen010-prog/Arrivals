@@ -34,8 +34,8 @@ export function ProfileHeader() {
         <h1>{profile.name}</h1>
         <span className="handle">{profile.handle}</span>
         {profile.bio && <p className="bio">{profile.bio}</p>}
-        <button className="ghost edit-profile" onClick={() => setEditing(true)}>
-          Edit profile
+        <button className="edit-profile" onClick={() => setEditing(true)}>
+          ✎ Edit profile
         </button>
       </div>
 
