@@ -1,6 +1,8 @@
+import { useState } from "react";
 import {
   clockTime,
   duration,
+  logoFor,
   stopsLabel,
   type LiveFlight,
 } from "../lib/liveFlights";
@@ -26,13 +28,7 @@ export function FlightList({
         const best = cheapest !== null && flight.price === cheapest;
         return (
           <li key={`${flight.flightNumber}-${index}`} className="flight">
-            <span className="flight-mark" aria-hidden="true">
-              {flight.airlineLogo ? (
-                <img src={flight.airlineLogo} alt="" loading="lazy" />
-              ) : (
-                <i>{initials(flight.airline)}</i>
-              )}
-            </span>
+            <AirlineMark flight={flight} />
 
             <span className="flight-body">
               <span className="flight-top">
@@ -57,6 +53,27 @@ export function FlightList({
         );
       })}
     </ul>
+  );
+}
+
+/**
+ * The logo, or the carrier's letters in a chip when there isn't one. The
+ * `onError` is the point of the component: Google has no mark for every
+ * airline that flies, and a missing file renders as the browser's broken-image
+ * icon, which looks like the app is broken rather than the logo missing.
+ */
+function AirlineMark({ flight }: { flight: LiveFlight }) {
+  const [failed, setFailed] = useState(false);
+  const src = logoFor(flight);
+
+  return (
+    <span className="flight-mark" aria-hidden="true">
+      {src && !failed ? (
+        <img src={src} alt="" loading="lazy" onError={() => setFailed(true)} />
+      ) : (
+        <i>{initials(flight.airline)}</i>
+      )}
+    </span>
   );
 }
 

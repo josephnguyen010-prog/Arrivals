@@ -228,6 +228,11 @@ Three things this had to get right, and they are all the same thing:
   aborted fetch, a body that isn't the shape we expect, a response with an empty list — all of them
   return `null` and the panel falls back to the modelled fare and plain links. A visitor cannot act
   on *quota exhausted* and should never be shown it. The fallback is the feature.
+- **The airline marks degrade twice.** The upstream's `airline_logo` first, then one derived from
+  the carrier code on the flight number, since that field comes back empty for codeshares — and if
+  the image itself 404s, an `onError` swaps in a lettered chip. Google has no mark for every airline
+  that flies, and a missing file renders as the browser's broken-image icon, which reads as the app
+  being broken rather than the logo being absent.
 - **The list can never stretch the ticket.** A flight list is the one element here whose length
   nobody controls, so the panel is lifted out of the grid's height calculation entirely — the column
   is `position: relative` with no intrinsic height, the panel fills it absolutely, and the list takes

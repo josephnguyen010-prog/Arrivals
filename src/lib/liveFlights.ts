@@ -145,6 +145,31 @@ export function duration(minutes: number | null): string {
   return `${hours}h ${rest}m`;
 }
 
+/**
+ * Google publishes an airline mark per IATA code at a stable path, and it is
+ * the same one the upstream hands back in `airline_logo`. Deriving it from the
+ * flight number as well means a row still gets its logo when that field comes
+ * back empty, which it does for codeshares and smaller carriers.
+ *
+ * Nothing here guarantees the file exists — the list falls back to a lettered
+ * chip when the image fails, rather than showing a broken-image icon.
+ */
+export function logoFor(flight: Pick<LiveFlight, "airlineLogo" | "flightNumber">): string {
+  if (flight.airlineLogo) return flight.airlineLogo;
+
+  const carrier = carrierCode(flight.flightNumber);
+  return carrier ? `https://www.gstatic.com/flights/airline_logos/70px/${carrier}.png` : "";
+}
+
+/** "UA 401" -> "UA". Two characters, and a digit is legal in either slot (B6, 9W). */
+export function carrierCode(flightNumber: string): string {
+  const match = /^\s*([A-Za-z0-9]{2})\s*\d/.exec(flightNumber);
+  if (!match) return "";
+  const code = match[1].toUpperCase();
+  // Two digits is a flight number that lost its carrier, not an airline.
+  return /^\d{2}$/.test(code) ? "" : code;
+}
+
 export function stopsLabel(stops: number): string {
   if (stops <= 0) return "Non-stop";
   return stops === 1 ? "1 stop" : `${stops} stops`;

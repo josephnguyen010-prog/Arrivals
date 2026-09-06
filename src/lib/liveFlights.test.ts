@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  carrierCode,
   clockTime,
   duration,
   flightsUrl,
   isStale,
+  logoFor,
   parseLiveFlights,
   stopsLabel,
 } from "./liveFlights";
@@ -165,5 +167,42 @@ describe("isStale", () => {
   it("treats an unreadable timestamp as stale", () => {
     expect(isStale("", now)).toBe(true);
     expect(isStale("whenever", now)).toBe(true);
+  });
+});
+
+describe("airline marks", () => {
+  it("uses the logo the upstream gave, when it gave one", () => {
+    expect(logoFor({ airlineLogo: "https://example.test/ua.png", flightNumber: "UA 401" })).toBe(
+      "https://example.test/ua.png",
+    );
+  });
+
+  /** Codeshares and smaller carriers come back with the field empty. */
+  it("derives one from the flight number when it didn't", () => {
+    expect(logoFor({ airlineLogo: "", flightNumber: "NH 7012" })).toBe(
+      "https://www.gstatic.com/flights/airline_logos/70px/NH.png",
+    );
+  });
+
+  it("asks for nothing rather than a broken URL when there is no code", () => {
+    expect(logoFor({ airlineLogo: "", flightNumber: "" })).toBe("");
+    expect(logoFor({ airlineLogo: "", flightNumber: "charter" })).toBe("");
+  });
+
+  it("reads the carrier off the front of a flight number", () => {
+    expect(carrierCode("UA 401")).toBe("UA");
+    expect(carrierCode("JL 5")).toBe("JL");
+    expect(carrierCode("ua401")).toBe("UA");
+  });
+
+  it("handles the codes with a digit in them", () => {
+    expect(carrierCode("B6 622")).toBe("B6");
+    expect(carrierCode("9W 120")).toBe("9W");
+  });
+
+  it("refuses a bare flight number with no carrier on it", () => {
+    expect(carrierCode("401")).toBe("");
+    expect(carrierCode("12 345")).toBe("");
+    expect(carrierCode("")).toBe("");
   });
 });
