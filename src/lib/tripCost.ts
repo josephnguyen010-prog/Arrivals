@@ -44,6 +44,8 @@ export interface SeasonSpread {
   peakMonth: string;
   /** What going in the cheap month rather than the dear one is worth. */
   saving: number;
+  /** The fare in each of the twelve months, January first. */
+  byMonth: number[];
 }
 
 export function tripCost(
@@ -106,6 +108,7 @@ export function tripCost(
       cheapestMonth: fare.cheapest[0],
       peakMonth: fare.peak[0],
       saving: fare.high - fare.low,
+      byMonth: fare.byMonth,
     },
   };
 }

@@ -1762,6 +1762,122 @@ select option {
   gap: 4px 26px;
 }
 
+/* Named for a screen reader, absent from the page. Clip rather than
+   display:none, which would take it out of the accessibility tree too. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Twelve months of fares, in the column the controls left free. Bars rather
+   than a line: the months are twelve discrete choices you pick between, not a
+   continuous quantity, and the eye is looking for the low one. */
+.fareyear {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  align-self: end;
+  min-width: 0;
+  max-width: 460px;
+}
+
+.fy-from {
+  margin-left: 8px;
+  color: var(--muted);
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+.fy-bars {
+  display: flex;
+  align-items: flex-end;
+  /* Two pixels of ground between bars, so adjacent marks never touch. */
+  gap: 2px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fy-col {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1 1 0;
+  min-width: 0;
+  cursor: default;
+}
+
+/* The plot area, with a height of its own. The bar used to take a percentage
+   of the whole column — label included — so a full-height bar overflowed, got
+   shrunk to fit, and every month came out the same height. */
+.fy-track {
+  display: flex;
+  align-items: flex-end;
+  height: 62px;
+}
+
+.fy-bar {
+  display: block;
+  width: 100%;
+  flex: none;
+  /* Rounded at the data end only; the other end is the baseline. */
+  border-radius: 3px 3px 0 0;
+  background: var(--fare-bar);
+}
+
+.fy-month {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Identity is never colour alone: the two ends are also the only months whose
+   letter is inked rather than muted. */
+.fy-col.low .fy-bar {
+  background: var(--accent-2);
+}
+
+.fy-col.low .fy-month {
+  color: var(--accent-2);
+  font-weight: 700;
+}
+
+.fy-col.high .fy-bar {
+  background: var(--accent);
+}
+
+.fy-col.high .fy-month {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.fy-col.on .fy-bar {
+  outline: 2px solid var(--bg);
+  outline-offset: -1px;
+}
+
+.fy-col.on .fy-month {
+  color: var(--ink);
+}
+
+@media (max-width: 860px) {
+  .fareyear {
+    grid-column: 1;
+    grid-row: auto;
+    max-width: none;
+  }
+}
+
 /* The saving rides under its own figure rather than beside it: the column is
    already the widest of the three and a second number on that line would make
    it wider than the total it is explaining. */

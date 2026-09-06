@@ -163,6 +163,22 @@ the saving is the same however you live once you land and however long you stay 
 tests assert. Everything else that might have gone in that space (distance, flight time, the months
 themselves, the fare range) is already printed on the pass a hundred pixels below it.
 
+Beside the controls, **the year in fares**: twelve bars, one a month, the cheapest and the dearest
+inked. The rest of the page can say *February is cheapest* and *February saves $330*; what it
+cannot say in words is the shape — that the dear season is a plateau rather than a spike, that
+December has a bump of its own, and that below the equator the whole curve is upside down. Sydney
+dips to June and peaks at Christmas.
+
+It carries no printed figures on purpose. Every number it could label — the range, the extremes,
+the month names — is already somewhere in this section, and this page has form for printing the
+same value twice. The values arrive on hover, in the heading, and in full for a screen reader.
+
+The bars are anchored at nought. Starting the scale at the cheapest month would turn a fare that
+varies by half into one that appears to vary by all of it, and the honest picture is that a year of
+fares is a gentle curve rather than a cliff. The two ends are bold as well as coloured, so identity
+is never colour alone, and the bar colour is a token per theme — the obvious dark neutral measured
+2.34:1 against the navy ground and had to be lightened to clear 3:1.
+
 Moving it also killed a duplicated number. The fare was printed twice on one page — once as
 `Flights` in the breakdown and once as `Typical fare` on the pass stub, from the same call. The
 stub carries the *range* now, which is something the breakdown doesn't say.

@@ -173,3 +173,31 @@ describe("nearestAirport", () => {
     expect(nearestAirport({ lat: -49.35, lon: 70.22 })).toBeUndefined();
   });
 });
+
+/** The twelve values the year-in-fares chart draws. */
+describe("fares by month", () => {
+  const tokyo = () => fareEstimate(kmTo("tokyo"), 35.68, "Asia");
+
+  it("gives one figure a month", () => {
+    expect(tokyo().byMonth).toHaveLength(12);
+  });
+
+  it("agrees with the range it reports", () => {
+    const fare = tokyo();
+    expect(Math.min(...fare.byMonth)).toBe(fare.low);
+    expect(Math.max(...fare.byMonth)).toBe(fare.high);
+  });
+
+  it("puts the extremes in the months it names", () => {
+    const fare = tokyo();
+    const cheapest = MONTHS[fare.byMonth.indexOf(Math.min(...fare.byMonth))];
+    const dearest = MONTHS[fare.byMonth.indexOf(Math.max(...fare.byMonth))];
+    expect(cheapest).toBe(fare.cheapest[0]);
+    expect(dearest).toBe(fare.peak[0]);
+  });
+
+  /** A bar chart anchored at nought needs every value above it. */
+  it("never returns a month at or below nothing", () => {
+    for (const usd of tokyo().byMonth) expect(usd).toBeGreaterThan(0);
+  });
+});

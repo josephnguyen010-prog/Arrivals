@@ -100,6 +100,12 @@ export interface FareEstimate {
   cheapest: string[];
   peak: string[];
   season: SeasonId;
+  /**
+   * All twelve, January first. Already worked out to find the ends above; the
+   * shape is worth more than the two extremes, because it says whether the
+   * dear season is a spike or a plateau.
+   */
+  byMonth: number[];
 }
 
 export function fareEstimate(km: number, destLat: number, region: Region): FareEstimate {
@@ -116,6 +122,7 @@ export function fareEstimate(km: number, destLat: number, region: Region): FareE
     typical: roundToTen(base),
     low: roundToTen(Math.min(...byMonth)),
     high: roundToTen(Math.max(...byMonth)),
+    byMonth: byMonth.map(roundToTen),
     cheapest: ranked.slice(0, 3).map((entry) => MONTHS[entry.month]),
     peak: ranked
       .slice(-3)

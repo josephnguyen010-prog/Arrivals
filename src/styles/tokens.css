@@ -18,6 +18,7 @@
   --stamp-bg: #f6f3eb;
   --stamp-ink: #26313a;
   --star-empty: #b3a992;
+  --fare-bar: #6b7580;
   --air-red: #c8402f;
   --air-blue: #2e5f92;
   --shadow: 0 1px 2px rgba(27, 39, 48, 0.1), 0 6px 18px rgba(27, 39, 48, 0.07);
@@ -38,6 +39,8 @@
     --stamp-bg: #efebe1;
     --stamp-ink: #26313a;
     --star-empty: #44586a;
+  /* #44586a itself measured 2.34:1 on the dark ground — too faint for a mark. */
+  --fare-bar: #5b6f80;
     --air-red: #e1614c;
     --air-blue: #6fa0ce;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.34), 0 8px 22px rgba(0, 0, 0, 0.28);
@@ -55,6 +58,8 @@
   --stamp-bg: #efebe1;
   --stamp-ink: #26313a;
   --star-empty: #44586a;
+  /* #44586a itself measured 2.34:1 on the dark ground — too faint for a mark. */
+  --fare-bar: #5b6f80;
   --air-red: #e1614c;
   --air-blue: #6fa0ce;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.34), 0 8px 22px rgba(0, 0, 0, 0.28);
@@ -71,6 +76,7 @@
   --stamp-bg: #f6f3eb;
   --stamp-ink: #26313a;
   --star-empty: #b3a992;
+  --fare-bar: #6b7580;
   --air-red: #c8402f;
   --air-blue: #2e5f92;
   --shadow: 0 1px 2px rgba(27, 39, 48, 0.1), 0 6px 18px rgba(27, 39, 48, 0.07);
