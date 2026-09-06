@@ -16,7 +16,15 @@ import type { CityId } from "../types";
  * Each row opens their trip rather than the city, because the city page is
  * your record of somewhere and their write-up is theirs.
  */
-export function WhoElse({ city }: { city: CityId }) {
+/** Whether anyone you follow has been, so the panel can leave the tab off
+ *  rather than offer one that opens on "nobody has". Twenty-six of the
+ *  forty-four cities have no entry, and a tab invites a click in a way a
+ *  section further down the page does not. */
+export function anyoneBeen(city: CityId): boolean {
+  return FEED.some((item) => item.city === city);
+}
+
+export function WhoElse({ city, heading = true }: { city: CityId; heading?: boolean }) {
   const been = FEED.filter((item) => item.city === city).sort(
     (a, b) => daysAgo(a.day, a.when) - daysAgo(b.day, b.when),
   );
@@ -24,7 +32,7 @@ export function WhoElse({ city }: { city: CityId }) {
   if (been.length === 0) {
     return (
       <div className="whoelse">
-        <p className="field-label">Who else has been</p>
+        {heading && <p className="field-label">Who else has been</p>}
         <p className="empty">Nobody you follow has logged this one yet.</p>
       </div>
     );
@@ -35,7 +43,7 @@ export function WhoElse({ city }: { city: CityId }) {
   return (
     <div className="whoelse">
       <p className="field-label">
-        Who else has been
+        {heading ? "Who else has been" : ""}
         <span className="whoelse-avg">
           {been.length === 1 ? "1 person" : `${been.length} people`} · {round(average)} avg
         </span>

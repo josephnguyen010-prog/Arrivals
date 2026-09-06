@@ -429,12 +429,18 @@ They only actually mix because the feed carries real dates. It used to carry rel
 all nineteen friend entries sorted above all thirteen of your trips and the screen read as two lists
 stacked. Both kinds are dated `day` + `when` now and sort through one function, `daysAgo`.
 
-**Who else has been** sits on the city page under your review and above your own spots — who you
+**Who else has been** is the panel's third tab — who you follow that has been here — who you
 follow that has been here, what they gave it, when they went and for how long, each row opening
 their write-up rather than the city. The Activity feed answers *what has anyone been doing lately*,
 which is a different question from *what do the people I follow make of this place*, and the second
 one is the one you have while looking at a city. An earlier version of this README described this
 section as though it existed; it didn't, and now it does.
+
+The tab is only there when somebody has been. Twenty-six of the forty-four cities have no entry,
+and a tab asks to be clicked in a way a section below the fold does not — one that opened on
+*nobody you follow has been* would be worse than no tab. It costs no height either way: the cost
+pane is the tallest of the three and sets the panel, so the third tab fits inside a box that was
+already that size.
 
 ## How long you were there
 

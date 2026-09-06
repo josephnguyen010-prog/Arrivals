@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { CityNotes } from "./CityNotes";
+import { anyoneBeen, WhoElse } from "./WhoElse";
 import { TripBudget } from "./TripBudget";
 import type { BudgetLevelId } from "../data/costs";
 import type { City } from "../types";
@@ -50,6 +51,18 @@ export function CityPanel({
       ),
     },
   ];
+
+  /* Only when somebody has. Twenty-six of the forty-four cities have no entry,
+     and an always-present tab would open on "nobody you follow has been" for
+     most of the catalogue — a tab asks to be clicked in a way a section below
+     the fold does not. */
+  if (anyoneBeen(city.id)) {
+    panes.push({
+      id: "who",
+      label: "Who else has been",
+      node: <WhoElse city={city.id} heading={false} />,
+    });
+  }
 
   const go = (next: number) => setIndex((next + panes.length) % panes.length);
 

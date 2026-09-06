@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BoardingPass } from "../components/BoardingPass";
-import { WhoElse } from "../components/WhoElse";
 import { CityPanel } from "../components/CityPanel";
 import { CityPhotoEditor } from "../components/CityPhotoEditor";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
@@ -208,7 +207,6 @@ export function CityPage() {
         </div>
       )}
 
-      <WhoElse city={city.id} />
 
       <div className="spots-head">
         <h2 style={{ border: "none", margin: 0, padding: 0 }}>Spots</h2>
