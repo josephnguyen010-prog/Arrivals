@@ -145,9 +145,20 @@ Under every city page, what it costs to get there and what it costs to be there.
 estimates, and both say so — the interesting design problem is being useful without pretending to
 be a booking engine.
 
-**Trip cost** is on the ground: a daily rate per city from `data/costs.ts`, times a pace
-(shoestring, comfortable, splurge) and a number of days. It sits beside the Departures button
-because that's the moment the question comes up.
+**What it costs** is both halves, added up, with the total as the headline: a daily rate per city
+from `data/costs.ts` times a pace and a number of nights, plus the modelled fare. It sits beside
+the Departures button because that's the moment the question comes up.
+
+It used to price only the ground half and admit in eleven-pixel type that the flight wasn't in it —
+while the flight sat priced on the boarding pass two hundred pixels further down. Which half
+dominates flips city by city, so the caveat couldn't have saved it: from Greensboro, Bangkok is
+$275 on the ground against a $1,260 flight and New York is $1,050 against $200, so the headline
+number was a fifth of the answer in one direction and most of it in the other. `lib/tripCost.ts`
+adds them, and the test that matters asserts both of those inversions.
+
+There is one trip length on the page. The cost block owns it and the booking panel reads it, so
+changing the nights moves the ground cost, the total and the return date together. They used to be
+two independent fields — `Days: 5` and `Nights: 7` — describing two different journeys at once.
 
 **Your ticket** is the flight, drawn as a boarding pass — the airmail stripe along the top edge,
 the route across the middle, and the fare on a stub torn off down a perforation. The stub is where

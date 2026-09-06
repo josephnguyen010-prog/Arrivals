@@ -20,7 +20,7 @@ const PLANE_ICON =
  * you keep, and because it is the one figure on here that is an estimate. Torn
  * off from the facts rather than mixed in with them.
  */
-export function BoardingPass({ city }: { city: City }) {
+export function BoardingPass({ city, nights }: { city: City; nights: number }) {
   const { profile } = useProfile();
   const home = profile.homeAirport
     ? airportByCode(profile.homeAirport)
@@ -158,7 +158,7 @@ export function BoardingPass({ city }: { city: City }) {
         </div>
 
         <div className="book-col">
-          <BookFlight from={home.code} to={arrival?.code} cityName={city.name} />
+          <BookFlight from={home.code} to={arrival?.code} cityName={city.name} nights={nights} />
         </div>
       </div>
     </div>

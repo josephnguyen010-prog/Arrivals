@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { BoardingPass } from "../components/BoardingPass";
 import { WhoElse } from "../components/WhoElse";
 import { CityNotes } from "../components/CityNotes";
+import { NearbyCities } from "../components/NearbyCities";
 import { CityPhotoEditor } from "../components/CityPhotoEditor";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
 import { ReviewEditor } from "../components/ReviewEditor";
@@ -10,8 +11,9 @@ import { RateCity } from "../components/RateCity";
 import { SpotForm } from "../components/SpotForm";
 import { SpotList } from "../components/SpotList";
 import { Stamp } from "../components/Stamp";
-import { TripCost } from "../components/TripCost";
+import { TripBudget } from "../components/TripBudget";
 import { cityById } from "../data/cities";
+import type { BudgetLevelId } from "../data/costs";
 import { isWished, rankOf, ratingOf, visitsFor } from "../lib/ranking";
 import { formatNights } from "../lib/trips";
 import { useLog } from "../state/LogContext";
@@ -20,6 +22,11 @@ export function CityPage() {
   const { id = "" } = useParams();
   const { log, toggleWishlist } = useLog();
   const [addingSpot, setAddingSpot] = useState(false);
+  /* One trip, shared. The cost block and the booking panel both describe the
+     same journey, so a length owned by either of them would let the page show
+     two trips that disagree. */
+  const [nights, setNights] = useState(5);
+  const [budgetId, setBudgetId] = useState<BudgetLevelId>("comfortable");
   const [editingPhoto, setEditingPhoto] = useState(false);
   const [editingReview, setEditingReview] = useState(false);
   const city = cityById(id);
@@ -124,14 +131,31 @@ export function CityPage() {
               {wished ? "✓ On your Departures board" : "+ Add to Departures"}
             </button>
 
-            <TripCost city={city} />
+            {/* Under the wishlist button, which is where the question comes
+                up. It stays in this column because the facts column is the
+                shorter of the two and putting 290px of cost in it only moved
+                the empty space across the page. */}
+            <TripBudget
+              city={city}
+              nights={nights}
+              onNights={setNights}
+              budgetId={budgetId}
+              onBudget={setBudgetId}
+            />
+
           </div>
 
-          <CityNotes city={city} />
+          {/* The facts, then where else is close. `.city-head` is a
+              two-column grid, so these share a wrapper or the second starts a
+              row of its own under the title block. */}
+          <div className="city-side">
+            <CityNotes city={city} />
+            <NearbyCities city={city} />
+          </div>
         </div>
       </div>
 
-      <BoardingPass city={city} />
+      <BoardingPass city={city} nights={nights} />
 
       {/* Both halves of what you have to say about the place, side by side: the
           verdict, and the dates it is based on. Each ran the full width alone

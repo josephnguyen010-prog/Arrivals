@@ -1689,18 +1689,180 @@ select option {
   color: #f3f7fa;
 }
 
-/* Sits under the wishlist button rather than in the notes column: it's a
-   question about the trip you're about to plan, not a fact about the city. */
-.trip-cost {
-  margin-top: 18px;
+/* Under the facts, in the column that ran out of content first. The old
+   version of this sat beside the wishlist button and priced only the ground
+   half, with the flight two hundred pixels further down the page. */
+/* The facts and what is near share the right-hand column. */
+.city-side {
+  min-width: 0;
 }
 
-.cost-controls {
+/* Under the facts: both are about the place rather than about your trip. */
+.nearby {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+.nearlist {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.nearlist li + li {
+  border-top: 1px solid var(--rule);
+}
+
+.nearlist a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nearlist a:hover .near-name {
+  color: var(--accent-2);
+}
+
+.near-name {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  font-size: 14px;
+}
+
+.near-been,
+.near-wish {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.near-been {
+  color: var(--accent);
+}
+
+.near-wish {
+  color: var(--accent-2);
+}
+
+.near-km {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.budget {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+.budget-head {
+  margin-top: 10px;
+}
+
+.budget-head b {
+  display: block;
+  font-family: var(--mono);
+  font-size: 27px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.budget-head span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* The two halves, named. Which one dominates flips city by city, so both are
+   spelled out rather than folded into the headline. */
+.budget-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 14px;
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+
+.budget-split dt {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.budget-split dd {
+  margin: 3px 0 0;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.budget-split a {
+  font-size: 11.5px;
+  color: var(--accent-2);
+}
+
+.budget-none {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.budget-controls {
   display: flex;
   align-items: flex-end;
-  gap: 18px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
 }
+
+.budget-nights {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.budget-nights span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.budget-nights input {
+  width: 52px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 6px 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: none;
+}
+
+.budget .cost-disclaimer {
+  margin-top: 10px;
+}
+
 
 .budget-toggle {
   display: flex;
@@ -1730,30 +1892,8 @@ select option {
   color: #f3f7fa;
 }
 
-.days-field {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
 
-.days-field span {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
 
-.days-field input {
-  width: 52px;
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  padding: 6px 8px;
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--ink);
-  background: none;
-}
 
 .cost-total {
   margin-top: 12px;

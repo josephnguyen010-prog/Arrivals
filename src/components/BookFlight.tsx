@@ -25,14 +25,17 @@ export function BookFlight({
   from,
   to,
   cityName,
+  nights,
 }: {
   from: string;
   to?: string;
   cityName: string;
+  /** Owned by the page and shared with the cost block, so the fare, the days
+      on the ground and the return date all describe one trip. */
+  nights: number;
 }) {
   const today = useMemo(() => startOfDay(new Date()), []);
   const [depart, setDepart] = useState(() => addDays(today, 30));
-  const [nights, setNights] = useState(7);
   const [picking, setPicking] = useState(false);
 
   const horizon = useMemo(() => addDays(today, BOOKING_HORIZON_DAYS), [today]);
@@ -104,18 +107,12 @@ export function BookFlight({
             </button>
           </div>
 
+          {/* Shown, not edited. The length of the trip is set once, up in
+              "What it costs" — two inputs for one number is how the page ended
+              up describing two different trips at the same time. */}
           <div className="book-field nights">
             <span className="book-label">Nights</span>
-            <input
-              type="number"
-              min={0}
-              max={90}
-              value={nights}
-              aria-describedby="book-return"
-              onChange={(event) =>
-                setNights(clampNights(Number(event.target.value)))
-              }
-            />
+            <span className="book-static">{nights}</span>
           </div>
 
           <div className="book-field book-back">
@@ -179,7 +176,3 @@ export function BookFlight({
   );
 }
 
-function clampNights(value: number): number {
-  if (!Number.isFinite(value)) return 0;
-  return Math.min(90, Math.max(0, Math.round(value)));
-}
