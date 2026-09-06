@@ -68,7 +68,12 @@ export function TripBudget({
         </div>
         <div>
           <dt>On the ground</dt>
-          <dd>${cost.ground.toLocaleString()}</dd>
+          <dd>
+            ${cost.ground.toLocaleString()}
+            {/* The rate behind the total, which was the one thing the line at
+                the foot of this pane said that the pass below doesn't. */}
+            <small>${cost.perNight} a night</small>
+          </dd>
         </div>
 
         {/* The pass below names the cheapest month; it never says what that
@@ -112,13 +117,11 @@ export function TripBudget({
 
       </div>
 
-      <p className="cost-disclaimer">
-        Both halves are estimates — ${cost.perNight}/night on the ground
-        {cost.fromCode &&
-          cost.flights !== null &&
-          `, a return fare from ${cost.fromCode}`}
-        . Not a quote.
-      </p>
+      {/* Short, but not gone. The flights listed further down this section are
+          real prices from a live search; these two are modelled. With both on
+          one page, which is which has to be said. The airport and the fact that
+          the fare is a return are on the pass itself. */}
+      <p className="cost-disclaimer">Both figures are estimates, not a quote.</p>
     </div>
   );
 }

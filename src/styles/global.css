@@ -1729,15 +1729,20 @@ select option {
   color: var(--muted);
 }
 
-/* The saving under its own figure rather than beside it — "$985saves $330"
+/* A note under its own figure rather than beside it — "$985saves $330"
    otherwise, which reads as one number. */
-.budget-season dd small {
+.budget-split dd small {
   display: block;
   margin-top: 1px;
   text-align: right;
   font-size: 9.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* The saving is the one worth colouring: it is an argument, not a rate. */
+.budget-season dd small {
   color: var(--accent-2);
 }
 
