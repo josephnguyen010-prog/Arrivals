@@ -35,11 +35,26 @@ export function TripBudget({
 
   return (
     <div className="budget">
+      {/* The pane's name, as the notes pane has. It also gives the carousel's
+          dots a line of their own, clear of the nights field below. */}
+      <p className="field-label">What it costs</p>
+
       <div className="budget-head">
         <b>${cost.total.toLocaleString()}</b>
-        <span>
-          {nights} {nights === 1 ? "night" : "nights"} · {labelFor(budgetId)}
-        </span>
+
+        {/* Beside the figure it moves, not three rows below it. The caption
+            that used to sit here read "5 nights · Comfortable", which is
+            whatever these controls already say. */}
+        <label className="budget-nights">
+          <span>Nights</span>
+          <input
+            type="number"
+            min={1}
+            max={60}
+            value={nights}
+            onChange={(event) => onNights(clampNights(Number(event.target.value)))}
+          />
+        </label>
       </div>
 
       <dl className="budget-split">
@@ -75,8 +90,6 @@ export function TripBudget({
       </dl>
 
       <div className="budget-controls">
-        {/* Labelled like the nights field beside it, so the two controls have
-            the same shape as each other and as the figures above them. */}
         <div className="budget-pace">
           <span>Pace</span>
           <div
@@ -101,18 +114,6 @@ export function TripBudget({
           </div>
         </div>
 
-        <label className="budget-nights">
-          <span>Nights</span>
-          <input
-            type="number"
-            min={1}
-            max={60}
-            value={nights}
-            onChange={(event) =>
-              onNights(clampNights(Number(event.target.value)))
-            }
-          />
-        </label>
       </div>
 
       <p className="cost-disclaimer">
@@ -126,9 +127,6 @@ export function TripBudget({
   );
 }
 
-function labelFor(id: BudgetLevelId): string {
-  return BUDGET_LEVELS.find((level) => level.id === id)?.label ?? "";
-}
 
 function clampNights(value: number): number {
   if (!Number.isFinite(value)) return 1;

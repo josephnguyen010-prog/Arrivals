@@ -1699,7 +1699,12 @@ select option {
   min-width: 0;
 }
 
+/* The total and the control that moves it, on one line. */
 .budget-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
   margin-top: 10px;
 }
 
@@ -1729,6 +1734,7 @@ select option {
 .budget-season dd small {
   display: block;
   margin-top: 1px;
+  text-align: right;
   font-size: 9.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1754,10 +1760,22 @@ select option {
    spelled out rather than folded into the headline. */
 .budget-split {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 14px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
   margin: 14px 0 0;
   padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+
+.budget-split > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 7px 0;
+}
+
+.budget-split > div + div {
   border-top: 1px solid var(--rule);
 }
 
@@ -1770,7 +1788,8 @@ select option {
 }
 
 .budget-split dd {
-  margin: 3px 0 0;
+  margin: 0;
+  text-align: right;
   font-family: var(--mono);
   font-size: 14px;
   font-variant-numeric: tabular-nums;
