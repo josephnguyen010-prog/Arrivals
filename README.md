@@ -420,6 +420,14 @@ a guess.
 The feed's friends have lengths too. They always did — buried in a tag string reading `"10 days"` —
 which is why the tags now carry only what kind of trip it was.
 
+It shows under each date in MyPassport, beside each visit on the city page, on your own lines in
+Activity, and totalled per country on the region lists. A log saved before the field existed gets
+the seeded trips' lengths handed back once, the same way `backfillReviews` does it and for the same
+reason — otherwise every one of those screens shows nothing for ever, which reads as the feature
+being broken rather than the data being old. Only the seeded ids, only where there is no length
+already: a length you entered is an answer, and a trip of your own that predates the field stays
+blank rather than being given an invented number.
+
 Your note is the one thing the app used to give everyone but you. The feed's invented friends had
 reviews from the start; your own log held a rating, some dates and a few spots, and nowhere to say
 what a place was actually like. It shows on the city page beside each visit and under the city's

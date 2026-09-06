@@ -3,6 +3,7 @@ import type { LogState } from "../types";
 import {
   addVisit,
   finishPlacement,
+  inDateOrder,
   isWished,
   nextOpponent,
   orderedIds,
@@ -179,5 +180,43 @@ describe("visitOrdinals", () => {
       { id: "1", city: "hcmc", when: "Jan 2023", day: "02" },
     ];
     expect(visitOrdinals(visits)).toEqual({ "1": 1, "2": 1, "3": 2 });
+  });
+});
+
+/**
+ * `addVisit` puts a new visit at the front of the array whatever date it
+ * carries. Everything that reads the log for display has to date-order it
+ * first, and these are the two places that used to trust storage order.
+ */
+describe("inDateOrder", () => {
+  const jan2026 = { id: "a", city: "tokyo", when: "Jan 2026", day: "06" };
+  const mar2026 = { id: "b", city: "hcmc", when: "Mar 2026", day: "12" };
+  const dec2019 = { id: "c", city: "bsas", when: "Dec 2019", day: "30" };
+
+  it("puts the newest first however the log was stored", () => {
+    // The order addVisit leaves behind after logging the 2019 trip today.
+    expect(inDateOrder([dec2019, mar2026, jan2026]).map((v) => v.id)).toEqual(["b", "a", "c"]);
+  });
+
+  it("leaves the stored array alone", () => {
+    const stored = [dec2019, mar2026];
+    inDateOrder(stored);
+    expect(stored.map((v) => v.id)).toEqual(["c", "b"]);
+  });
+
+  it("sinks a visit whose date cannot be read rather than heading the screen", () => {
+    const broken = { id: "x", city: "tokyo", when: "sometime", day: "??" };
+    expect(inDateOrder([broken, mar2026]).map((v) => v.id)).toEqual(["b", "x"]);
+  });
+});
+
+describe("visitOrdinals against stored order", () => {
+  it("numbers a city's trips oldest-first whatever order they arrive in", () => {
+    const first = { id: "old", city: "hcmc", when: "Jan 2023", day: "02" };
+    const second = { id: "new", city: "hcmc", when: "Mar 2026", day: "12" };
+    // The 2023 trip logged last, so it sits at the front of the stored array.
+    const ordinals = visitOrdinals([first, second]);
+    expect(ordinals["old"]).toBe(1);
+    expect(ordinals["new"]).toBe(2);
   });
 });

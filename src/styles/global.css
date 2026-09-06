@@ -1091,6 +1091,18 @@ select option {
   font-variant-numeric: tabular-nums;
 }
 
+/* The trip's length, under its date. Only there once something recorded one —
+   a visit logged before the field existed has no length, and inventing one
+   would be worse than the gap. */
+.day small {
+  display: block;
+  margin-top: 2px;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+
 .drow .thumb {
   aspect-ratio: 3/2;
   overflow: hidden;

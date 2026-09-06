@@ -1,3 +1,4 @@
+import { daysAgo } from "./dates";
 import type { CityId, LogState, Placement, Visit } from "../types";
 
 /** Ratings run in half stars, best first. Order here defines the ranking. */
@@ -21,7 +22,25 @@ export function rankOf(state: LogState, id: CityId): { pos: number; total: numbe
 }
 
 export function visitsFor(state: LogState, id: CityId): Visit[] {
-  return state.visits.filter((v) => v.city === id);
+  return inDateOrder(state.visits.filter((v) => v.city === id));
+}
+
+/**
+ * Newest first, by the date written on the visit rather than the order it was
+ * added.
+ *
+ * `addVisit` puts a new visit at the front of the array whatever date it
+ * carries, which is right for storage and wrong for everything that reads it:
+ * log a trip you took in 2019 and the passport headed it 2019, printed your
+ * 2026 trips underneath, and opened a second 2019 group further down — under a
+ * heading that says "Every visit, stamped in order". Numbering had the same
+ * fault, calling that 2019 trip your latest.
+ *
+ * Visits whose date cannot be read sink to the bottom rather than heading the
+ * screen.
+ */
+export function inDateOrder(visits: Visit[]): Visit[] {
+  return [...visits].sort((a, b) => daysAgo(a.day, a.when) - daysAgo(b.day, b.when));
 }
 
 export function ratedCount(state: LogState): number {
@@ -132,7 +151,10 @@ export function toggleWish(state: LogState, id: CityId): LogState {
 export function visitOrdinals(visits: Visit[]): Record<string, number> {
   const seen: Record<CityId, number> = {};
   const ordinals: Record<string, number> = {};
-  for (const visit of [...visits].reverse()) {
+  // Oldest first, so the first trip to a city is visit 1. Sorted here rather
+  // than trusted from the caller: this used to reverse the stored array, which
+  // is insertion order and not the same thing.
+  for (const visit of inDateOrder(visits).reverse()) {
     seen[visit.city] = (seen[visit.city] ?? 0) + 1;
     ordinals[visit.id] = seen[visit.city];
   }

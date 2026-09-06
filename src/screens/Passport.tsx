@@ -4,20 +4,25 @@ import { CityPhoto } from "../components/CityPhoto";
 import { RateCity } from "../components/RateCity";
 import { requireCity } from "../data/cities";
 import { MONTH_NAMES } from "../lib/dates";
-import { visitOrdinals } from "../lib/ranking";
+import { formatNights } from "../lib/trips";
+import { inDateOrder, visitOrdinals } from "../lib/ranking";
 import { useLog } from "../state/LogContext";
 import type { Visit } from "../types";
 
 export function Passport() {
   const { log } = useLog();
-  const ordinals = visitOrdinals(log.visits);
+  // Dated order, not stored order — see inDateOrder. Grouping walks this list
+  // and starts a new heading whenever the year changes, so an out-of-order
+  // visit would open a second group for a year already printed above.
+  const visits = inDateOrder(log.visits);
+  const ordinals = visitOrdinals(visits);
 
   /* Grouped by year, not by month. A month header over a single row - which is
      what all but one of them was - splits a date in two and leaves the day
      stranded in the margin, a long way from the header that gives it meaning.
      Years actually group, and each row carries its own date whole. */
   const years: { year: string; visits: Visit[] }[] = [];
-  for (const visit of log.visits) {
+  for (const visit of visits) {
     const year = visit.when.slice(-4);
     const last = years[years.length - 1];
     if (last && last.year === year) last.visits.push(visit);
@@ -44,6 +49,10 @@ export function Passport() {
               <Link className="drow" to={`/city/${city.id}`} key={visit.id}>
                 <time className="day" dateTime={machineDate(visit)}>
                   {visit.day} {monthOnly(visit.when)}
+                  {/* Under the date rather than beside it: the column is
+                      narrow, and how long you stayed belongs with when you
+                      went rather than with the city's name. */}
+                  {typeof visit.nights === "number" && <small>{formatNights(visit.nights)}</small>}
                 </time>
                 <span className="thumb">
                   <CityPhoto city={city} loading="lazy" />
