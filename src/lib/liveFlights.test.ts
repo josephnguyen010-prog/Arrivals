@@ -206,3 +206,43 @@ describe("airline marks", () => {
     expect(carrierCode("")).toBe("");
   });
 });
+
+/**
+ * The check that would have caught a static fixture being used as the
+ * endpoint: it ignores the query string, so every city was served Tokyo's
+ * flights and Istanbul offered Japan Airlines.
+ */
+describe("route checking", () => {
+  it("keeps flights that are on the route asked for", () => {
+    const parsed = parseLiveFlights(BODY, { from: "GSO", to: "HND" })!;
+    expect(parsed.flights).toHaveLength(2);
+  });
+
+  it("rejects an answer for a different route outright", () => {
+    expect(parseLiveFlights(BODY, { from: "GSO", to: "IST" })).toBeNull();
+  });
+
+  it("drops only the flights that are wrong, where some are right", () => {
+    const mixed = {
+      ...BODY,
+      flights: [BODY.flights[0], { ...BODY.flights[1], arriveAirport: "IST" }],
+    };
+    const parsed = parseLiveFlights(mixed, { from: "GSO", to: "HND" })!;
+    expect(parsed.flights.map((f) => f.airline)).toEqual(["United"]);
+  });
+
+  it("is not case-sensitive about airport codes", () => {
+    const lower = { ...BODY, flights: [{ ...BODY.flights[0], departAirport: "gso", arriveAirport: "hnd" }] };
+    expect(parseLiveFlights(lower, { from: "GSO", to: "HND" })!.flights).toHaveLength(1);
+  });
+
+  /** Thin data is not the wrong route, so a flight with no airports stays. */
+  it("keeps a flight that never reported its airports", () => {
+    const bare = { ...BODY, flights: [{ ...BODY.flights[0], departAirport: "", arriveAirport: "" }] };
+    expect(parseLiveFlights(bare, { from: "GSO", to: "HND" })!.flights).toHaveLength(1);
+  });
+
+  it("checks nothing when no route is given", () => {
+    expect(parseLiveFlights(BODY)!.flights).toHaveLength(2);
+  });
+});

@@ -224,6 +224,13 @@ Three things this had to get right, and they are all the same thing:
   readable page source, so the variable holds a URL and the function holds the secret. The function
   validates the route and dates against `^[A-Z]{3}$` and `^\d{4}-\d{2}-\d{2}$` before calling out,
   or it is an open proxy to any SerpApi engine on somebody else's quota.
+- **A flight has to be the one you asked for.** The endpoint is a URL from an environment variable
+  and the answer is cached by a CDN, so the app checks the airports on every flight against the
+  route it requested and drops anything that disagrees. This is not hypothetical: pointing
+  `VITE_FLIGHTS_API` at a static JSON fixture — which ignores the query string — served Tokyo's
+  flights on every city in the catalogue, so Istanbul offered Japan Airlines at a Tokyo price.
+  Contradictory airports are rejected; missing ones are not, because a flight that never reported
+  its airports is thin data rather than the wrong route.
 - **Every failure looks like no answer.** A 503 from a missing key, a 502 from a spent quota, an
   aborted fetch, a body that isn't the shape we expect, a response with an empty list — all of them
   return `null` and the panel falls back to the modelled fare and plain links. A visitor cannot act

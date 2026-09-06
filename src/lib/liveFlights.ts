@@ -70,7 +70,7 @@ export async function fetchLiveFlights(
   try {
     const response = await fetch(flightsUrl(query, endpoint), { signal: options.signal });
     if (!response.ok) return null;
-    return parseLiveFlights(await response.json());
+    return parseLiveFlights(await response.json(), { from: query.from, to: query.to });
   } catch {
     return null;
   }
@@ -81,10 +81,17 @@ export async function fetchLiveFlights(
  * key. Anything malformed is dropped rather than rendered half-blank: a row
  * with no airline and no time is worse than one fewer row.
  */
-export function parseLiveFlights(body: unknown): LiveFlights | null {
+export function parseLiveFlights(
+  body: unknown,
+  expected?: { from: string; to: string },
+): LiveFlights | null {
   if (!isRecord(body) || !Array.isArray(body.flights)) return null;
 
-  const flights = body.flights.filter(isRecord).map(toFlight).filter(isFlight);
+  const flights = body.flights
+    .filter(isRecord)
+    .map(toFlight)
+    .filter(isFlight)
+    .filter((flight) => onRoute(flight, expected));
   if (flights.length === 0) return null;
 
   return {
@@ -93,6 +100,24 @@ export function parseLiveFlights(body: unknown): LiveFlights | null {
     lowest: typeof body.lowest === "number" ? body.lowest : null,
     fetchedAt: typeof body.fetchedAt === "string" ? body.fetchedAt : "",
   };
+}
+
+/**
+ * A flight has to be the one we asked for. The endpoint is a URL from an
+ * environment variable, the answer is cached by a CDN, and neither of those is
+ * something the app should take on trust: point it at a static file — which
+ * ignores the query string entirely — and every city on the board renders the
+ * same five flights, so Istanbul offers you Japan Airlines. Contradictory
+ * airports are rejected; missing ones are not, because a flight that simply
+ * did not report its airports is thin data rather than the wrong route.
+ */
+function onRoute(flight: LiveFlight, expected?: { from: string; to: string }): boolean {
+  if (!expected) return true;
+  const from = flight.departAirport.toUpperCase();
+  const to = flight.arriveAirport.toUpperCase();
+  if (from && from !== expected.from.toUpperCase()) return false;
+  if (to && to !== expected.to.toUpperCase()) return false;
+  return true;
 }
 
 function toFlight(raw: Record<string, unknown>): LiveFlight | null {
