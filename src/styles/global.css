@@ -2006,14 +2006,20 @@ select option {
 }
 
 
+/* Three equal columns rather than three widths. Sized by their labels,
+   "Comfortable" ran a third wider than "Splurge" and the row read as ragged
+   even though the segments were the same control. `1fr` tracks all take the
+   width of the longest. */
 .budget-toggle {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   border: 1px solid var(--rule);
   border-radius: 3px;
   overflow: hidden;
 }
 
 .budget-opt {
+  text-align: center;
   border: none;
   background: none;
   padding: 7px 11px;
