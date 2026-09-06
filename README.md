@@ -436,6 +436,11 @@ which is a different question from *what do the people I follow make of this pla
 one is the one you have while looking at a city. An earlier version of this README described this
 section as though it existed; it didn't, and now it does.
 
+The same panel is on a friend's write-up, minus that third tab — reading somebody on a city you
+have never been to is exactly when *what would this cost me* comes up, and it used to be on the far
+side of a link. The link is still there for the ticket and the booking, and it is no longer hidden
+on cities you haven't visited, which is where it was least use.
+
 The tab is only there when somebody has been. Twenty-six of the forty-four cities have no entry,
 and a tab asks to be clicked in a way a section below the fold does not — one that opened on
 *nobody you follow has been* would be worse than no tab. It costs no height either way: the cost

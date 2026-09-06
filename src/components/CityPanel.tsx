@@ -26,12 +26,16 @@ export function CityPanel({
   onNights,
   budgetId,
   onBudget,
+  showWhoElse = true,
 }: {
   city: City;
   nights: number;
   onNights: (nights: number) => void;
   budgetId: BudgetLevelId;
   onBudget: (id: BudgetLevelId) => void;
+  /** Off on a friend's own write-up, where a roll-up of who else has been
+      would include the person whose page you are reading. */
+  showWhoElse?: boolean;
 }) {
   const [index, setIndex] = useState(0);
 
@@ -56,7 +60,7 @@ export function CityPanel({
      and an always-present tab would open on "nobody you follow has been" for
      most of the catalogue — a tab asks to be clicked in a way a section below
      the fold does not. */
-  if (anyoneBeen(city.id)) {
+  if (showWhoElse && anyoneBeen(city.id)) {
     panes.push({
       id: "who",
       label: "Who else has been",

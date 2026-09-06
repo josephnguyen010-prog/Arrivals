@@ -1,9 +1,11 @@
 import { Link, useParams } from "react-router-dom";
-import { CityNotes } from "../components/CityNotes";
+import { useState } from "react";
+import { CityPanel } from "../components/CityPanel";
 import { CityPhoto } from "../components/CityPhoto";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
 import { Stars } from "../components/Stars";
 import { requireCity } from "../data/cities";
+import type { BudgetLevelId } from "../data/costs";
 import { FEED } from "../data/seed";
 import { formatStay } from "../lib/trips";
 import { isWished, visitsFor } from "../lib/ranking";
@@ -15,13 +17,20 @@ import { useLog } from "../state/LogContext";
  * your stamps — and reaching it from Activity made every city a friend
  * mentioned look like one you had visited.
  *
- * So this screen carries exactly two things: what they said, and the one thing
- * you can do about it, which is put the city on your Departures board.
+ * It carries what they said, and what you would do about it: put the city on
+ * your Departures board, and see what going would cost. The cost used to be a
+ * click away on the city page, which is the wrong side of a link — reading a
+ * friend on somewhere new is exactly the moment the question comes up.
  */
 export function FriendVisit() {
   const { id = "" } = useParams();
   const { log, toggleWishlist } = useLog();
   const item = FEED.find((entry) => entry.id === id);
+
+  /* The trip you might take, not the one they took. Local to this screen —
+     the city page keeps its own, and neither should move the other. */
+  const [nights, setNights] = useState(5);
+  const [budgetId, setBudgetId] = useState<BudgetLevelId>("comfortable");
 
   if (!item) {
     return (
@@ -107,12 +116,22 @@ export function FriendVisit() {
               <Link to={`/city/${city.id}`}>
                 {visits.length > 0
                   ? `Your page for ${city.name}`
-                  : `What ${city.name} costs, and how to get there`}
+                  : `The ticket to ${city.name}, and where to book`}
               </Link>
             </p>
           </div>
 
-          <CityNotes city={city} />
+          {/* The same panel the city page carries, minus the roll-up of who
+              else has been: on a friend's own write-up that would count the
+              person whose page this is. */}
+          <CityPanel
+            city={city}
+            nights={nights}
+            onNights={setNights}
+            budgetId={budgetId}
+            onBudget={setBudgetId}
+            showWhoElse={false}
+          />
         </div>
       </div>
     </section>
