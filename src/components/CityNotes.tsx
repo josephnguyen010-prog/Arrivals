@@ -10,13 +10,15 @@ import type { City } from "../types";
  * beside them. A spell as a band under the header proved the point the wrong
  * way round: it read fine and left the column it came out of empty.
  */
-export function CityNotes({ city }: { city: City }) {
+export function CityNotes({ city, heading = true }: { city: City; heading?: boolean }) {
   const facts = factsFor(city.id);
   if (!facts) return null;
 
   return (
     <div className="city-notes">
-      <p className="field-label">Notes</p>
+      {/* The panel's tab is this pane's heading, so it asks for none of its
+          own; the friend-visit page has no tabs and keeps it. */}
+      {heading && <p className="field-label">Notes</p>}
       <p className="notes-history">{facts.history}</p>
 
       <div className="notes-cols">

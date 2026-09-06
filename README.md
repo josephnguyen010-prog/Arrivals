@@ -151,8 +151,10 @@ the Departures button because that's the moment the question comes up.
 
 It shares a panel with the facts, in the column beside the title block — one block you turn rather
 than two that could never be made to line up. Both panes stay in the layout, stacked in a single
-grid cell with the inactive one hidden, so turning it never resizes the page. It is a tablist
-underneath; the arrows are there because it reads as a carousel, and they cycle.
+grid cell with the inactive one hidden, so turning it never resizes the page. The two panes are named tabs rather than dots. Dots said there was a second thing without saying
+what, which is the standing complaint about carousels — whatever is past the first slide may as
+well not exist. Naming them costs no height, because the tabs are the panes' headings: each pane
+stopped printing its own.
 
 **Getting there** below it is the ticket and the booking links.
 

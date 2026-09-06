@@ -35,7 +35,7 @@ export function CityPanel({
   const [index, setIndex] = useState(0);
 
   const panes = [
-    { id: "notes", label: "Notes", node: <CityNotes city={city} /> },
+    { id: "notes", label: "Notes", node: <CityNotes city={city} heading={false} /> },
     {
       id: "cost",
       label: "What it costs",
@@ -65,11 +65,12 @@ export function CityPanel({
 
   return (
     <div className="city-panel">
-      <div className="panel-nav" role="tablist" aria-label="City details" onKeyDown={onKeyDown}>
-        <button type="button" className="panel-step" aria-label="Previous" onClick={() => go(index - 1)}>
-          ‹
-        </button>
-
+      {/* Named tabs rather than dots. Two 7px dots said there was a second
+          thing without saying what, which is the whole problem with a
+          carousel: the content past the first slide may as well not exist.
+          The tabs double as each pane's heading, so naming them costs no
+          height — the panes stopped printing their own. */}
+      <div className="panel-tabs" role="tablist" aria-label="City details" onKeyDown={onKeyDown}>
         {panes.map((pane, i) => (
           <button
             key={pane.id}
@@ -81,16 +82,12 @@ export function CityPanel({
             // Only the selected tab is tabbable; the arrow keys move between
             // them, which is the pattern a tablist is supposed to follow.
             tabIndex={i === index ? 0 : -1}
-            className={i === index ? "panel-dot on" : "panel-dot"}
+            className={i === index ? "panel-tab on" : "panel-tab"}
             onClick={() => setIndex(i)}
           >
-            <span className="sr-only">{pane.label}</span>
+            {pane.label}
           </button>
         ))}
-
-        <button type="button" className="panel-step" aria-label="Next" onClick={() => go(index + 1)}>
-          ›
-        </button>
       </div>
 
       {/* Both panes stay in the layout, stacked in one grid cell, so the panel

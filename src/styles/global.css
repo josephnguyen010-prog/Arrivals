@@ -3189,51 +3189,48 @@ select option {
    column, so there is nothing to line it up against and nothing to leave a
    hole under. */
 .city-panel {
-  position: relative;
   min-width: 0;
   padding-left: 26px;
 }
 
-/* The pane brings its own heading, so this only carries the controls — sat in
-   the corner beside whichever label is showing. */
-.panel-nav {
-  position: absolute;
-  top: -2px;
-  right: 0;
-  z-index: 1;
+/* Named tabs, which are also the panes' headings. Set like a field label so
+   the row reads as the heading it replaced rather than as a control strip
+   bolted above one. */
+.panel-tabs {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  gap: 18px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
 }
 
-.panel-step {
+.panel-tab {
+  padding: 0 0 8px;
   border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
   background: none;
-  padding: 0 2px;
   font-family: var(--mono);
-  font-size: 15px;
-  line-height: 1;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--muted);
   cursor: pointer;
 }
 
-.panel-step:hover {
-  color: var(--accent-2);
+.panel-tab:hover {
+  color: var(--ink);
 }
 
-.panel-dot {
-  width: 7px;
-  height: 7px;
-  padding: 0;
-  border: 1px solid var(--muted);
-  border-radius: 50%;
-  background: none;
-  cursor: pointer;
+/* Inked and underlined: which one is showing must survive a colourblind
+   reader and a printed page, so it is never carried by colour alone. */
+.panel-tab.on {
+  color: var(--ink);
+  border-bottom-color: var(--accent-2);
 }
 
-.panel-dot.on {
-  border-color: var(--accent-2);
-  background: var(--accent-2);
+.panel-tab:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
 }
 
 /* Both panes in one cell, so the panel is as tall as the taller of them and
@@ -3268,12 +3265,6 @@ select option {
 /* The panel owns the indent that clears the column rule. */
 .city-panel .city-notes {
   padding-left: 0;
-}
-
-/* Room for the controls, so a heading never runs under them. */
-.panel-pane > * > .field-label:first-child,
-.panel-pane .field-label:first-child {
-  padding-right: 74px;
 }
 
 

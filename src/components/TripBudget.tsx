@@ -35,10 +35,6 @@ export function TripBudget({
 
   return (
     <div className="budget">
-      {/* The pane's name, as the notes pane has. It also gives the carousel's
-          dots a line of their own, clear of the nights field below. */}
-      <p className="field-label">What it costs</p>
-
       <div className="budget-head">
         <b>${cost.total.toLocaleString()}</b>
 
