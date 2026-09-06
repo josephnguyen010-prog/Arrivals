@@ -2,9 +2,8 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BoardingPass } from "../components/BoardingPass";
 import { WhoElse } from "../components/WhoElse";
-import { CityNotes } from "../components/CityNotes";
+import { CityPanel } from "../components/CityPanel";
 import { CityPhotoEditor } from "../components/CityPhotoEditor";
-import { TripBudget } from "../components/TripBudget";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
 import { ReviewEditor } from "../components/ReviewEditor";
 import { RateCity } from "../components/RateCity";
@@ -132,10 +131,16 @@ export function CityPage() {
 
           </div>
 
-          {/* Always visible, and nothing to line up against: the facts are
-              reference, and putting them behind a control cost a click to read
-              the thing the column exists for. */}
-          <CityNotes city={city} />
+          {/* One panel you turn. Only ever one block in this column, so there
+              is nothing to line it up against and nothing to leave a hole
+              under — which two blocks here never managed. */}
+          <CityPanel
+            city={city}
+            nights={nights}
+            onNights={setNights}
+            budgetId={budgetId}
+            onBudget={setBudgetId}
+          />
         </div>
       </div>
 
@@ -144,14 +149,6 @@ export function CityPage() {
           was printed in two of them. */}
       <section className="going">
         <p className="field-label">Getting there</p>
-
-        <TripBudget
-          city={city}
-          nights={nights}
-          onNights={setNights}
-          budgetId={budgetId}
-          onBudget={setBudgetId}
-        />
 
         <BoardingPass city={city} nights={nights} />
       </section>

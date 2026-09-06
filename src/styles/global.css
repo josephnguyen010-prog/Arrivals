@@ -1693,80 +1693,19 @@ select option {
    version of this sat beside the wishlist button and priced only the ground
    half, with the flight two hundred pixels further down the page. */
 
-/* A summary strip across the top of "Getting there": the total, the two
-   halves it is made of, then the controls. Scoped under `.going` so these beat
-   the column-block rules further down the file rather than losing to them on
-   source order. */
-.going .budget {
-  display: grid;
-  /* Total, then the readouts, then a column left free. The controls sit under
-     the readouts they change rather than across the page from them. */
-  grid-template-columns: auto minmax(0, 500px) minmax(0, 1fr);
-  align-items: start;
-  gap: 16px 34px;
-  min-width: 0;
-  padding-bottom: 18px;
-  margin-bottom: 22px;
-  border-bottom: 1px solid var(--rule);
-}
-
-.going .budget-head {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.going .budget-split {
-  grid-column: 2;
-  grid-row: 1;
-  /* Three equal tracks, shared with the controls below, so every label and
-     every control sits on the same vertical line. They were content-sized
-     before — 89, 132 and 107px — and nothing beneath them lined up. */
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.going .budget-controls {
-  grid-column: 2;
-  grid-row: 2;
-  /* The same three tracks. The pace takes the first two, the nights the third,
-     so both controls end on a column edge from the row above. */
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 26px;
-  align-items: end;
-}
-
-.budget-pace {
-  grid-column: 1 / 3;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+/* Inside the turning panel again, so a column block rather than a strip
+   across the page. */
+.budget {
   min-width: 0;
 }
 
-.budget-pace > span {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
+.budget-head {
+  margin-top: 10px;
 }
 
-.going .budget-nights {
-  grid-column: 3;
-  margin-left: 0;
-}
-
-.going .cost-disclaimer {
-  grid-row: 3;
-}
-
-.going .budget-head {
-  margin-top: 0;
-}
-
-/* The total, and what it is a total of. Set here rather than inherited: the
-   headline has to out-weigh the two halves beside it, or the eye reads the
-   breakdown first and the answer second. */
+/* The total, and what it is a total of. On its own line: run together with the
+   pace and the length it reads as one string of characters rather than an
+   answer and its terms. */
 .budget-head b {
   display: block;
   font-family: var(--mono);
@@ -1785,132 +1724,8 @@ select option {
   color: var(--muted);
 }
 
-.going .budget-split {
-  margin: 0;
-  padding-top: 0;
-  border-top: none;
-  gap: 4px 26px;
-}
-
-/* Named for a screen reader, absent from the page. Clip rather than
-   display:none, which would take it out of the accessibility tree too. */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Twelve months of fares, in the column the controls left free. Bars rather
-   than a line: the months are twelve discrete choices you pick between, not a
-   continuous quantity, and the eye is looking for the low one. */
-.fareyear {
-  grid-column: 3;
-  grid-row: 1 / span 2;
-  align-self: end;
-  min-width: 0;
-  max-width: 460px;
-}
-
-.fy-from {
-  margin-left: 8px;
-  color: var(--muted);
-  text-transform: none;
-  letter-spacing: 0.04em;
-}
-
-.fy-bars {
-  display: flex;
-  align-items: flex-end;
-  /* Two pixels of ground between bars, so adjacent marks never touch. */
-  gap: 2px;
-  margin: 10px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.fy-col {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  flex: 1 1 0;
-  min-width: 0;
-  cursor: default;
-}
-
-/* The plot area, with a height of its own. The bar used to take a percentage
-   of the whole column — label included — so a full-height bar overflowed, got
-   shrunk to fit, and every month came out the same height. */
-.fy-track {
-  display: flex;
-  align-items: flex-end;
-  height: 62px;
-}
-
-.fy-bar {
-  display: block;
-  width: 100%;
-  flex: none;
-  /* Rounded at the data end only; the other end is the baseline. */
-  border-radius: 3px 3px 0 0;
-  background: var(--fare-bar);
-}
-
-.fy-month {
-  margin-top: 4px;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.04em;
-  text-align: center;
-  color: var(--muted);
-}
-
-/* Identity is never colour alone: the two ends are also the only months whose
-   letter is inked rather than muted. */
-.fy-col.low .fy-bar {
-  background: var(--accent-2);
-}
-
-.fy-col.low .fy-month {
-  color: var(--accent-2);
-  font-weight: 700;
-}
-
-.fy-col.high .fy-bar {
-  background: var(--accent);
-}
-
-.fy-col.high .fy-month {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.fy-col.on .fy-bar {
-  outline: 2px solid var(--bg);
-  outline-offset: -1px;
-}
-
-.fy-col.on .fy-month {
-  color: var(--ink);
-}
-
-@media (max-width: 860px) {
-  .fareyear {
-    grid-column: 1;
-    grid-row: auto;
-    max-width: none;
-  }
-}
-
-/* The saving rides under its own figure rather than beside it: the column is
-   already the widest of the three and a second number on that line would make
-   it wider than the total it is explaining. */
+/* The saving under its own figure rather than beside it — "$985saves $330"
+   otherwise, which reads as one number. */
 .budget-season dd small {
   display: block;
   margin-top: 1px;
@@ -1920,45 +1735,19 @@ select option {
   color: var(--accent-2);
 }
 
-.going .budget-controls {
-  margin-top: 0;
+.budget-pace {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
 }
 
-/* Beside the pace buttons, not shoved to the far edge of the page: they are
-   one control between them — how you travel and for how long. */
-.going .budget-nights {
-  margin-left: 0;
-}
-
-.going .cost-disclaimer {
-  grid-column: 1 / -1;
-  margin: 0;
-}
-
-@media (max-width: 860px) {
-  .going .budget {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
-  }
-
-  .going .budget-head,
-  .going .budget-split,
-  .going .budget-controls,
-  .going .cost-disclaimer {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
-  /* Stacked, there is no row above to line up with. */
-  .going .budget-controls {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
-  }
-
-  .budget-pace,
-  .going .budget-nights {
-    grid-column: 1;
-  }
+.budget-pace > span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 /* The two halves, named. Which one dominates flips city by city, so both are
@@ -2001,23 +1790,20 @@ select option {
 /* Wraps rather than squeezes. In the panel's 340px column the three pace
    buttons and the nights field want 356px between them, and a flex row would
    rather crush the buttons than admit it — which cut "Splurge" to "Splur". */
+/* Stacked, not side by side. Three pace buttons want the pane's whole 314px
+   between them; sharing the row with the nights field left them 50px each and
+   clipped "Splurge" to "Splur". */
 .budget-controls {
-  display: flex;
-  align-items: flex-end;
-  gap: 12px 14px;
-  flex-wrap: wrap;
-  margin-top: 14px;
-}
-
-.budget-toggle {
-  flex: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 16px;
 }
 
 .budget-nights {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  margin-left: auto;
 }
 
 .budget-nights span {
@@ -3357,6 +3143,115 @@ select option {
 
 /* Title block and facts, side by side. The facts take a fixed measure so the
    title block keeps the rest, rather than the two splitting it evenly. */
+/* Named for a screen reader, absent from the page. Clip rather than
+   display:none, which would take it out of the accessibility tree too. The
+   fixed 1px box matters as much as the clip: without it the text still has a
+   width, and an absolutely positioned label widens everything above it. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The facts and the cost, one panel you turn. Only ever one block in this
+   column, so there is nothing to line it up against and nothing to leave a
+   hole under. */
+.city-panel {
+  position: relative;
+  min-width: 0;
+  padding-left: 26px;
+}
+
+/* The pane brings its own heading, so this only carries the controls — sat in
+   the corner beside whichever label is showing. */
+.panel-nav {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.panel-step {
+  border: none;
+  background: none;
+  padding: 0 2px;
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.panel-step:hover {
+  color: var(--accent-2);
+}
+
+.panel-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 1px solid var(--muted);
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.panel-dot.on {
+  border-color: var(--accent-2);
+  background: var(--accent-2);
+}
+
+/* Both panes in one cell, so the panel is as tall as the taller of them and
+   turning it never resizes the page under the cursor. */
+.panel-stack {
+  display: grid;
+  /* An implicit `auto` column is floored at its content's min-content width,
+     so the wider pane pushed the whole stack past the column it sits in.
+     minmax(0, 1fr) lets it shrink to the space it was given. */
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.panel-pane {
+  grid-area: 1 / 1;
+  min-width: 0;
+  visibility: hidden;
+  opacity: 0;
+  /* Rises rather than slides. A resting translateX on the hidden pane sat 6px
+     to the right of the column and widened everything above it — invisible,
+     but enough to give the page a scrollbar at the wrong width. Vertical
+     can't do that, because the panel's height is already the taller pane's. */
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.panel-pane.on {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+/* The panel owns the indent that clears the column rule. */
+.city-panel .city-notes {
+  padding-left: 0;
+}
+
+/* Room for the controls, so a heading never runs under them. */
+.panel-pane > * > .field-label:first-child,
+.panel-pane .field-label:first-child {
+  padding-right: 74px;
+}
+
+
 /* The rule between the columns is drawn once, on the container, rather than
    as a border on each cell in the right-hand one: two borders with a 22px row
    gap between them leaves a visible seam halfway down. */
@@ -4191,7 +4086,7 @@ select option {
     display: none;
   }
 
-  .city-notes {
+  .city-panel {
     padding-left: 0;
   }
 

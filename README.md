@@ -149,35 +149,12 @@ be a booking engine.
 from `data/costs.ts` times a pace and a number of nights, plus the modelled fare. It sits beside
 the Departures button because that's the moment the question comes up.
 
-It lives under **Getting there**, with the ticket and the booking links, because that is one
-question rather than three. It spent a while in the column beside the facts, and briefly in a
-carousel sharing that column with them, and both were wrong for the same reason: the cost is a
-thing you plan with, the facts are a thing you read, and putting them in one control implied a
-relationship that isn't there. The carousel also hid half its own content behind two seven-pixel
-dots, which is a poor trade for a feature you want people to find.
+It shares a panel with the facts, in the column beside the title block — one block you turn rather
+than two that could never be made to line up. Both panes stay in the layout, stacked in a single
+grid cell with the inactive one hidden, so turning it never resizes the page. It is a tablist
+underneath; the arrows are there because it reads as a carousel, and they cycle.
 
-Beside the two halves is the one thing the page couldn't already tell you: what going in the cheap
-month is worth. The pass names February as cheapest and stops there; this says February is $985
-against a typical $1,125, and that the difference is $330. Only the fare moves with the season, so
-the saving is the same however you live once you land and however long you stay — which is what the
-tests assert. Everything else that might have gone in that space (distance, flight time, the months
-themselves, the fare range) is already printed on the pass a hundred pixels below it.
-
-Beside the controls, **the year in fares**: twelve bars, one a month, the cheapest and the dearest
-inked. The rest of the page can say *February is cheapest* and *February saves $330*; what it
-cannot say in words is the shape — that the dear season is a plateau rather than a spike, that
-December has a bump of its own, and that below the equator the whole curve is upside down. Sydney
-dips to June and peaks at Christmas.
-
-It carries no printed figures on purpose. Every number it could label — the range, the extremes,
-the month names — is already somewhere in this section, and this page has form for printing the
-same value twice. The values arrive on hover, in the heading, and in full for a screen reader.
-
-The bars are anchored at nought. Starting the scale at the cheapest month would turn a fare that
-varies by half into one that appears to vary by all of it, and the honest picture is that a year of
-fares is a gentle curve rather than a cliff. The two ends are bold as well as coloured, so identity
-is never colour alone, and the bar colour is a token per theme — the obvious dark neutral measured
-2.34:1 against the navy ground and had to be lightened to clear 3:1.
+**Getting there** below it is the ticket and the booking links.
 
 Moving it also killed a duplicated number. The fare was printed twice on one page — once as
 `Flights` in the breakdown and once as `Typical fare` on the pass stub, from the same call. The

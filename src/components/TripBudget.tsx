@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { FareYear } from "./FareYear";
 import { BUDGET_LEVELS, type BudgetLevelId } from "../data/costs";
 import { tripCost } from "../lib/tripCost";
 import { useProfile } from "../state/ProfileContext";
@@ -115,10 +114,6 @@ export function TripBudget({
           />
         </label>
       </div>
-
-      {cost.season && (
-        <FareYear season={cost.season} fromCode={cost.fromCode} />
-      )}
 
       <p className="cost-disclaimer">
         Both halves are estimates — ${cost.perNight}/night on the ground
