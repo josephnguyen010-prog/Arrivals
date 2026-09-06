@@ -179,6 +179,31 @@ properties of this app rather than of the vendors:
 So the fare is modelled instead, in `data/fares.ts`, and the pass says on its face that it is an
 estimate.
 
+### Booking is a handoff, not a feature
+
+The thing that makes all of the above beside the point: **you don't need a flight API to send
+someone to book a flight.** Google Flights takes a plain text query —
+`google.com/travel/flights?q=Flights from GSO to HND on 2026-10-12` — and Skyscanner and Kayak both
+take the route and the dates in the path. No key, no quota, no scraping, and nothing to go stale.
+
+It's also the better product. Letterboxd doesn't sell you a film; it hands you off to whoever is
+streaming it, and the reviews stay the point. Arrivals is the same shape — the friends' notes are
+what you came for, and the ticket is somebody else's business. A listings table inside the pass
+would mean quoting prices the app can't honour, through a booking flow it doesn't have, off a feed
+that has gone stale between the fetch and the click. **The link is worth more than the table,
+because what it opens is true.**
+
+So the right-hand column of the ticket is **Book it**: a departure date, a number of nights, and
+three links out. `lib/booking.ts` builds them and is tested — including the one bug that would be
+invisible and awful, which is `toISOString()` shifting a local midnight back a day and booking
+everyone west of Greenwich onto the wrong flight.
+
+The calendar came out of `LogVisitFlow` to make this work. It was hard-wired to refuse future
+dates, which is right for logging a trip you've taken and exactly backwards for booking one you
+haven't, so it now takes `min` and `max` instead: logging bounds it at today, booking bounds it at
+today and a year out, because airlines don't load schedules further than that. Same control, both
+directions, one date picker to keep good.
+
 ### What the model actually claims
 
 Fare per kilometre falls as distance grows, because the fixed costs of a departure are shared over
@@ -245,11 +270,12 @@ src/
   lib/images.ts         downscaling, shared by spots, cities and avatars
   lib/quota.ts          the localStorage budget, and the error the forms report
   data/fares.ts         the fare curve, the market and the seasons, pure and tested
+  lib/booking.ts        the search URLs the ticket hands off to, pure and tested
   data/coords.ts        city coordinates and great-circle distance
   data/airports.ts      airports, the gateway flag, and the nearest-airport join
   state/                LogContext, ListsContext, SpotsContext, PhotosContext, ProfileContext
   data/                 city catalogue, city facts, photo credits, seed data
-  components/           Stars, CityCard, Stamp, ArrivalStamp, BoardingPass, the flows
+  components/           Stars, CityCard, Stamp, Calendar, BoardingPass, BookFlight, the flows
   screens/              Profile, Activity, Cities, Departures, Passport, Lists, ListPage, CityPage
   styles/tokens.css     the palette, both themes
 ```
@@ -280,8 +306,8 @@ rather than a rename.
 ## State of it
 
 Working: rating, the comparison flow, the ranking, filters and sorts, Departures, spots with links
-and photos, city notes, replacing a city's photo with your own, the trip cost and the boarding
-pass, the MyPassport screen, per-city pages, lists you can create and reorder, both themes, and
+and photos, city notes, replacing a city's photo with your own, the trip cost, the boarding pass
+and the handoff to book it, the MyPassport screen, per-city pages, lists you can create and reorder, both themes, and
 persistence to `localStorage`.
 
 The sheet has no scroller of its own. A tall panel used to grow a bar down its own edge, inside the
@@ -345,10 +371,11 @@ Not built yet:
   shareable is the point of them and needs the backend.
 - **Your own photo per visit.** Spots and cities take photos now; a single visit still doesn't, so
   ten years of trips to one city share one picture.
-- **A real fare.** The ticket is modelled, for the reasons above. Making it live is a serverless
-  proxy holding a key, a cache with a long enough TTL to survive a quota, and the estimator kept
-  underneath as the fallback — a fare panel that can show an error is worse than one that is
-  honestly approximate.
+- **A real fare on the pass.** The estimate is fine and the booking links are live, so this is
+  now a nicety rather than a gap. If it's ever worth doing, the cheap version is not a live proxy
+  but a build-time fetch: pull real fares once for a handful of origins, commit the table, ship it
+  static. No key in the bundle, no quota burnt by traffic, and the estimator stays underneath for
+  every route the table misses.
 
 ## Photos
 

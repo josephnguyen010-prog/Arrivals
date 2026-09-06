@@ -1771,8 +1771,7 @@ select option {
 }
 
 .pass {
-  margin-top: 12px;
-  max-width: 720px;
+  min-width: 0;
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 4px;
@@ -1909,13 +1908,14 @@ select option {
   color: var(--ink);
 }
 
+/* Muted rather than full ink: in the dark theme the ink is near-white, and a
+   block of white bars pulls the eye off the route and the fare. */
 .pass-barcode {
   display: flex;
   align-items: flex-end;
   gap: 2px;
   height: 26px;
   margin-top: 15px;
-  opacity: 0.75;
 }
 
 .pass-barcode i {
@@ -1923,7 +1923,7 @@ select option {
   flex-basis: 0;
   min-width: 1px;
   height: 100%;
-  background: var(--ink);
+  background: var(--muted);
 }
 
 /* The stub, torn off down a perforation. The gradient is the tear: dots of
@@ -2024,6 +2024,130 @@ select option {
 @media (prefers-reduced-motion: reduce) {
   .pass-plane animateMotion {
     display: none;
+  }
+}
+
+/* The pass is the artifact and the panel beside it is the action, so they are
+   a row rather than a stack: what it costs, then where to go and buy it. The
+   column also absorbs the dead space a 720px ticket leaves on a wide page. */
+.pass-row {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(220px, 290px);
+  gap: 24px;
+  align-items: start;
+  margin-top: 12px;
+}
+
+/* Quieter than the pass on purpose — bordered, but no shadow. The ticket is
+   the object on this page; this is the controls sitting next to it. */
+.book {
+  padding: 15px 17px 17px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+.book-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 11px;
+}
+
+.book-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.book-field .date-btn {
+  margin: 0;
+  flex: 0 1 auto;
+}
+
+.book-field input {
+  width: 58px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 6px 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: none;
+}
+
+.book-return {
+  margin: 8px 0 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.book .cal {
+  max-width: none;
+  margin: 12px 0 4px;
+}
+
+.book-links {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+
+.book-go {
+  display: block;
+  padding: 9px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.book-go:hover {
+  border-color: var(--accent-2);
+  color: var(--ink);
+}
+
+/* Google is the one the pass points at by name, so it carries the weight and
+   the other two are the second opinion. */
+.book-go.primary {
+  border-color: var(--accent-2);
+  background: var(--accent-2);
+  color: #f3f7fa;
+}
+
+.book-go.primary:hover {
+  color: #fff;
+}
+
+.book-note {
+  margin: 12px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* Below this the ticket has stopped being a strip and the panel has nowhere
+   to stand, so it goes underneath. */
+@media (max-width: 1000px) {
+  .pass-row {
+    grid-template-columns: minmax(0, 720px);
+  }
+
+  .book {
+    max-width: 720px;
   }
 }
 

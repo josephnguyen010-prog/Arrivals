@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BookFlight } from "./BookFlight";
 import { airportByCode, nearestAirport } from "../data/airports";
 import { coordsFor, flightHoursFor, greatCircleKm } from "../data/coords";
 import { fareEstimate } from "../data/fares";
@@ -21,14 +22,17 @@ const PLANE_ICON =
  */
 export function BoardingPass({ city }: { city: City }) {
   const { profile } = useProfile();
-  const home = profile.homeAirport ? airportByCode(profile.homeAirport) : undefined;
+  const home = profile.homeAirport
+    ? airportByCode(profile.homeAirport)
+    : undefined;
 
   if (!home) {
     return (
       <div className="boarding-pass-empty">
         <p className="field-label">Your ticket</p>
         <p className="empty">
-          <Link to="/">Set your home airport</Link> to see the flight and what the fare runs.
+          <Link to="/">Set your home airport</Link> to see the flight and what
+          the fare runs.
         </p>
       </div>
     );
@@ -49,7 +53,9 @@ export function BoardingPass({ city }: { city: City }) {
     return (
       <div className="boarding-pass-empty">
         <p className="field-label">Your ticket</p>
-        <p className="empty">{city.name} is where you fly out of — no ticket needed.</p>
+        <p className="empty">
+          {city.name} is where you fly out of — no ticket needed.
+        </p>
       </div>
     );
   }
@@ -62,83 +68,101 @@ export function BoardingPass({ city }: { city: City }) {
     <div className="boarding-pass">
       <p className="field-label">Your ticket</p>
 
-      <div className="pass">
-        <div className="pass-stripe" aria-hidden="true" />
+      <div className="pass-row">
+        <div className="pass">
+          <div className="pass-stripe" aria-hidden="true" />
 
-        <div className="pass-body">
-          <div className="pass-main">
-            <div className="pass-head">
-              <span className="pass-mark">Arrivals</span>
-              <span className="pass-kind">Boarding pass</span>
+          <div className="pass-body">
+            <div className="pass-main">
+              <div className="pass-head">
+                <span className="pass-mark">Arrivals</span>
+                <span className="pass-kind">Boarding pass</span>
+              </div>
+
+              <div className="pass-route">
+                <div className="pass-port">
+                  <b>{home.code}</b>
+                  <span>{home.city}</span>
+                </div>
+
+                <svg
+                  className="pass-arc"
+                  viewBox="0 0 320 70"
+                  role="img"
+                  aria-label={`Flight from ${home.city} (${home.code}) to ${city.name}${
+                    arrival ? ` (${arrival.code})` : ""
+                  }`}
+                >
+                  <path
+                    id={`arc-${city.id}`}
+                    d="M 14 52 Q 160 6 306 52"
+                    fill="none"
+                    className="pass-line"
+                  />
+                  <circle cx="14" cy="52" r="3.5" className="pass-dot" />
+                  <circle cx="306" cy="52" r="3.5" className="pass-dot" />
+                  <g className="pass-plane">
+                    <animateMotion
+                      dur="9s"
+                      repeatCount="indefinite"
+                      rotate="auto"
+                    >
+                      <mpath href={`#arc-${city.id}`} />
+                    </animateMotion>
+                    <path
+                      transform="scale(0.62) rotate(90) translate(-12,-12)"
+                      d={PLANE_ICON}
+                    />
+                  </g>
+                </svg>
+
+                <div className="pass-port">
+                  <b>{arrival ? arrival.code : "———"}</b>
+                  <span>{city.name}</span>
+                </div>
+              </div>
+
+              <dl className="pass-grid">
+                <div>
+                  <dt>Distance</dt>
+                  <dd>{Math.round(km).toLocaleString()} km</dd>
+                </div>
+                <div>
+                  <dt>Flight time</dt>
+                  <dd>{formatHours(hours)}</dd>
+                </div>
+                <div>
+                  <dt>Cheapest</dt>
+                  <dd>{fare.cheapest.slice(0, 2).join(" · ")}</dd>
+                </div>
+                <div>
+                  <dt>Peak</dt>
+                  <dd>{fare.peak.slice(0, 2).join(" · ")}</dd>
+                </div>
+              </dl>
+
+              <Barcode seed={`${home.code}${arrival?.code ?? city.id}`} />
             </div>
 
-            <div className="pass-route">
-              <div className="pass-port">
-                <b>{home.code}</b>
-                <span>{home.city}</span>
-              </div>
-
-              <svg
-                className="pass-arc"
-                viewBox="0 0 320 70"
-                role="img"
-                aria-label={`Flight from ${home.city} (${home.code}) to ${city.name}${
-                  arrival ? ` (${arrival.code})` : ""
-                }`}
-              >
-                <path id={`arc-${city.id}`} d="M 14 52 Q 160 6 306 52" fill="none" className="pass-line" />
-                <circle cx="14" cy="52" r="3.5" className="pass-dot" />
-                <circle cx="306" cy="52" r="3.5" className="pass-dot" />
-                <g className="pass-plane">
-                  <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
-                    <mpath href={`#arc-${city.id}`} />
-                  </animateMotion>
-                  <path transform="scale(0.62) rotate(90) translate(-12,-12)" d={PLANE_ICON} />
-                </g>
-              </svg>
-
-              <div className="pass-port">
-                <b>{arrival ? arrival.code : "———"}</b>
-                <span>{city.name}</span>
-              </div>
+            <div className="pass-stub">
+              <span className="pass-stub-label">Typical fare</span>
+              <b className="pass-fare">${fare.typical.toLocaleString()}</b>
+              <span className="pass-band">
+                ${fare.low.toLocaleString()}–${fare.high.toLocaleString()}
+              </span>
+              <span className="pass-stub-note">
+                Cheap season to peak · return, economy
+              </span>
             </div>
-
-            <dl className="pass-grid">
-              <div>
-                <dt>Distance</dt>
-                <dd>{Math.round(km).toLocaleString()} km</dd>
-              </div>
-              <div>
-                <dt>Flight time</dt>
-                <dd>{formatHours(hours)}</dd>
-              </div>
-              <div>
-                <dt>Cheapest</dt>
-                <dd>{fare.cheapest.slice(0, 2).join(" · ")}</dd>
-              </div>
-              <div>
-                <dt>Peak</dt>
-                <dd>{fare.peak.slice(0, 2).join(" · ")}</dd>
-              </div>
-            </dl>
-
-            <Barcode seed={`${home.code}${arrival?.code ?? city.id}`} />
-          </div>
-
-          <div className="pass-stub">
-            <span className="pass-stub-label">Typical fare</span>
-            <b className="pass-fare">${fare.typical.toLocaleString()}</b>
-            <span className="pass-band">
-              ${fare.low.toLocaleString()}–${fare.high.toLocaleString()}
-            </span>
-            <span className="pass-stub-note">Cheap season to peak · return, economy</span>
           </div>
         </div>
+
+        <BookFlight from={home.code} to={arrival?.code} cityName={city.name} />
       </div>
 
       <p className="cost-disclaimer">
-        An estimate from distance and season, not a live quote — there is no public Google Flights
-        API to ask, and a real fare depends on the airline and the day.
+        The fare is an estimate from distance and season, not a quote — a real one depends on the
+        airline and the day. <b>Book it</b> opens a live search, where the prices are.
       </p>
     </div>
   );
