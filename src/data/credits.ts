@@ -16,6 +16,16 @@ import torre from "../assets/spots/cdmx-torre.jpg";
 import fushimi from "../assets/spots/kyoto-fushimi.jpg";
 import roosevelt from "../assets/spots/nyc-tram.jpg";
 import assistens from "../assets/spots/cph-assistens.jpg";
+import dotonbori from "../assets/spots/osaka-dotonbori.jpg";
+import umeda from "../assets/spots/osaka-umeda.jpg";
+import shinsekai from "../assets/spots/osaka-shinsekai.jpg";
+import osakajo from "../assets/spots/osaka-castle.jpg";
+import raohe from "../assets/spots/taipei-raohe.jpg";
+import beitou from "../assets/spots/taipei-beitou.jpg";
+import elephant from "../assets/spots/taipei-elephant.jpg";
+import ateneo from "../assets/spots/bsas-ateneo.jpg";
+import recoleta from "../assets/spots/bsas-recoleta.jpg";
+import caminito from "../assets/spots/bsas-caminito.jpg";
 
 export interface PhotoCredit {
   author: string;
@@ -116,6 +126,16 @@ export const SPOT_PHOTO_CREDITS: Record<string, PhotoCredit> = {
   [fushimi]: credit("Balon Greyjoy", "CC0", "20181110 Fushimi Inari Torii 12.jpg"),
   [roosevelt]: credit("Reinhard Dietrich", "CC0", "Roosevelt Island Tramway 1.jpg"),
   [assistens]: credit("Thue", "Public domain", "Assistens Kirkegård 2.jpg"),
+  [dotonbori]: credit("chopstuey", "CC BY 2.0", "Food street in Dotonbori, Osaka; January 2016.jpg"),
+  [umeda]: credit("Syced", "CC0", "Umeda Sky Buildng.jpg"),
+  [shinsekai]: credit("Sakai Yayoi", "CC0", "Shinsekai and Tsutenkaku Tower.jpg"),
+  [osakajo]: credit("663highland", "CC BY 2.5", "Osaka Castle 02bs3200.jpg"),
+  [raohe]: credit("Banzai Hiroaki", "CC BY 2.0", "A corn vendor at the Raohe Street Night Market 20090320.jpg"),
+  [beitou]: credit("Yusuke Kawasaki", "CC BY 2.0", "Beitou Hot Spring Museum 20110104.jpg"),
+  [elephant]: credit("Balon Greyjoy", "CC0", "20190418 Elephant Mountain view-3.jpg"),
+  [ateneo]: credit("Deensel", "CC BY 2.0", "El Ateneo Grand Splendid, Buenos Aires (38984631534).jpg"),
+  [recoleta]: credit("amanderson2", "CC BY 2.0", "Corner Recoleta Cemetery Buenos Aires Argentina.jpg"),
+  [caminito]: credit("Luis Argerich", "CC BY 2.0", "Buenos Aires - La Boca - Caminito - 200807b.jpg"),
 };
 
 export function commonsUrl(file: string): string {

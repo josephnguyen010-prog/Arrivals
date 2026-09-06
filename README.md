@@ -452,7 +452,7 @@ Not built yet:
 
 ## Photos
 
-All 44 default city photographs and the 16 spot photographs are CC0, public domain or
+All 44 default city photographs and the 26 spot photographs are CC0, public domain or
 attribution-only, and the credit renders on the city page because CC BY requires it to reach
 whoever is looking at the photo — until the photo is replaced with one of your own, at which point
 there is nobody to credit and the line says so. Share-alike is deliberately excluded: it obliges derivative works to carry the same licence,

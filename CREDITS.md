@@ -62,12 +62,21 @@ Source page for any of these: `https://commons.wikimedia.org/wiki/File:<filename
 
 ## Spot photographs
 
-The sixteen photographs in `src/assets/spots/` come from Commons under the same rule, cropped
-square and re-encoded at 240px. Each one shows the place the spot names; the five seeded spots
+The twenty-six photographs in `src/assets/spots/` come from Commons under the same rule, cropped
+square and re-encoded at 240px. Each one shows the place the spot names; the six seeded spots
 Commons has no photograph of are left without one rather than illustrated with something else.
 
+Buenos Aires' *Parrillas of Palermo* is the newest of those six, and the clearest case for the
+rule: Commons has plenty of grilled beef, none of it attribution-only and none of it that
+particular neighbourhood's. A photograph of somebody else's asado would be illustration rather
+than evidence.
+
+Umeda Sky Building is worth a note the other way. Almost every exterior shot of it on Commons is
+CC BY-SA, which is excluded here — the one used is a CC0 photograph looking straight up at the gap
+between the two towers, which happens to be exactly what the spot's note is about.
+
 They are bundled files rather than the inline data URLs a spot you add yourself carries. The
-seeded list is written back to localStorage the first time you touch it, and sixteen data URLs
+seeded list is written back to localStorage the first time you touch it, and twenty-six data URLs
 would take a large bite out of the storage budget on their own.
 
 | Spot | Author | Licence | File |
@@ -88,6 +97,16 @@ would take a large bite out of the storage budget on their own.
 | Fushimi Inari before seven | Balon Greyjoy | CC0 | `20181110 Fushimi Inari Torii 12.jpg` |
 | Roosevelt Island Tramway | Reinhard Dietrich | CC0 | `Roosevelt Island Tramway 1.jpg` |
 | Assistens Cemetery | Thue | Public domain | `Assistens Kirkegård 2.jpg` |
+| Dotonbori street stalls | chopstuey | CC BY 2.0 | `Food street in Dotonbori, Osaka; January 2016.jpg` |
+| Umeda Sky Building | Syced | CC0 | `Umeda Sky Buildng.jpg` |
+| Shinsekai | Sakai Yayoi | CC0 | `Shinsekai and Tsutenkaku Tower.jpg` |
+| Osaka Castle interior | 663highland | CC BY 2.5 | `Osaka Castle 02bs3200.jpg` |
+| Raohe Street Night Market | Banzai Hiroaki | CC BY 2.0 | `A corn vendor at the Raohe Street Night Market 20090320.jpg` |
+| Beitou hot springs | Yusuke Kawasaki | CC BY 2.0 | `Beitou Hot Spring Museum 20110104.jpg` |
+| Elephant Mountain | Balon Greyjoy | CC0 | `20190418 Elephant Mountain view-3.jpg` |
+| El Ateneo Grand Splendid | Deensel | CC BY 2.0 | `El Ateneo Grand Splendid, Buenos Aires (38984631534).jpg` |
+| Recoleta Cemetery | amanderson2 | CC BY 2.0 | `Corner Recoleta Cemetery Buenos Aires Argentina.jpg` |
+| Caminito | Luis Argerich | CC BY 2.0 | `Buenos Aires - La Boca - Caminito - 200807b.jpg` |
 
 `SPOT_PHOTO_CREDITS` in `src/data/credits.ts` is keyed by the bundled asset URL rather than by spot
 id, so inserting a spot cannot shift a credit onto the wrong photograph. The credits render as one

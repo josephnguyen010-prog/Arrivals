@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { cityById } from "./cities";
 import { SEED_LOG } from "./seed";
+import { SPOT_PHOTO_CREDITS } from "./credits";
 import { SEED_SPOTS } from "./spots";
 import { SPOT_CATEGORIES } from "../types";
 
@@ -47,5 +48,30 @@ describe("seeded spots", () => {
       // `note` is optional on the type; every seeded one is expected to have it.
       expect((spot.note ?? "").trim().length, spot.name).toBeGreaterThan(0);
     }
+  });
+
+  /**
+   * CC BY obliges the credit to reach whoever is looking at the photograph, so
+   * a bundled photo with no entry in SPOT_PHOTO_CREDITS is a licence breach
+   * rather than a cosmetic gap. The credits are keyed by asset URL, which is
+   * exactly the mistake this catches: import the image, forget the credit.
+   */
+  it("credits every photograph it bundles", () => {
+    const uncredited = SEED_SPOTS.filter((spot) => spot.photo && !SPOT_PHOTO_CREDITS[spot.photo]).map(
+      (spot) => spot.name,
+    );
+    expect(uncredited).toEqual([]);
+  });
+
+  /**
+   * Share-alike is deliberately excluded: CC BY-SA obliges derivative works to
+   * carry the same licence, which is a problem once photos sit inside a
+   * product. This is the rule CREDITS.md states, asserted rather than trusted.
+   */
+  it("carries no share-alike photograph", () => {
+    const shareAlike = Object.values(SPOT_PHOTO_CREDITS)
+      .filter((credit) => /\bSA\b|share.?alike/i.test(credit.licence))
+      .map((credit) => credit.file);
+    expect(shareAlike).toEqual([]);
   });
 });
