@@ -1069,7 +1069,7 @@ select option {
 
 .drow {
   display: grid;
-  grid-template-columns: 62px 92px minmax(0, 1fr) auto auto;
+  grid-template-columns: 132px 92px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 16px;
   width: 100%;
@@ -1091,15 +1091,24 @@ select option {
   font-variant-numeric: tabular-nums;
 }
 
-/* The trip's length, under its date. Only there once something recorded one —
-   a visit logged before the field existed has no length, and inventing one
-   would be worse than the gap. */
+/* The trip's length, on the same line as its date rather than stacked under
+   it — a day above its own length reads as two facts rather than one. Only
+   there once something recorded a length: a visit logged before the field
+   existed has none, and inventing one would be worse than the gap. */
+.day {
+  white-space: nowrap;
+}
+
 .day small {
-  display: block;
-  margin-top: 2px;
   font-size: 9.5px;
   letter-spacing: 0.06em;
   color: var(--muted);
+}
+
+/* The separator is CSS rather than text so it can go away when the two stack:
+   a line beginning with a middle dot reads as a bullet nobody asked for. */
+.day small::before {
+  content: " · ";
 }
 
 
@@ -3073,13 +3082,17 @@ select option {
   font-size: 14px;
 }
 
+/* Wide enough for the date and the length together, and told not to wrap:
+   at the old 92px "12 Mar 2026 · 12 nights" broke over two lines and left the
+   day stranded above its own trip. */
 .visit-log time {
   font-family: var(--mono);
   font-size: 11.5px;
   color: var(--muted);
   letter-spacing: 0.06em;
   flex: none;
-  width: 92px;
+  width: 176px;
+  white-space: nowrap;
 }
 
 /* A note runs longer than "Stamped" did, so the row wraps rather than
@@ -3813,9 +3826,24 @@ select option {
     gap: 24px;
   }
 
+  /* One line for the date and its length needs 132px, which is a third of a
+     phone. Below this width they stack again — the clipped "12 Mar · 1" that
+     a nowrap left behind is worse than two honest lines. */
   .drow {
-    grid-template-columns: 58px 68px minmax(0, 1fr) auto;
+    grid-template-columns: 74px 68px minmax(0, 1fr) auto;
     gap: 12px;
+  }
+
+  .drow .day {
+    white-space: normal;
+  }
+
+  .drow .day small {
+    display: block;
+  }
+
+  .drow .day small::before {
+    content: "";
   }
 
   .drow .again {

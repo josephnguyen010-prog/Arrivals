@@ -13,7 +13,7 @@ import { Stamp } from "../components/Stamp";
 import { TripCost } from "../components/TripCost";
 import { cityById } from "../data/cities";
 import { isWished, rankOf, ratingOf, visitsFor } from "../lib/ranking";
-import { formatNights, formatStay, stayInCity } from "../lib/trips";
+import { formatNights } from "../lib/trips";
 import { useLog } from "../state/LogContext";
 
 export function CityPage() {
@@ -39,7 +39,6 @@ export function CityPage() {
   const wished = isWished(log, city.id);
   const rank = rankOf(log, city.id);
   const visits = visitsFor(log, city.id);
-  const stay = stayInCity(log, city.id);
   const review = log.reviews[city.id];
 
   return (
@@ -165,11 +164,9 @@ export function CityPage() {
               <h2 style={{ border: "none", margin: 0, padding: 0 }}>
                 {visits.length === 1 ? "Your visit" : "Your visits"}
               </h2>
-              {/* The count is what you did; the nights are how long it added
-                  up to. Only shown once anything recorded a length. */}
-              <span className="side-count">
-                {stay.nights > 0 ? formatStay(stay.nights) : visits.length}
-              </span>
+              {/* The number of trips. The total nights went here briefly and
+                  said the same thing as the rows underneath it. */}
+              <span className="side-count">{visits.length}</span>
             </div>
             <ul className="visit-log">
               {visits.map((visit) => (
