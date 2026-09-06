@@ -887,6 +887,10 @@ select option {
 /* Initials, not a photograph: these people are invented, and a real avatar
    would be the one thing on the screen pretending otherwise. */
 .favatar {
+  /* Never shrink. It is a flex item in every row it appears in, and the
+     default lets a tight row squash it: 26px wide became 12.8px in the city
+     panel, which is an oval with someone's initials crushed inside it. */
+  flex: none;
   width: 40px;
   height: 40px;
   border-radius: 50%;

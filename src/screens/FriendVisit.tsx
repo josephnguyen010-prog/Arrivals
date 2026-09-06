@@ -94,14 +94,22 @@ export function FriendVisit() {
               {wished ? "✓ On your Departures board" : "+ Add to Departures"}
             </button>
 
-            {/* Only when it is true. Somewhere you have been has a page of your
-                own, and this is the one line that admits the two exist. */}
-            {visits.length > 0 && (
-              <p className="empty city-line">
-                You've been {visits.length === 1 ? "once" : `${visits.length} times`}.{" "}
-                <Link to={`/city/${city.id}`}>Your page for {city.name}</Link>
-              </p>
-            )}
+            {/* Always. This is the only way off this page, and it used to be
+                shown only for cities you had already been to — so a friend's
+                write-up of somewhere new was a dead end, and the one reader
+                most likely to want the fare and the ticket was the one who
+                couldn't reach them. The count is what's conditional, not the
+                way out. */}
+            <p className="empty city-line">
+              {visits.length > 0 && (
+                <>You've been {visits.length === 1 ? "once" : `${visits.length} times`}. </>
+              )}
+              <Link to={`/city/${city.id}`}>
+                {visits.length > 0
+                  ? `Your page for ${city.name}`
+                  : `What ${city.name} costs, and how to get there`}
+              </Link>
+            </p>
           </div>
 
           <CityNotes city={city} />
