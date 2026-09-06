@@ -29,6 +29,21 @@ export interface TripCostBreakdown {
   fromCode: string | null;
   /** Set when the home airport is the city's own — you cannot fly to yourself. */
   alreadyThere: boolean;
+  /**
+   * The same trip in the cheapest month and at peak. Null without a flight in
+   * it: the ground half doesn't move with the season, so there would be no
+   * spread to report and a saving of nought is not worth the room.
+   */
+  season: SeasonSpread | null;
+}
+
+export interface SeasonSpread {
+  cheapTotal: number;
+  peakTotal: number;
+  cheapestMonth: string;
+  peakMonth: string;
+  /** What going in the cheap month rather than the dear one is worth. */
+  saving: number;
 }
 
 export function tripCost(
@@ -49,7 +64,15 @@ export function tripCost(
   const coords = coordsFor(city.id);
 
   if (!home || !coords) {
-    return { flights: null, ground, total: ground, perNight, fromCode: null, alreadyThere: false };
+    return {
+      flights: null,
+      ground,
+      total: ground,
+      perNight,
+      fromCode: null,
+      alreadyThere: false,
+      season: null,
+    };
   }
 
   const arrival = nearestAirport(coords);
@@ -61,6 +84,7 @@ export function tripCost(
       perNight,
       fromCode: home.code,
       alreadyThere: true,
+      season: null,
     };
   }
 
@@ -73,5 +97,15 @@ export function tripCost(
     perNight,
     fromCode: home.code,
     alreadyThere: false,
+    // The page names February as the cheapest month and never says what
+    // February is worth. This is the number that makes the seasonal model
+    // worth having.
+    season: {
+      cheapTotal: fare.low + ground,
+      peakTotal: fare.high + ground,
+      cheapestMonth: fare.cheapest[0],
+      peakMonth: fare.peak[0],
+      saving: fare.high - fare.low,
+    },
   };
 }

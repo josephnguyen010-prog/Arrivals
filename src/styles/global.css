@@ -1734,10 +1734,23 @@ select option {
 }
 
 .going .budget-split {
+  grid-template-columns: repeat(3, auto);
   margin: 0;
   padding-top: 0;
   border-top: none;
   gap: 4px 26px;
+}
+
+/* The saving rides under its own figure rather than beside it: the column is
+   already the widest of the three and a second number on that line would make
+   it wider than the total it is explaining. */
+.budget-season dd small {
+  display: block;
+  margin-top: 1px;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-2);
 }
 
 .going .budget-controls {

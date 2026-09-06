@@ -71,3 +71,55 @@ describe("tripCost", () => {
     }
   });
 });
+
+/**
+ * The page named February as the cheapest month and never said what February
+ * was worth. These are the invariants that number has to hold to be worth
+ * printing beside the total.
+ */
+describe("the seasonal spread", () => {
+  it("brackets the typical total between the cheap season and the peak", () => {
+    const cost = tripCost(lisbon, "GSO", 5, "comfortable")!;
+    expect(cost.season!.cheapTotal).toBeLessThan(cost.total);
+    expect(cost.season!.peakTotal).toBeGreaterThan(cost.total);
+  });
+
+  it("is worth what the fare's own spread is worth", () => {
+    const cost = tripCost(lisbon, "GSO", 5, "comfortable")!;
+    expect(cost.season!.saving).toBe(cost.season!.peakTotal - cost.season!.cheapTotal);
+    expect(cost.season!.saving).toBeGreaterThan(0);
+  });
+
+  /** Only the flight moves with the season, so the saving is the same however
+   *  you live once you land, and however long you stay. */
+  it("does not change with the pace or the length", () => {
+    const short = tripCost(lisbon, "GSO", 3, "shoestring")!;
+    const long = tripCost(lisbon, "GSO", 14, "splurge")!;
+    expect(long.season!.saving).toBe(short.season!.saving);
+  });
+
+  it("moves the cheap and peak totals with the ground cost", () => {
+    const short = tripCost(lisbon, "GSO", 3, "comfortable")!;
+    const long = tripCost(lisbon, "GSO", 10, "comfortable")!;
+    expect(long.season!.cheapTotal - short.season!.cheapTotal).toBe(long.ground - short.ground);
+  });
+
+  it("names a month at each end, and not the same one", () => {
+    const cost = tripCost(lisbon, "GSO", 5, "comfortable")!;
+    expect(cost.season!.cheapestMonth).toBeTruthy();
+    expect(cost.season!.peakMonth).toBeTruthy();
+    expect(cost.season!.cheapestMonth).not.toBe(cost.season!.peakMonth);
+  });
+
+  /** Nothing to report when there is no flight in the total. */
+  it("says nothing without a route", () => {
+    expect(tripCost(lisbon, "", 5, "comfortable")!.season).toBeNull();
+    expect(tripCost(seattle, "SEA", 5, "comfortable")!.season).toBeNull();
+  });
+
+  it("gets the southern hemisphere the right way round", () => {
+    const sydney = tripCost(requireCity("sydney"), "GSO", 5, "comfortable")!;
+    expect(sydney.season!.cheapestMonth).toBe("Jun");
+    expect(sydney.season!.peakMonth).toBe("Dec");
+  });
+});

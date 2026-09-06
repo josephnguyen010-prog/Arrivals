@@ -156,6 +156,13 @@ thing you plan with, the facts are a thing you read, and putting them in one con
 relationship that isn't there. The carousel also hid half its own content behind two seven-pixel
 dots, which is a poor trade for a feature you want people to find.
 
+Beside the two halves is the one thing the page couldn't already tell you: what going in the cheap
+month is worth. The pass names February as cheapest and stops there; this says February is $985
+against a typical $1,125, and that the difference is $330. Only the fare moves with the season, so
+the saving is the same however you live once you land and however long you stay — which is what the
+tests assert. Everything else that might have gone in that space (distance, flight time, the months
+themselves, the fare range) is already printed on the pass a hundred pixels below it.
+
 Moving it also killed a duplicated number. The fare was printed twice on one page — once as
 `Flights` in the breakdown and once as `Typical fare` on the pass stub, from the same call. The
 stub carries the *range* now, which is something the breakdown doesn't say.

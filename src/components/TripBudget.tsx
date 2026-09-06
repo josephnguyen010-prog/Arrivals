@@ -59,6 +59,19 @@ export function TripBudget({
           <dt>On the ground</dt>
           <dd>${cost.ground.toLocaleString()}</dd>
         </div>
+
+        {/* The pass below names the cheapest month; it never says what that
+            month is worth. This is the only thing in this strip that isn't
+            written somewhere else on the page. */}
+        {cost.season && (
+          <div className="budget-season">
+            <dt>Go in {cost.season.cheapestMonth}</dt>
+            <dd>
+              ${cost.season.cheapTotal.toLocaleString()}
+              <small>saves ${cost.season.saving.toLocaleString()}</small>
+            </dd>
+          </div>
+        )}
       </dl>
 
       <div className="budget-controls">
