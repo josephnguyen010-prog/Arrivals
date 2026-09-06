@@ -1692,77 +1692,9 @@ select option {
 /* Under the facts, in the column that ran out of content first. The old
    version of this sat beside the wishlist button and priced only the ground
    half, with the flight two hundred pixels further down the page. */
-/* Row two of `.city-head`, in the right-hand column, so it starts level with
-   the cost block beside it. The rule and padding carry on from the facts
-   above so the column keeps one left edge. */
-.nearby {
-  min-width: 0;
-  padding-top: 20px;
-  padding-left: 26px;
-  border-top: 1px solid var(--rule);
-}
-
-.nearlist {
-  list-style: none;
-  margin: 8px 0 0;
-  padding: 0;
-}
-
-.nearlist li + li {
-  border-top: 1px solid var(--rule);
-}
-
-.nearlist a {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 9px 0;
-  text-decoration: none;
-  color: inherit;
-}
-
-.nearlist a:hover .near-name {
-  color: var(--accent-2);
-}
-
-.near-name {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  min-width: 0;
-  font-size: 14px;
-}
-
-.near-been,
-.near-wish {
-  flex: none;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.near-been {
-  color: var(--accent);
-}
-
-.near-wish {
-  color: var(--accent-2);
-}
-
-.near-km {
-  flex: none;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-variant-numeric: tabular-nums;
-  color: var(--muted);
-}
 
 .budget {
   min-width: 0;
-  padding-top: 20px;
-  border-top: 1px solid var(--rule);
 }
 
 .budget-head {
@@ -1824,18 +1756,26 @@ select option {
   color: var(--muted);
 }
 
+/* Wraps rather than squeezes. In the panel's 340px column the three pace
+   buttons and the nights field want 356px between them, and a flex row would
+   rather crush the buttons than admit it — which cut "Splurge" to "Splur". */
 .budget-controls {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 12px 14px;
+  flex-wrap: wrap;
   margin-top: 14px;
+}
+
+.budget-toggle {
+  flex: none;
 }
 
 .budget-nights {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  margin-left: auto;
 }
 
 .budget-nights span {
@@ -3149,6 +3089,112 @@ select option {
 
 /* Title block and facts, side by side. The facts take a fixed measure so the
    title block keeps the rest, rather than the two splitting it evenly. */
+/* Named for a screen reader, absent from the page. Clip rather than
+   display:none, which would take it out of the accessibility tree too. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The facts and the cost, one panel you turn. Only ever one block in this
+   column, so there is nothing to line it up against and nothing to leave a
+   hole under. */
+.city-panel {
+  position: relative;
+  min-width: 0;
+  padding-left: 26px;
+}
+
+/* The pane brings its own heading, so this only carries the controls — sat in
+   the corner beside whichever label is showing. */
+.panel-nav {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.panel-step {
+  border: none;
+  background: none;
+  padding: 0 2px;
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.panel-step:hover {
+  color: var(--accent-2);
+}
+
+.panel-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 1px solid var(--muted);
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.panel-dot.on {
+  border-color: var(--accent-2);
+  background: var(--accent-2);
+}
+
+/* Both panes in one cell, so the panel is as tall as the taller of them and
+   turning it never resizes the page under the cursor. */
+.panel-stack {
+  display: grid;
+  /* An implicit `auto` column is floored at its content's min-content width,
+     so the wider pane pushed the whole stack past the column it sits in.
+     minmax(0, 1fr) lets it shrink to the space it was given. */
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.panel-pane {
+  grid-area: 1 / 1;
+  min-width: 0;
+  visibility: hidden;
+  opacity: 0;
+  /* Rises rather than slides. A resting translateX on the hidden pane sat 6px
+     to the right of the column and widened everything above it — invisible,
+     but enough to give the page a scrollbar at the wrong width. Vertical
+     can't do that, because the panel's height is already the taller pane's. */
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.panel-pane.on {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+/* The panel owns the indent that clears the column rule. */
+.city-panel .city-notes {
+  padding-left: 0;
+}
+
+/* Room for the controls, so a heading never runs under them. */
+.panel-pane > * > .field-label:first-child,
+.panel-pane .field-label:first-child {
+  padding-right: 74px;
+}
+
 /* The rule between the columns is drawn once, on the container, rather than
    as a border on each cell in the right-hand one: two borders with a 22px row
    gap between them leaves a visible seam halfway down. */
@@ -3983,8 +4029,7 @@ select option {
     display: none;
   }
 
-  .city-notes,
-  .nearby {
+  .city-panel {
     padding-left: 0;
   }
 

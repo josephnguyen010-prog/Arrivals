@@ -149,6 +149,16 @@ be a booking engine.
 from `data/costs.ts` times a pace and a number of nights, plus the modelled fare. It sits beside
 the Departures button because that's the moment the question comes up.
 
+The facts and the cost share one panel you turn, rather than sitting as two blocks down the side.
+Two blocks could never be made to line up: each sat under a different amount of content, so they
+started out of step, and whichever column was shorter grew a hole under it. One panel has neither
+problem — there is only ever one block, and its height is whichever pane is taller. Both panes stay
+in the layout, stacked in a single grid cell with the inactive one hidden, so turning it never
+resizes the page under the cursor.
+
+It is a tablist underneath, because the panes are named things you choose between rather than a
+sequence you page through; the arrows are there because it reads as a carousel, and they cycle.
+
 It used to price only the ground half and admit in eleven-pixel type that the flight wasn't in it —
 while the flight sat priced on the boarding pass two hundred pixels further down. Which half
 dominates flips city by city, so the caveat couldn't have saved it: from Greensboro, Bangkok is

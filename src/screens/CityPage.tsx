@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BoardingPass } from "../components/BoardingPass";
 import { WhoElse } from "../components/WhoElse";
-import { CityNotes } from "../components/CityNotes";
-import { NearbyCities } from "../components/NearbyCities";
+import { CityPanel } from "../components/CityPanel";
 import { CityPhotoEditor } from "../components/CityPhotoEditor";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
 import { ReviewEditor } from "../components/ReviewEditor";
@@ -11,7 +10,6 @@ import { RateCity } from "../components/RateCity";
 import { SpotForm } from "../components/SpotForm";
 import { SpotList } from "../components/SpotList";
 import { Stamp } from "../components/Stamp";
-import { TripBudget } from "../components/TripBudget";
 import { cityById } from "../data/cities";
 import type { BudgetLevelId } from "../data/costs";
 import { isWished, rankOf, ratingOf, visitsFor } from "../lib/ranking";
@@ -133,21 +131,17 @@ export function CityPage() {
 
           </div>
 
-          <CityNotes city={city} />
-
-          {/* Second row of the same grid, one cell each. Nested in their own
-              columns these two ended 53px out of step, because each sat under
-              a different amount of content — a row line is the only thing that
-              makes them start together. */}
-          <TripBudget
+          {/* One panel you turn, rather than two blocks that could never be
+              made to line up: each sat under a different amount of content, so
+              they started out of step and whichever column was shorter grew a
+              hole underneath it. */}
+          <CityPanel
             city={city}
             nights={nights}
             onNights={setNights}
             budgetId={budgetId}
             onBudget={setBudgetId}
           />
-
-          <NearbyCities city={city} />
         </div>
       </div>
 

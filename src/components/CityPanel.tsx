@@ -1,0 +1,115 @@
+import { useState } from "react";
+import type { KeyboardEvent as ReactKeyboardEvent } from "react";
+import { CityNotes } from "./CityNotes";
+import { TripBudget } from "./TripBudget";
+import type { BudgetLevelId } from "../data/costs";
+import type { City } from "../types";
+
+/**
+ * The facts and the cost, in one panel you turn rather than two stacked down
+ * the page.
+ *
+ * They were separate blocks in separate columns, and the page could never make
+ * them agree: each sat under a different amount of content, so they started
+ * out of step, and whichever column was shorter grew an obvious hole. Turning
+ * one panel has no such problem — there is only ever one block, and its height
+ * is whichever pane is taller.
+ *
+ * Semantically tabs rather than a carousel, because the panes are named things
+ * you choose between and not a sequence you page through. The arrows are there
+ * because it reads as a carousel, and they cycle.
+ */
+export function CityPanel({
+  city,
+  nights,
+  onNights,
+  budgetId,
+  onBudget,
+}: {
+  city: City;
+  nights: number;
+  onNights: (nights: number) => void;
+  budgetId: BudgetLevelId;
+  onBudget: (id: BudgetLevelId) => void;
+}) {
+  const [index, setIndex] = useState(0);
+
+  const panes = [
+    { id: "notes", label: "Notes", node: <CityNotes city={city} /> },
+    {
+      id: "cost",
+      label: "What it costs",
+      node: (
+        <TripBudget
+          city={city}
+          nights={nights}
+          onNights={onNights}
+          budgetId={budgetId}
+          onBudget={onBudget}
+        />
+      ),
+    },
+  ];
+
+  const go = (next: number) => setIndex((next + panes.length) % panes.length);
+
+  function onKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      go(index - 1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      go(index + 1);
+    }
+  }
+
+  return (
+    <div className="city-panel">
+      <div className="panel-nav" role="tablist" aria-label="City details" onKeyDown={onKeyDown}>
+        <button type="button" className="panel-step" aria-label="Previous" onClick={() => go(index - 1)}>
+          ‹
+        </button>
+
+        {panes.map((pane, i) => (
+          <button
+            key={pane.id}
+            type="button"
+            role="tab"
+            id={`tab-${city.id}-${pane.id}`}
+            aria-controls={`pane-${city.id}-${pane.id}`}
+            aria-selected={i === index}
+            // Only the selected tab is tabbable; the arrow keys move between
+            // them, which is the pattern a tablist is supposed to follow.
+            tabIndex={i === index ? 0 : -1}
+            className={i === index ? "panel-dot on" : "panel-dot"}
+            onClick={() => setIndex(i)}
+          >
+            <span className="sr-only">{pane.label}</span>
+          </button>
+        ))}
+
+        <button type="button" className="panel-step" aria-label="Next" onClick={() => go(index + 1)}>
+          ›
+        </button>
+      </div>
+
+      {/* Both panes stay in the layout, stacked in one grid cell, so the panel
+          is always as tall as the taller of them. Showing one and unmounting
+          the other would resize the page under the cursor on every turn. */}
+      <div className="panel-stack">
+        {panes.map((pane, i) => (
+          <div
+            key={pane.id}
+            className={i === index ? "panel-pane on" : "panel-pane"}
+            role="tabpanel"
+            id={`pane-${city.id}-${pane.id}`}
+            aria-labelledby={`tab-${city.id}-${pane.id}`}
+            aria-hidden={i !== index}
+          >
+            {pane.node}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
