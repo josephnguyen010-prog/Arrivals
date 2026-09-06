@@ -29,7 +29,6 @@ export function BoardingPass({ city, nights }: { city: City; nights: number }) {
   if (!home) {
     return (
       <div className="boarding-pass-empty">
-        <p className="field-label">Your ticket</p>
         <p className="empty">
           <Link to="/">Set your home airport</Link> to see the flight and what
           the fare runs.
@@ -52,7 +51,6 @@ export function BoardingPass({ city, nights }: { city: City; nights: number }) {
   if (arrival && arrival.code === home.code) {
     return (
       <div className="boarding-pass-empty">
-        <p className="field-label">Your ticket</p>
         <p className="empty">
           {city.name} is where you fly out of — no ticket needed.
         </p>
@@ -66,8 +64,6 @@ export function BoardingPass({ city, nights }: { city: City; nights: number }) {
 
   return (
     <div className="boarding-pass">
-      <p className="field-label">Your ticket</p>
-
       <div className="pass-row">
         <div className="pass">
           <div className="pass-stripe" aria-hidden="true" />
@@ -144,12 +140,15 @@ export function BoardingPass({ city, nights }: { city: City; nights: number }) {
               <Barcode seed={`${home.code}${arrival?.code ?? city.id}`} />
             </div>
 
+            {/* The range, not the typical fare. The breakdown directly above
+                this already gives the typical one, and printing the same
+                number twice in one section is how the page read before. The
+                spread between seasons is the thing the pass can add. */}
             <div className="pass-stub">
-              <span className="pass-stub-label">Typical fare</span>
-              <b className="pass-fare">${fare.typical.toLocaleString()}</b>
-              <span className="pass-band">
+              <span className="pass-stub-label">Fare range</span>
+              <b className="pass-fare">
                 ${fare.low.toLocaleString()}–${fare.high.toLocaleString()}
-              </span>
+              </b>
               <span className="pass-stub-note">
                 Cheap season to peak · return, economy
               </span>

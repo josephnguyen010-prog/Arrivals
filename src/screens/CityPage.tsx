@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BoardingPass } from "../components/BoardingPass";
 import { WhoElse } from "../components/WhoElse";
-import { CityPanel } from "../components/CityPanel";
+import { CityNotes } from "../components/CityNotes";
 import { CityPhotoEditor } from "../components/CityPhotoEditor";
+import { TripBudget } from "../components/TripBudget";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
 import { ReviewEditor } from "../components/ReviewEditor";
 import { RateCity } from "../components/RateCity";
@@ -131,21 +132,29 @@ export function CityPage() {
 
           </div>
 
-          {/* One panel you turn, rather than two blocks that could never be
-              made to line up: each sat under a different amount of content, so
-              they started out of step and whichever column was shorter grew a
-              hole underneath it. */}
-          <CityPanel
-            city={city}
-            nights={nights}
-            onNights={setNights}
-            budgetId={budgetId}
-            onBudget={setBudgetId}
-          />
+          {/* Always visible, and nothing to line up against: the facts are
+              reference, and putting them behind a control cost a click to read
+              the thing the column exists for. */}
+          <CityNotes city={city} />
         </div>
       </div>
 
-      <BoardingPass city={city} nights={nights} />
+      {/* One section for the whole of going: what it costs, the ticket, and
+          where to buy it. These were three things in two places, and the fare
+          was printed in two of them. */}
+      <section className="going">
+        <p className="field-label">Getting there</p>
+
+        <TripBudget
+          city={city}
+          nights={nights}
+          onNights={setNights}
+          budgetId={budgetId}
+          onBudget={setBudgetId}
+        />
+
+        <BoardingPass city={city} nights={nights} />
+      </section>
 
       {/* Both halves of what you have to say about the place, side by side: the
           verdict, and the dates it is based on. Each ran the full width alone

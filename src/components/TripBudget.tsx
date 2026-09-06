@@ -35,8 +35,6 @@ export function TripBudget({
 
   return (
     <div className="budget">
-      <p className="field-label">What it costs</p>
-
       <div className="budget-head">
         <b>${cost.total.toLocaleString()}</b>
         <span>
