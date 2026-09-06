@@ -1692,15 +1692,13 @@ select option {
 /* Under the facts, in the column that ran out of content first. The old
    version of this sat beside the wishlist button and priced only the ground
    half, with the flight two hundred pixels further down the page. */
-/* The facts and what is near share the right-hand column. */
-.city-side {
-  min-width: 0;
-}
-
-/* Under the facts: both are about the place rather than about your trip. */
+/* Row two of `.city-head`, in the right-hand column, so it starts level with
+   the cost block beside it. The rule and padding carry on from the facts
+   above so the column keeps one left edge. */
 .nearby {
-  margin-top: 26px;
+  min-width: 0;
   padding-top: 20px;
+  padding-left: 26px;
   border-top: 1px solid var(--rule);
 }
 
@@ -1762,7 +1760,7 @@ select option {
 }
 
 .budget {
-  margin-top: 26px;
+  min-width: 0;
   padding-top: 20px;
   border-top: 1px solid var(--rule);
 }
@@ -2682,7 +2680,6 @@ select option {
    the two read as neighbours rather than as one run-on block. */
 .city-notes {
   min-width: 0;
-  border-left: 1px solid var(--rule);
   padding-left: 26px;
 }
 
@@ -3152,10 +3149,24 @@ select option {
 
 /* Title block and facts, side by side. The facts take a fixed measure so the
    title block keeps the rest, rather than the two splitting it evenly. */
+/* The rule between the columns is drawn once, on the container, rather than
+   as a border on each cell in the right-hand one: two borders with a 22px row
+   gap between them leaves a visible seam halfway down. */
 .city-head {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
   gap: 22px 32px;
+}
+
+.city-head::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 340px;
+  width: 1px;
+  background: var(--rule);
 }
 
 /* A margin rather than none, so the line still clears the standing above it
@@ -3964,6 +3975,17 @@ select option {
   .city-head {
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
+  }
+
+  /* One column, so there is nothing for the rule to sit between, and the
+     facts lose the indent that was clearing it. */
+  .city-head::before {
+    display: none;
+  }
+
+  .city-notes,
+  .nearby {
+    padding-left: 0;
   }
 
   /* One line for the date and its length needs 132px, which is a third of a

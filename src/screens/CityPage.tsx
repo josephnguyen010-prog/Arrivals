@@ -131,27 +131,23 @@ export function CityPage() {
               {wished ? "✓ On your Departures board" : "+ Add to Departures"}
             </button>
 
-            {/* Under the wishlist button, which is where the question comes
-                up. It stays in this column because the facts column is the
-                shorter of the two and putting 290px of cost in it only moved
-                the empty space across the page. */}
-            <TripBudget
-              city={city}
-              nights={nights}
-              onNights={setNights}
-              budgetId={budgetId}
-              onBudget={setBudgetId}
-            />
-
           </div>
 
-          {/* The facts, then where else is close. `.city-head` is a
-              two-column grid, so these share a wrapper or the second starts a
-              row of its own under the title block. */}
-          <div className="city-side">
-            <CityNotes city={city} />
-            <NearbyCities city={city} />
-          </div>
+          <CityNotes city={city} />
+
+          {/* Second row of the same grid, one cell each. Nested in their own
+              columns these two ended 53px out of step, because each sat under
+              a different amount of content — a row line is the only thing that
+              makes them start together. */}
+          <TripBudget
+            city={city}
+            nights={nights}
+            onNights={setNights}
+            budgetId={budgetId}
+            onBudget={setBudgetId}
+          />
+
+          <NearbyCities city={city} />
         </div>
       </div>
 
