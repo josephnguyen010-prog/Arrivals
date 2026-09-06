@@ -13,45 +13,55 @@ export interface Airport {
   region: string;
   lat: number;
   lon: number;
+  /** The airport you arrive at for this city, as against the nearest strip of tarmac. */
+  gateway?: true;
 }
 
 export const AIRPORTS: Airport[] = [
   // Major international hubs
-  { code: "JFK", name: "John F. Kennedy International", city: "New York", region: "New York", lat: 40.6413, lon: -73.7781 },
-  { code: "LAX", name: "Los Angeles International", city: "Los Angeles", region: "California", lat: 33.9416, lon: -118.4085 },
-  { code: "ORD", name: "O'Hare International", city: "Chicago", region: "Illinois", lat: 41.9742, lon: -87.9073 },
-  { code: "SFO", name: "San Francisco International", city: "San Francisco", region: "California", lat: 37.6213, lon: -122.379 },
-  { code: "SEA", name: "Seattle-Tacoma International", city: "Seattle", region: "Washington", lat: 47.4502, lon: -122.3088 },
-  { code: "DEN", name: "Denver International", city: "Denver", region: "Colorado", lat: 39.8561, lon: -104.6737 },
-  { code: "MIA", name: "Miami International", city: "Miami", region: "Florida", lat: 25.7959, lon: -80.287 },
-  { code: "IAD", name: "Washington Dulles International", city: "Washington", region: "Virginia", lat: 38.9531, lon: -77.4565 },
-  { code: "YYZ", name: "Toronto Pearson International", city: "Toronto", region: "Canada", lat: 43.6777, lon: -79.6248 },
-  { code: "MEX", name: "Mexico City International", city: "Mexico City", region: "Mexico", lat: 19.4363, lon: -99.0721 },
-  { code: "EZE", name: "Ministro Pistarini International", city: "Buenos Aires", region: "Argentina", lat: -34.8222, lon: -58.5358 },
-  { code: "GIG", name: "Rio de Janeiro-Galeão International", city: "Rio de Janeiro", region: "Brazil", lat: -22.81, lon: -43.2506 },
-  { code: "GRU", name: "São Paulo-Guarulhos International", city: "São Paulo", region: "Brazil", lat: -23.4356, lon: -46.4731 },
-  { code: "LHR", name: "Heathrow", city: "London", region: "United Kingdom", lat: 51.47, lon: -0.4543 },
-  { code: "CDG", name: "Charles de Gaulle", city: "Paris", region: "France", lat: 49.0097, lon: 2.5479 },
-  { code: "AMS", name: "Schiphol", city: "Amsterdam", region: "Netherlands", lat: 52.3105, lon: 4.7683 },
-  { code: "FRA", name: "Frankfurt Airport", city: "Frankfurt", region: "Germany", lat: 50.0379, lon: 8.5622 },
-  { code: "FCO", name: "Leonardo da Vinci–Fiumicino", city: "Rome", region: "Italy", lat: 41.8003, lon: 12.2389 },
-  { code: "BCN", name: "Barcelona-El Prat", city: "Barcelona", region: "Spain", lat: 41.2974, lon: 2.0833 },
-  { code: "LIS", name: "Humberto Delgado Airport", city: "Lisbon", region: "Portugal", lat: 38.7813, lon: -9.1359 },
-  { code: "PRG", name: "Václav Havel Airport", city: "Prague", region: "Czechia", lat: 50.1008, lon: 14.26 },
-  { code: "CPH", name: "Copenhagen Airport", city: "Copenhagen", region: "Denmark", lat: 55.618, lon: 12.656 },
-  { code: "IST", name: "Istanbul Airport", city: "Istanbul", region: "Türkiye", lat: 41.2753, lon: 28.7519 },
-  { code: "CAI", name: "Cairo International", city: "Cairo", region: "Egypt", lat: 30.1219, lon: 31.4056 },
-  { code: "CPT", name: "Cape Town International", city: "Cape Town", region: "South Africa", lat: -33.9715, lon: 18.6021 },
-  { code: "RAK", name: "Marrakesh Menara", city: "Marrakesh", region: "Morocco", lat: 31.6069, lon: -8.0363 },
-  { code: "DEL", name: "Indira Gandhi International", city: "Delhi", region: "India", lat: 28.5562, lon: 77.1 },
-  { code: "BKK", name: "Suvarnabhumi Airport", city: "Bangkok", region: "Thailand", lat: 13.69, lon: 100.7501 },
-  { code: "SGN", name: "Tân Sơn Nhất International", city: "Ho Chi Minh City", region: "Vietnam", lat: 10.8188, lon: 106.652 },
-  { code: "HKG", name: "Hong Kong International", city: "Hong Kong", region: "Hong Kong", lat: 22.308, lon: 113.9185 },
-  { code: "ICN", name: "Incheon International", city: "Seoul", region: "South Korea", lat: 37.4602, lon: 126.4407 },
-  { code: "HND", name: "Haneda Airport", city: "Tokyo", region: "Japan", lat: 35.5494, lon: 139.7798 },
-  { code: "TPE", name: "Taiwan Taoyuan International", city: "Taipei", region: "Taiwan", lat: 25.0797, lon: 121.2342 },
-  { code: "SIN", name: "Changi Airport", city: "Singapore", region: "Singapore", lat: 1.3644, lon: 103.9915 },
-  { code: "SYD", name: "Kingsford Smith Airport", city: "Sydney", region: "Australia", lat: -33.9399, lon: 151.1753 },
+  { code: "JFK", name: "John F. Kennedy International", city: "New York", region: "New York", lat: 40.6413, lon: -73.7781, gateway: true },
+  { code: "LAX", name: "Los Angeles International", city: "Los Angeles", region: "California", lat: 33.9416, lon: -118.4085, gateway: true },
+  { code: "ORD", name: "O'Hare International", city: "Chicago", region: "Illinois", lat: 41.9742, lon: -87.9073, gateway: true },
+  { code: "SFO", name: "San Francisco International", city: "San Francisco", region: "California", lat: 37.6213, lon: -122.379, gateway: true },
+  { code: "SEA", name: "Seattle-Tacoma International", city: "Seattle", region: "Washington", lat: 47.4502, lon: -122.3088, gateway: true },
+  { code: "DEN", name: "Denver International", city: "Denver", region: "Colorado", lat: 39.8561, lon: -104.6737, gateway: true },
+  { code: "MIA", name: "Miami International", city: "Miami", region: "Florida", lat: 25.7959, lon: -80.287, gateway: true },
+  { code: "IAD", name: "Washington Dulles International", city: "Washington", region: "Virginia", lat: 38.9531, lon: -77.4565, gateway: true },
+  { code: "YYZ", name: "Toronto Pearson International", city: "Toronto", region: "Canada", lat: 43.6777, lon: -79.6248, gateway: true },
+  { code: "MEX", name: "Mexico City International", city: "Mexico City", region: "Mexico", lat: 19.4363, lon: -99.0721, gateway: true },
+  { code: "EZE", name: "Ministro Pistarini International", city: "Buenos Aires", region: "Argentina", lat: -34.8222, lon: -58.5358, gateway: true },
+  { code: "GIG", name: "Rio de Janeiro-Galeão International", city: "Rio de Janeiro", region: "Brazil", lat: -22.81, lon: -43.2506, gateway: true },
+  { code: "GRU", name: "São Paulo-Guarulhos International", city: "São Paulo", region: "Brazil", lat: -23.4356, lon: -46.4731, gateway: true },
+  { code: "LHR", name: "Heathrow", city: "London", region: "United Kingdom", lat: 51.47, lon: -0.4543, gateway: true },
+  { code: "CDG", name: "Charles de Gaulle", city: "Paris", region: "France", lat: 49.0097, lon: 2.5479, gateway: true },
+  { code: "AMS", name: "Schiphol", city: "Amsterdam", region: "Netherlands", lat: 52.3105, lon: 4.7683, gateway: true },
+  { code: "FRA", name: "Frankfurt Airport", city: "Frankfurt", region: "Germany", lat: 50.0379, lon: 8.5622, gateway: true },
+  { code: "FCO", name: "Leonardo da Vinci–Fiumicino", city: "Rome", region: "Italy", lat: 41.8003, lon: 12.2389, gateway: true },
+  { code: "BCN", name: "Barcelona-El Prat", city: "Barcelona", region: "Spain", lat: 41.2974, lon: 2.0833, gateway: true },
+  { code: "LIS", name: "Humberto Delgado Airport", city: "Lisbon", region: "Portugal", lat: 38.7813, lon: -9.1359, gateway: true },
+  { code: "PRG", name: "Václav Havel Airport", city: "Prague", region: "Czechia", lat: 50.1008, lon: 14.26, gateway: true },
+  { code: "CPH", name: "Copenhagen Airport", city: "Copenhagen", region: "Denmark", lat: 55.618, lon: 12.656, gateway: true },
+  { code: "IST", name: "Istanbul Airport", city: "Istanbul", region: "Türkiye", lat: 41.2753, lon: 28.7519, gateway: true },
+  { code: "CAI", name: "Cairo International", city: "Cairo", region: "Egypt", lat: 30.1219, lon: 31.4056, gateway: true },
+  { code: "CPT", name: "Cape Town International", city: "Cape Town", region: "South Africa", lat: -33.9715, lon: 18.6021, gateway: true },
+  { code: "RAK", name: "Marrakesh Menara", city: "Marrakesh", region: "Morocco", lat: 31.6069, lon: -8.0363, gateway: true },
+  { code: "DEL", name: "Indira Gandhi International", city: "Delhi", region: "India", lat: 28.5562, lon: 77.1, gateway: true },
+  { code: "BKK", name: "Suvarnabhumi Airport", city: "Bangkok", region: "Thailand", lat: 13.69, lon: 100.7501, gateway: true },
+  { code: "SGN", name: "Tân Sơn Nhất International", city: "Ho Chi Minh City", region: "Vietnam", lat: 10.8188, lon: 106.652, gateway: true },
+  { code: "HKG", name: "Hong Kong International", city: "Hong Kong", region: "Hong Kong", lat: 22.308, lon: 113.9185, gateway: true },
+  { code: "ICN", name: "Incheon International", city: "Seoul", region: "South Korea", lat: 37.4602, lon: 126.4407, gateway: true },
+  { code: "HND", name: "Haneda Airport", city: "Tokyo", region: "Japan", lat: 35.5494, lon: 139.7798, gateway: true },
+  { code: "TPE", name: "Taiwan Taoyuan International", city: "Taipei", region: "Taiwan", lat: 25.0797, lon: 121.2342, gateway: true },
+  { code: "SIN", name: "Changi Airport", city: "Singapore", region: "Singapore", lat: 1.3644, lon: 103.9915, gateway: true },
+  { code: "SYD", name: "Kingsford Smith Airport", city: "Sydney", region: "Australia", lat: -33.9399, lon: 151.1753, gateway: true },
+
+  // The five catalogue cities the hub list above was missing. Kyoto and Osaka
+  // share KIX, which is the honest answer rather than a tidy one: Kyoto has no
+  // airport of its own, and the train from Kansai is how you actually arrive.
+  { code: "BER", name: "Brandenburg Airport", city: "Berlin", region: "Germany", lat: 52.3667, lon: 13.5033, gateway: true },
+  { code: "HAN", name: "Noi Bai International", city: "Hanoi", region: "Vietnam", lat: 21.2212, lon: 105.8072, gateway: true },
+  { code: "KIX", name: "Kansai International", city: "Osaka", region: "Japan", lat: 34.4342, lon: 135.2440, gateway: true },
+  { code: "OPO", name: "Francisco Sá Carneiro Airport", city: "Porto", region: "Portugal", lat: 41.2481, lon: -8.6814, gateway: true },
 
   // Virginia — the regional cluster a small city actually flies from
   { code: "ORF", name: "Norfolk International", city: "Norfolk", region: "Virginia", lat: 36.8946, lon: -76.2012 },
@@ -171,4 +181,43 @@ export function searchAirports(term: string): Airport[] {
   return scored
     .sort((a, b) => a.rank - b.rank || a.airport.city.localeCompare(b.airport.city))
     .map((entry) => entry.airport);
+}
+
+/**
+ * Where you land, given where you're going. The catalogue names cities and
+ * this list names airports, so the join is geography rather than a column of
+ * hand-typed codes that would rot the moment a city moved. The radius is the
+ * honesty check: past it there is no airport for the place, and the pass says
+ * the city's name alone instead of pointing at one three hours away.
+ */
+export function nearestAirport(to: { lat: number; lon: number }, withinKm = 130): Airport | undefined {
+  let best: Airport | undefined;
+  let bestKm = Infinity;
+  let bestGateway: Airport | undefined;
+  let bestGatewayKm = Infinity;
+
+  for (const airport of AIRPORTS) {
+    const km = roughKm(airport, to);
+    if (km < bestKm) {
+      best = airport;
+      bestKm = km;
+    }
+    if (airport.gateway && km < bestGatewayKm) {
+      bestGateway = airport;
+      bestGatewayKm = km;
+    }
+  }
+
+  // A gateway inside the radius wins even when something smaller is closer:
+  // New York's nearest runway is LaGuardia and nobody crosses an ocean into it.
+  if (bestGateway && bestGatewayKm <= withinKm) return bestGateway;
+  return bestKm <= withinKm ? best : undefined;
+}
+
+/** Equirectangular, which is plenty over the ~100km this is ever asked about. */
+function roughKm(a: { lat: number; lon: number }, b: { lat: number; lon: number }): number {
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
+  const x = toRad(b.lon - a.lon) * Math.cos(toRad((a.lat + b.lat) / 2));
+  const y = toRad(b.lat - a.lat);
+  return 6371 * Math.sqrt(x * x + y * y);
 }

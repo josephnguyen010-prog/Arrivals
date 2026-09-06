@@ -139,6 +139,81 @@ needed a caption to be honest, because for a lot of cities the person the place 
 rather than started there, and a caption on a list of three names is a lot of hedging for something
 nobody asked about the city. One fact that's actually surprising does more.
 
+## The ticket
+
+Under every city page, what it costs to get there and what it costs to be there. Both are
+estimates, and both say so — the interesting design problem is being useful without pretending to
+be a booking engine.
+
+**Trip cost** is on the ground: a daily rate per city from `data/costs.ts`, times a pace
+(shoestring, comfortable, splurge) and a number of days. It sits beside the Departures button
+because that's the moment the question comes up.
+
+**Your ticket** is the flight, drawn as a boarding pass — the airmail stripe along the top edge,
+the route across the middle, and the fare on a stub torn off down a perforation. The stub is where
+the fare goes because that is the one number on the pass that is an estimate; the distance and the
+flight time either side of it are arithmetic.
+
+### There is no Google Flights API
+
+The obvious way to fill the fare in is to ask Google, and you can't. Google retired **QPX Express**
+in April 2018 and never replaced it; there is no public flight-search product in its developer
+directory today, and the ITA fare engine behind Google Flights is an enterprise agreement. Every
+service selling a "Google Flights API" — SerpApi, SearchAPI, Apify — is a scraper in front of the
+same web page, on a monthly quota.
+
+Three things ruled a live source out even so, and they're worth writing down because they are
+properties of this app rather than of the vendors:
+
+- **There is no server to keep a key on.** Arrivals is a static bundle. A `VITE_` variable is
+  inlined into it, so anyone can read the key out of the page and spend the quota. Live fares mean
+  a serverless proxy first, and then the app has a backend to keep alive.
+- **The free tier that would have fitted is gone.** Amadeus Self-Service was the one legitimate
+  free flight API a side project could use, and it shut down on 17 July 2026. What's left
+  self-serve is a scraper at 250 searches a month, or an affiliate deal.
+- **A quota is the wrong shape for this page.** 250 searches a month is eight a day, and the fare
+  belongs on *every* city page — one person browsing the catalogue would exhaust a month before
+  lunch. Worse, a fare is true for a few hours, and there is nothing here to book with, so the
+  number would be both stale and unactionable.
+
+So the fare is modelled instead, in `data/fares.ts`, and the pass says on its face that it is an
+estimate.
+
+### What the model actually claims
+
+Fare per kilometre falls as distance grows, because the fixed costs of a departure are shared over
+more of it — a straight line through the origin prices a transatlantic hop like ten short ones and
+is wrong by a factor of three. So the base is a table of anchors interpolated between, checked by a
+test that asserts the *rate* falls even as the total rises.
+
+Two things move it off that curve. A **market multiplier** by region, which is competition rather
+than distance: Europe is dense with carriers undercutting each other, Africa's long-haul routes are
+thin and mostly leave one airline setting the price. And a **season**, taken from the destination's
+latitude rather than its continent — Rio and Rome sit in `Americas` and `Europe` and have opposite
+summers, so the hemisphere has to come from the coordinates the flight path already uses. Inside
+fifteen degrees of the equator there is no summer to price, and the dear months are the dry ones.
+
+The seasonal rows are normalised to an average month of exactly 1, which is what lets them be tuned
+by eye: nudging July doesn't quietly make every city dearer. It also makes the range on the stub
+mean something specific — the low is the cheap season and the high is the peak, not a percentage
+either side of a guess.
+
+### The airport on the pass
+
+A pass needs a code, and the catalogue stores cities. Rather than hand-type a column of codes that
+would rot, `nearestAirport` joins the two by geography, with a radius past which it declines to
+name one at all. Two wrinkles came out of that:
+
+- **Nearest is not where you land.** New York's closest runway is LaGuardia, which flies almost no
+  long haul, and Washington's is National, which flies none. So the airports that are a city's
+  actual gateway are marked as such, and a gateway inside the radius beats anything closer.
+- **Five cities had no airport in the list at all** — Berlin, Hanoi, Kyoto, Osaka and Porto. Four
+  were added, because Kyoto and Osaka share Kansai, which is the honest answer rather than a tidy
+  one: Kyoto has no airport, and the train from KIX is how you actually arrive.
+
+A test asserts every city in the catalogue resolves to an arrival airport, so adding a
+forty-fifth city fails loudly rather than printing a pass with a blank on it.
+
 ## Your own photo
 
 Every city ships with a Commons photograph, and every one of them can be replaced from **Change
@@ -169,9 +244,12 @@ src/
   lib/photos.ts         per-city photo overrides
   lib/images.ts         downscaling, shared by spots, cities and avatars
   lib/quota.ts          the localStorage budget, and the error the forms report
+  data/fares.ts         the fare curve, the market and the seasons, pure and tested
+  data/coords.ts        city coordinates and great-circle distance
+  data/airports.ts      airports, the gateway flag, and the nearest-airport join
   state/                LogContext, ListsContext, SpotsContext, PhotosContext, ProfileContext
   data/                 city catalogue, city facts, photo credits, seed data
-  components/           Stars, CityCard, Stamp, ArrivalStamp, the flows
+  components/           Stars, CityCard, Stamp, ArrivalStamp, BoardingPass, the flows
   screens/              Profile, Activity, Cities, Departures, Passport, Lists, ListPage, CityPage
   styles/tokens.css     the palette, both themes
 ```
@@ -202,8 +280,9 @@ rather than a rename.
 ## State of it
 
 Working: rating, the comparison flow, the ranking, filters and sorts, Departures, spots with links
-and photos, city notes, replacing a city's photo with your own, the MyPassport screen, per-city
-pages, lists you can create and reorder, both themes, and persistence to `localStorage`.
+and photos, city notes, replacing a city's photo with your own, the trip cost and the boarding
+pass, the MyPassport screen, per-city pages, lists you can create and reorder, both themes, and
+persistence to `localStorage`.
 
 The sheet has no scroller of its own. A tall panel used to grow a bar down its own edge, inside the
 sheet and beside the content; the veil scrolls the whole sheet instead, and its own bar is hidden.
@@ -266,6 +345,10 @@ Not built yet:
   shareable is the point of them and needs the backend.
 - **Your own photo per visit.** Spots and cities take photos now; a single visit still doesn't, so
   ten years of trips to one city share one picture.
+- **A real fare.** The ticket is modelled, for the reasons above. Making it live is a serverless
+  proxy holding a key, a cache with a long enough TTL to survive a quota, and the estimator kept
+  underneath as the fallback — a fare panel that can show an error is worse than one that is
+  honestly approximate.
 
 ## Photos
 

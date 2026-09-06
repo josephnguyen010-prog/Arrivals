@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { BoardingPass } from "../components/BoardingPass";
 import { CityNotes } from "../components/CityNotes";
 import { CityPhotoEditor } from "../components/CityPhotoEditor";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
@@ -7,7 +8,6 @@ import { ReviewEditor } from "../components/ReviewEditor";
 import { RateCity } from "../components/RateCity";
 import { SpotForm } from "../components/SpotForm";
 import { SpotList } from "../components/SpotList";
-import { FlightPath } from "../components/FlightPath";
 import { Stamp } from "../components/Stamp";
 import { TripCost } from "../components/TripCost";
 import { cityById } from "../data/cities";
@@ -129,7 +129,7 @@ export function CityPage() {
         </div>
       </div>
 
-      <FlightPath city={city} />
+      <BoardingPass city={city} />
 
       {/* Both halves of what you have to say about the place, side by side: the
           verdict, and the dates it is based on. Each ran the full width alone

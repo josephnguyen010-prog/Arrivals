@@ -1761,41 +1761,270 @@ select option {
   color: var(--muted);
 }
 
-/* Full width of the page, not the two-column top block: the curve needs the
-   room, the way a boarding-pass strip runs edge to edge. */
-.flight-path {
+/* Full width of the page, not the two-column top block: a ticket is a strip,
+   and the route needs the room to read as a journey rather than a label. */
+.boarding-pass,
+.boarding-pass-empty {
   margin: 34px 0;
   padding-top: 26px;
   border-top: 1px solid var(--rule);
 }
 
-.flight-map {
-  display: block;
-  width: 100%;
-  max-width: 560px;
-  height: auto;
-  margin-top: 4px;
+.pass {
+  margin-top: 12px;
+  max-width: 720px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
-.flight-line {
+/* The airmail barber stripe, which is the identity — red and blue together
+   rather than one accent, running the full edge the way it does an envelope. */
+.pass-stripe {
+  height: 6px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--air-red) 0 10px,
+    transparent 10px 20px,
+    var(--air-blue) 20px 30px,
+    transparent 30px 40px
+  );
+  background-color: var(--surface-2);
+}
+
+.pass-body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.pass-main {
+  padding: 16px 20px 14px;
+  min-width: 0;
+}
+
+.pass-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.pass-mark {
+  font-family: var(--display);
+  font-size: 17px;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.pass-kind,
+.pass-stub-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pass-route {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 4px;
+}
+
+/* Tabular figures so the two codes sit on the same baseline grid, and so a
+   three-letter code never shuffles width between cities. */
+.pass-port {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 66px;
+}
+
+.pass-port b {
+  font-family: var(--mono);
+  font-size: 25px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.pass-port span {
+  margin-top: 2px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-align: center;
+}
+
+.pass-arc {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: auto;
+}
+
+.pass-line {
   stroke: var(--rule);
   stroke-width: 1.5;
   stroke-dasharray: 4 6;
 }
 
-.flight-dot {
+.pass-dot {
   fill: var(--muted);
 }
 
-.flight-label {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  fill: var(--ink);
+.pass-plane path {
+  fill: var(--accent-2);
 }
 
-.flight-plane path {
-  fill: var(--accent-2);
+.pass-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px 14px;
+  margin: 14px 0 0;
+  padding-top: 13px;
+  border-top: 1px solid var(--rule);
+}
+
+.pass-grid dt {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pass-grid dd {
+  margin: 3px 0 0;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.pass-barcode {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 26px;
+  margin-top: 15px;
+  opacity: 0.75;
+}
+
+.pass-barcode i {
+  display: block;
+  flex-basis: 0;
+  min-width: 1px;
+  height: 100%;
+  background: var(--ink);
+}
+
+/* The stub, torn off down a perforation. The gradient is the tear: dots of
+   page colour punched through the border at a regular pitch. */
+.pass-stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  width: 178px;
+  padding: 16px 18px;
+  border-left: 1px dashed var(--rule);
+  background: var(--surface-2);
+}
+
+.pass-stub::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  width: 7px;
+  background: radial-gradient(circle at 50% 50%, var(--bg) 0 2.6px, transparent 2.8px) 0 0 / 7px 11px repeat-y;
+}
+
+.pass-fare {
+  font-family: var(--mono);
+  font-size: 27px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.pass-band {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-2);
+}
+
+.pass-stub-note {
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.boarding-pass .cost-disclaimer {
+  max-width: 720px;
+  margin-top: 10px;
+}
+
+/* Under about 640px the stub cannot hold its column, so the tear turns
+   horizontal and it sits along the bottom the way a torn-off receipt does. */
+@media (max-width: 640px) {
+  .pass-body {
+    grid-template-columns: 1fr;
+  }
+
+  .pass-stub {
+    width: auto;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    border-left: none;
+    border-top: 1px dashed var(--rule);
+  }
+
+  .pass-stub::before {
+    top: -4px;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 7px;
+    background: radial-gradient(circle at 50% 50%, var(--bg) 0 2.6px, transparent 2.8px) 0 0 / 11px 7px repeat-x;
+  }
+
+  .pass-stub-note {
+    flex-basis: 100%;
+    margin-top: 0;
+  }
+
+  .pass-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pass-port b {
+    font-size: 21px;
+  }
+}
+
+/* The plane is decoration on a page that is otherwise still. */
+@media (prefers-reduced-motion: reduce) {
+  .pass-plane animateMotion {
+    display: none;
+  }
 }
 
 /* Search-as-you-type, then a short pick list — the same shape as CitySearch,
