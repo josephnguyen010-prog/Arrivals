@@ -2572,6 +2572,117 @@ select option {
 }
 
 
+/* Who you follow that has been here. A list of people, so it is set as rows
+   rather than as cards — the cards on this page are all places. */
+.whoelse {
+  margin: 34px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+
+.whoelse .field-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.whoelse-avg {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
+.whos {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.whos li + li {
+  border-top: 1px solid var(--rule);
+}
+
+.whos a {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.whos a:hover .who-top b {
+  color: var(--accent-2);
+}
+
+.who-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.who-top {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.who-top b {
+  font-size: 14px;
+}
+
+.who-when {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* Two lines of their verdict. The whole of it is one click away, and a row
+   that ran on would make this a second feed rather than a signpost. */
+.who-note {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.who-go {
+  flex: 0 0 auto;
+  align-self: center;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+
+.whos a:hover .who-go {
+  color: var(--accent-2);
+}
+
+.visit-log time small {
+  font-family: var(--mono);
+  color: var(--muted);
+}
+
+/* Under the country's name rather than beside it: the row already has a
+   column of cities on the right and a third one would not fit a phone. */
+.cstay {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
 .spots-head {
   display: flex;
   align-items: center;
@@ -3357,6 +3468,23 @@ select option {
 .log-when {
   min-width: 0;
 }
+
+/* Beside the date, not under it: they are two halves of one answer about the
+   trip, and stacking them pushed the rating off the first screen. */
+.log-nights {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 12px;
+  max-width: 120px;
+}
+
+.log-nights input {
+  padding: 8px 10px;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
 
 /* Reads as a field rather than a button: it holds a value you can change. */
 .date-btn {

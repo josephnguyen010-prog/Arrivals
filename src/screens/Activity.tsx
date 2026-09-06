@@ -4,7 +4,8 @@ import { CityPhoto } from "../components/CityPhoto";
 import { Stars } from "../components/Stars";
 import { requireCity } from "../data/cities";
 import { FEED } from "../data/seed";
-import { MONTH_NAMES } from "../lib/dates";
+import { daysAgo } from "../lib/dates";
+import { formatStay } from "../lib/trips";
 import { isWished, ratingOf } from "../lib/ranking";
 import { useLog } from "../state/LogContext";
 import { useProfile } from "../state/ProfileContext";
@@ -27,10 +28,14 @@ export function Activity() {
   const { profile, initials } = useProfile();
 
   const entries = useMemo(() => {
-    const theirs = FEED.map((item) => ({ kind: "friend" as const, age: agoInDays(item.when), item }));
+    const theirs = FEED.map((item) => ({
+      kind: "friend" as const,
+      age: daysAgo(item.day, item.when),
+      item,
+    }));
     const yours = log.visits.map((visit) => ({
       kind: "you" as const,
-      age: visitAgeInDays(visit),
+      age: daysAgo(visit.day, visit.when),
       visit,
     }));
     // Oldest last. Ties keep a friend's entry above your own line, which reads
@@ -42,7 +47,8 @@ export function Activity() {
     <section className="screen">
       <h2>From people you follow</h2>
       <p className="lede">
-        What they said about where they went, and your own stamps in among it.
+        What they said about where they went, and your own stamps in among it — one column,
+        newest first.
       </p>
 
       <div className="feed">
@@ -80,7 +86,9 @@ function FriendEntry({ item }: { item: FeedItem }) {
           <b>{item.who}</b>
           <span className="handle">{item.handle}</span>
           <span className="fverb">{verbFor(item)}</span>
-          <span className="when">{item.when} ago</span>
+          <span className="when">
+            {item.day} {item.when} · {formatStay(item.nights)}
+          </span>
         </p>
 
         <h3 className="ftitle">
@@ -133,34 +141,10 @@ function YourLine({ visit, you, initials }: { visit: Visit; you: string; initial
       {rating !== null && <Stars value={rating} size={13} />}
       <span className="when">
         {visit.day} {visit.when}
+        {typeof visit.nights === "number" && ` · ${formatStay(visit.nights)}`}
       </span>
     </Link>
   );
-}
-
-/* --------------------------------------------------------------- when --- */
-
-/**
- * The feed writes ages the way a person would — "2d", "3w", "5mo" — so they
- * sort against real dates only once they're in the same unit. Anything
- * unparseable sinks to the bottom rather than jumping to the top.
- */
-function agoInDays(when: string): number {
-  const match = /^(\d+)\s*(d|w|mo|y)$/.exec(when.trim());
-  if (!match) return Number.MAX_SAFE_INTEGER;
-  const size = Number(match[1]);
-  const unit = { d: 1, w: 7, mo: 30, y: 365 }[match[2] as "d" | "w" | "mo" | "y"];
-  return size * unit;
-}
-
-/** A visit stores "12" and "Mar 2026". Undatable ones sink, as above. */
-function visitAgeInDays(visit: Visit): number {
-  const [name, year] = visit.when.split(" ");
-  const month = MONTH_NAMES.indexOf(name);
-  if (month === -1 || !/^\d{4}$/.test(year ?? "")) return Number.MAX_SAFE_INTEGER;
-  const day = Number(visit.day) || 1;
-  const then = new Date(Number(year), month, day);
-  return Math.max(0, Math.round((Date.now() - then.getTime()) / 86_400_000));
 }
 
 /** "Mai Tran" → "MT". One letter is fine; the chip is a marker, not a name. */

@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { REGIONS } from "../data/cities";
 import { progressFor, slugOf } from "../lib/countries";
+import { formatStay, stayInCountry } from "../lib/trips";
 import { useLog } from "../state/LogContext";
 import { useProfile } from "../state/ProfileContext";
 
@@ -66,12 +67,25 @@ export function CountryList() {
       <ul className="checklist">
         {rows.map(({ country, cities, visited }) => {
           const reached = visited.length > 0;
+          const stay = stayInCountry(log, country);
           return (
             <li key={country} className={reached ? "done" : undefined}>
               <span className="ctick" aria-hidden="true">
                 {reached ? "✓" : ""}
               </span>
-              <span className="cname">{country}</span>
+              <span className="cname">
+                {country}
+                {/* How long you have actually spent there, across every trip.
+                    Only where something recorded a length — a trip nobody
+                    measured is not a nought-night one, so it says how many it
+                    could not count instead of quietly averaging them in. */}
+                {reached && (
+                  <small className="cstay">
+                    {stay.nights > 0 ? formatStay(stay.nights) : "length not logged"}
+                    {stay.nights > 0 && stay.undated > 0 && ` + ${stay.undated} unmeasured`}
+                  </small>
+                )}
+              </span>
               <span className="ccities">
                 {cities.map((city) => {
                   const been = visited.includes(city);

@@ -17,6 +17,12 @@ export interface Visit {
   /** Month and year, e.g. "Mar 2026". Visits are day-precision at most. */
   when: string;
   day: string;
+  /**
+   * Nights away. Optional because every visit logged before the field existed
+   * has none, and a trip you can't remember the length of is still a trip —
+   * the country totals count what they have rather than refusing to add up.
+   */
+  nights?: number;
   /** What the trip was like. Yours — the feed's notes belong to other people. */
   note?: string;
 }
@@ -79,7 +85,16 @@ export interface FeedItem {
   handle: string;
   city: CityId;
   rating: number;
+  /**
+   * Dated the same way a visit is, and for the same reason: the two are shown
+   * in one column and have to sort against each other. These used to be
+   * relative ages — "2d", "5mo" — which could only ever be recent, so every
+   * entry a friend wrote sorted above every trip you had taken.
+   */
+  day: string;
   when: string;
+  /** How long they were there. It used to be buried in a tag string. */
+  nights: number;
   note: string;
   tags: string[];
 }

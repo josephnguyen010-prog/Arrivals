@@ -97,4 +97,21 @@ export const SEED_SPOTS: Spot[] = [
 
   // Copenhagen
   spot("cph", "Hidden gem", "Assistens Cemetery", "Locals sunbathe between the graves. Somehow it isn't strange.", "Assistens Cemetery Copenhagen", assistens),
+
+  // The three cities in the seeded log that had nothing under them. A city you
+  // have been to and written a review of, showing an empty Spots section, reads
+  // as a bug rather than as a blank you are invited to fill.
+  spot("osaka", "Favourite restaurant", "Dotonbori street stalls", "Takoyaki standing up, at a counter, from someone who has made nothing else for twenty years. Dinner here is a street rather than a room.", "Dotonbori Osaka"),
+  spot("osaka", "Must-see view", "Umeda Sky Building", "The escalator across the gap between the two towers is the ride; the floating garden on the roof is just where it puts you.", "Umeda Sky Building Osaka"),
+  spot("osaka", "Hidden gem", "Shinsekai", "Built in 1912 to look like the future, left alone ever since. The tower in the middle is a copy of the Eiffel one, and nobody is embarrassed about it.", "Shinsekai Osaka"),
+  spot("osaka", "Skip it", "Osaka Castle interior", "The grounds are worth an afternoon. The keep is a concrete rebuild from 1931 with a lift in it, and the queue does not know that yet.", "Osaka Castle"),
+
+  spot("taipei", "Favourite restaurant", "Raohe Street Night Market", "Shorter and better than Shilin, and the pepper buns at the temple end are worth the queue and the burnt roof of your mouth.", "Raohe Street Night Market Taipei"),
+  spot("taipei", "Hidden gem", "Beitou hot springs", "Twenty-five minutes on the metro and you are in a valley that smells of sulphur, with a public bath at the top of it.", "Beitou Hot Spring Taipei"),
+  spot("taipei", "Must-see view", "Elephant Mountain", "Twenty minutes of steps for the photograph of Taipei 101 that everyone has. Go an hour before sunset and share the rock politely.", "Elephant Mountain Taipei"),
+
+  spot("bsas", "Hidden gem", "El Ateneo Grand Splendid", "A 1919 theatre that sells books from the stalls and serves coffee on the stage. The boxes are reading rooms.", "El Ateneo Grand Splendid Buenos Aires"),
+  spot("bsas", "Favourite restaurant", "Parrillas of Palermo", "Dinner starts at eleven and the beef is the whole argument. Order less than you think; a portion is for two people who are lying about it.", "Parrilla Palermo Buenos Aires"),
+  spot("bsas", "Must-see view", "Recoleta Cemetery", "Streets of marble mausoleums laid out like a small city, which is what it is. Free, and quieter at nine than at noon.", "Recoleta Cemetery Buenos Aires"),
+  spot("bsas", "Skip it", "Caminito", "Three photogenic streets of painted tin with a tango dancer charging for the picture. The rest of La Boca is a working neighbourhood that would rather you didn't.", "Caminito Buenos Aires"),
 ];

@@ -5,6 +5,7 @@ import { PhotoCreditLine } from "../components/PhotoCreditLine";
 import { Stars } from "../components/Stars";
 import { requireCity } from "../data/cities";
 import { FEED } from "../data/seed";
+import { formatStay } from "../lib/trips";
 import { isWished, visitsFor } from "../lib/ranking";
 import { useLog } from "../state/LogContext";
 
@@ -65,7 +66,9 @@ export function FriendVisit() {
             <div className="friend-by">
               <b>{item.who}</b>
               <span className="handle">{item.handle}</span>
-              <span className="when">{item.when} ago</span>
+              <span className="when">
+                {item.day} {item.when} · {formatStay(item.nights)}
+              </span>
             </div>
 
             <div className="city-rating">

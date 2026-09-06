@@ -319,6 +319,7 @@ src/
   lib/quota.ts          the localStorage budget, and the error the forms report
   data/fares.ts         the fare curve, the market and the seasons, pure and tested
   lib/booking.ts        the search URLs the ticket hands off to, pure and tested
+  lib/trips.ts          how long a trip was, and how long you have spent in a country
   data/coords.ts        city coordinates and great-circle distance
   data/airports.ts      airports, the gateway flag, and the nearest-airport join
   state/                LogContext, ListsContext, SpotsContext, PhotosContext, ProfileContext
@@ -388,15 +389,36 @@ visit's note is what one trip was like, a review is what you make of the city. W
 sheet with a single field; it can be edited or deleted from the same place afterwards. It lives on
 the log as `reviews`, keyed by city, and older saves without the field load with an empty one.
 
-The **Activity** screen is a feed of what happened rather than a second copy of what was said: one
-scannable row an entry — who, where, when, what they gave it — linking to the city page where the
-review itself lives. It carried the full text before, which meant nineteen reviews stacked up on one
-screen and every one of them printed twice in the app.
+The **Activity** screen is one column of what happened — theirs and yours, newest first. A friend's
+trip is the loud entry, because they wrote something; your own stamps are a line, because you
+already know what you did.
 
-**What people say** sits under your review, above your own spots: it is about the place
-rather than about your trip. The heading carries the average of the ratings beside it. The friends
-and their notes are invented, and there are enough of them now that most cities have one — a section
-that says *nobody you follow has been* on forty of forty-four cities is a feature you can't see.
+They only actually mix because the feed carries real dates. It used to carry relative ages — `"2d"`,
+`"5mo"` — which have a ceiling: nothing could be older than the oldest string anyone had written, so
+all nineteen friend entries sorted above all thirteen of your trips and the screen read as two lists
+stacked. Both kinds are dated `day` + `when` now and sort through one function, `daysAgo`.
+
+**Who else has been** sits on the city page under your review and above your own spots — who you
+follow that has been here, what they gave it, when they went and for how long, each row opening
+their write-up rather than the city. The Activity feed answers *what has anyone been doing lately*,
+which is a different question from *what do the people I follow make of this place*, and the second
+one is the one you have while looking at a city. An earlier version of this README described this
+section as though it existed; it didn't, and now it does.
+
+## How long you were there
+
+Every visit can record a number of nights, and every country totals them. `lib/trips.ts` holds the
+arithmetic and is tested.
+
+The field is optional and stays optional, which is the only interesting decision in it. Trips logged
+before it existed have no length, and a trip nobody measured is not a nought-night trip — so a blank
+stays `undefined` rather than becoming `0`, `CountryStay` reports how many trips it *couldn't* count
+alongside the total, and `longestStays` leaves out a country whose trips were never measured instead
+of ranking it at zero. The log panel's field is likewise blank by default rather than pre-filled with
+a guess.
+
+The feed's friends have lengths too. They always did — buried in a tag string reading `"10 days"` —
+which is why the tags now carry only what kind of trip it was.
 
 Your note is the one thing the app used to give everyone but you. The feed's invented friends had
 reviews from the start; your own log held a rating, some dates and a few spots, and nowhere to say
@@ -419,6 +441,9 @@ Not built yet:
   shareable is the point of them and needs the backend.
 - **Your own photo per visit.** Spots and cities take photos now; a single visit still doesn't, so
   ten years of trips to one city share one picture.
+- **Spots for the other thirty-five cities.** Thirteen have them. A test asserts every city in the
+  seeded *log* does, which is the line that matters — an empty Spots section on a city you have
+  rated and reviewed reads as a bug — but the catalogue at large is still mostly bare.
 - **A real fare on the pass.** The estimate is fine and the booking links are live, so this is
   now a nicety rather than a gap. If it's ever worth doing, the cheap version is not a live proxy
   but a build-time fetch: pull real fares once for a handful of origins, commit the table, ship it

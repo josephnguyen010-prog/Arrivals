@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BoardingPass } from "../components/BoardingPass";
+import { WhoElse } from "../components/WhoElse";
 import { CityNotes } from "../components/CityNotes";
 import { CityPhotoEditor } from "../components/CityPhotoEditor";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
@@ -12,6 +13,7 @@ import { Stamp } from "../components/Stamp";
 import { TripCost } from "../components/TripCost";
 import { cityById } from "../data/cities";
 import { isWished, rankOf, ratingOf, visitsFor } from "../lib/ranking";
+import { formatNights, formatStay, stayInCity } from "../lib/trips";
 import { useLog } from "../state/LogContext";
 
 export function CityPage() {
@@ -37,6 +39,7 @@ export function CityPage() {
   const wished = isWished(log, city.id);
   const rank = rankOf(log, city.id);
   const visits = visitsFor(log, city.id);
+  const stay = stayInCity(log, city.id);
   const review = log.reviews[city.id];
 
   return (
@@ -162,13 +165,20 @@ export function CityPage() {
               <h2 style={{ border: "none", margin: 0, padding: 0 }}>
                 {visits.length === 1 ? "Your visit" : "Your visits"}
               </h2>
-              <span className="side-count">{visits.length}</span>
+              {/* The count is what you did; the nights are how long it added
+                  up to. Only shown once anything recorded a length. */}
+              <span className="side-count">
+                {stay.nights > 0 ? formatStay(stay.nights) : visits.length}
+              </span>
             </div>
             <ul className="visit-log">
               {visits.map((visit) => (
                 <li key={visit.id}>
                   <time>
                     {visit.day} {visit.when}
+                    {typeof visit.nights === "number" && (
+                      <small> · {formatNights(visit.nights)}</small>
+                    )}
                   </time>
                   {/* Your own words about the trip, where there are some. The
                       feed's notes belong to other people; this is the column
@@ -180,6 +190,8 @@ export function CityPage() {
           </section>
         </div>
       )}
+
+      <WhoElse city={city.id} />
 
       <div className="spots-head">
         <h2 style={{ border: "none", margin: 0, padding: 0 }}>Spots</h2>

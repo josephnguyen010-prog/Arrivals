@@ -36,24 +36,39 @@ type Step =
   | { name: "details"; city: CityId }
   | {
       name: "duel";
-      when: string;
-      day: string;
+      /** Everything the panel said about the trip, carried whole. The
+          comparisons that follow are about the rating, not the trip, so this
+          rides through them untouched rather than as four loose arguments. */
+      trip: TripDetails;
       scratch: LogState;
       placement: Placement;
       /** Every earlier state of the placement, so Back can undo one answer. */
       past: Placement[];
-      note?: string;
     }
   | { name: "done"; city: CityId; rating: number | null; asked: number };
+
+/** What the details panel settled, minus the rating, which the flow places. */
+interface TripDetails {
+  when: string;
+  day: string;
+  nights?: number;
+  note?: string;
+}
 
 export function LogVisitFlow({ onClose }: { onClose: () => void }) {
   const { log, begin, commitVisit } = useLog();
   const [step, setStep] = useState<Step>({ name: "city" });
   const navigate = useNavigate();
 
-  function commit(placement: Placement | null, when: string, day: string, note?: string) {
+  function commit(placement: Placement | null, trip: TripDetails) {
     const city = placement ? placement.cityId : (step.name === "details" ? step.city : "");
-    commitVisit(placement, { city, when, day, note: note?.trim() || undefined });
+    commitVisit(placement, {
+      city,
+      when: trip.when,
+      day: trip.day,
+      nights: trip.nights,
+      note: trip.note?.trim() || undefined,
+    });
     setStep({
       name: "done",
       city,
@@ -63,19 +78,12 @@ export function LogVisitFlow({ onClose }: { onClose: () => void }) {
   }
 
   /** Runs the bracket forward; settles immediately when nothing to compare. */
-  function advance(
-    scratch: LogState,
-    placement: Placement,
-    when: string,
-    day: string,
-    past: Placement[],
-    note?: string,
-  ) {
+  function advance(scratch: LogState, placement: Placement, trip: TripDetails, past: Placement[]) {
     if (nextOpponent(scratch, placement)) {
-      setStep({ name: "duel", when, day, scratch, placement, past, note });
+      setStep({ name: "duel", trip, scratch, placement, past });
       return;
     }
-    commit(placement, when, day, note);
+    commit(placement, trip);
   }
 
   /**
@@ -89,9 +97,10 @@ export function LogVisitFlow({ onClose }: { onClose: () => void }) {
       const settled = settleEarly(step.placement);
       commitVisit(settled, {
         city: settled.cityId,
-        when: step.when,
-        day: step.day,
-        note: step.note?.trim() || undefined,
+        when: step.trip.when,
+        day: step.trip.day,
+        nights: step.trip.nights,
+        note: step.trip.note?.trim() || undefined,
       });
     }
     onClose();
@@ -113,13 +122,13 @@ export function LogVisitFlow({ onClose }: { onClose: () => void }) {
             city={step.city}
             onBack={() => setStep({ name: "city" })}
             onClose={leave}
-            onSave={({ when, day, rating, note }) => {
+            onSave={({ rating, ...trip }) => {
               if (rating === null) {
-                commit(null, when, day, note);
+                commit(null, trip);
                 return;
               }
               const { state, placement } = begin(step.city, rating);
-              advance(state, placement, when, day, [], note);
+              advance(state, placement, trip, []);
             }}
           />
         )}
@@ -129,7 +138,7 @@ export function LogVisitFlow({ onClose }: { onClose: () => void }) {
             step={step}
             onAnswer={(challengerWon) => {
               const next = recordAnswer(step.placement, challengerWon);
-              advance(step.scratch, next, step.when, step.day, [...step.past, step.placement], step.note);
+              advance(step.scratch, next, step.trip, [...step.past, step.placement]);
             }}
             onBack={() => {
               const previous = step.past[step.past.length - 1];
@@ -139,7 +148,7 @@ export function LogVisitFlow({ onClose }: { onClose: () => void }) {
                 setStep({ name: "details", city: step.placement.cityId });
               }
             }}
-            onSkip={() => commit(settleEarly(step.placement), step.when, step.day, step.note)}
+            onSkip={() => commit(settleEarly(step.placement), step.trip)}
           />
         )}
 
@@ -282,11 +291,8 @@ function highlight(name: string, [from, to]: [number, number]) {
   );
 }
 
-interface Saved {
-  when: string;
-  day: string;
+interface Saved extends TripDetails {
   rating: number | null;
-  note: string;
 }
 
 /**
@@ -313,6 +319,7 @@ function Details({
   const [date, setDate] = useState(today);
   const [picking, setPicking] = useState(false);
   const [rating, setRating] = useState<number | null>(ratingOf(log, city));
+  const [nights, setNights] = useState("");
   const [note, setNote] = useState("");
   const [category, setCategory] = useState<SpotCategory>(SPOT_CATEGORIES[0]);
   const [spot, setSpot] = useState("");
@@ -332,6 +339,9 @@ function Details({
     onSave({
       when: `${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`,
       day: String(date.getDate()).padStart(2, "0"),
+      // Blank stays blank rather than becoming nought: a trip you didn't
+      // measure is not a day trip, and the country totals tell them apart.
+      nights: parseNights(nights),
       rating,
       note,
     });
@@ -357,6 +367,21 @@ function Details({
           >
             {formatDate(date)}
           </button>
+
+          {/* Optional, and left blank rather than defaulted: the app would
+              rather know nothing about a trip's length than assume it. */}
+          <label className="log-nights">
+            <span className="field-label">Nights</span>
+            <input
+              className="search"
+              type="number"
+              min={0}
+              max={365}
+              placeholder="—"
+              value={nights}
+              onChange={(event) => setNights(event.target.value)}
+            />
+          </label>
         </div>
       </div>
 
@@ -563,3 +588,16 @@ function Foot({ onBack, onClose }: { onBack?: () => void; onClose: () => void })
 /* --------------------------------------------------------------- when --- */
 
 /** Monday first. Repeated letters are fine here; the cells carry a full label. */
+
+/**
+ * The nights field, which is allowed to be empty. Zero is a real answer — a
+ * day trip — so it cannot be conflated with "didn't say", which is why this
+ * returns undefined rather than 0 for a blank.
+ */
+function parseNights(raw: string): number | undefined {
+  const trimmed = raw.trim();
+  if (!trimmed) return undefined;
+  const value = Number(trimmed);
+  if (!Number.isFinite(value) || value < 0) return undefined;
+  return Math.min(365, Math.round(value));
+}
