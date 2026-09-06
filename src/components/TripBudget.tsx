@@ -76,19 +76,30 @@ export function TripBudget({
       </dl>
 
       <div className="budget-controls">
-        <div className="budget-toggle" role="radiogroup" aria-label={`How to travel in ${city.name}`}>
-          {BUDGET_LEVELS.map((level) => (
-            <button
-              key={level.id}
-              type="button"
-              className={level.id === budgetId ? "budget-opt on" : "budget-opt"}
-              role="radio"
-              aria-checked={level.id === budgetId}
-              onClick={() => onBudget(level.id)}
-            >
-              {level.label}
-            </button>
-          ))}
+        {/* Labelled like the nights field beside it, so the two controls have
+            the same shape as each other and as the figures above them. */}
+        <div className="budget-pace">
+          <span>Pace</span>
+          <div
+            className="budget-toggle"
+            role="radiogroup"
+            aria-label={`How to travel in ${city.name}`}
+          >
+            {BUDGET_LEVELS.map((level) => (
+              <button
+                key={level.id}
+                type="button"
+                className={
+                  level.id === budgetId ? "budget-opt on" : "budget-opt"
+                }
+                role="radio"
+                aria-checked={level.id === budgetId}
+                onClick={() => onBudget(level.id)}
+              >
+                {level.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <label className="budget-nights">
@@ -98,17 +109,23 @@ export function TripBudget({
             min={1}
             max={60}
             value={nights}
-            onChange={(event) => onNights(clampNights(Number(event.target.value)))}
+            onChange={(event) =>
+              onNights(clampNights(Number(event.target.value)))
+            }
           />
         </label>
       </div>
 
-      {cost.season && <FareYear season={cost.season} fromCode={cost.fromCode} />}
+      {cost.season && (
+        <FareYear season={cost.season} fromCode={cost.fromCode} />
+      )}
 
       <p className="cost-disclaimer">
         Both halves are estimates — ${cost.perNight}/night on the ground
-        {cost.fromCode && cost.flights !== null && `, a return fare from ${cost.fromCode}`}. Not a
-        quote.
+        {cost.fromCode &&
+          cost.flights !== null &&
+          `, a return fare from ${cost.fromCode}`}
+        . Not a quote.
       </p>
     </div>
   );
