@@ -1,6 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
+import { BoardingPass } from "../components/BoardingPass";
 import { CityPanel } from "../components/CityPanel";
+import { SpotForm } from "../components/SpotForm";
+import { SpotList } from "../components/SpotList";
 import { CityPhoto } from "../components/CityPhoto";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
 import { Stars } from "../components/Stars";
@@ -31,6 +34,7 @@ export function FriendVisit() {
      the city page keeps its own, and neither should move the other. */
   const [nights, setNights] = useState(5);
   const [budgetId, setBudgetId] = useState<BudgetLevelId>("comfortable");
+  const [addingSpot, setAddingSpot] = useState(false);
 
   if (!item) {
     return (
@@ -103,37 +107,56 @@ export function FriendVisit() {
               {wished ? "✓ On your Departures board" : "+ Add to Departures"}
             </button>
 
-            {/* Always. This is the only way off this page, and it used to be
-                shown only for cities you had already been to — so a friend's
-                write-up of somewhere new was a dead end, and the one reader
-                most likely to want the fare and the ticket was the one who
-                couldn't reach them. The count is what's conditional, not the
-                way out. */}
-            <p className="empty city-line">
-              {visits.length > 0 && (
-                <>You've been {visits.length === 1 ? "once" : `${visits.length} times`}. </>
-              )}
-              <Link to={`/city/${city.id}`}>
-                {visits.length > 0
-                  ? `Your page for ${city.name}`
-                  : `The ticket to ${city.name}, and where to book`}
-              </Link>
-            </p>
+            {/* Only when you have been, and now for a good reason rather than
+                the old one. This link existed to make up for what the page was
+                missing; the page carries all of it now — the facts, the cost,
+                the ticket, who else has been, the spots — so the one thing
+                left on the city page is your own record of the place. */}
+            {visits.length > 0 && (
+              <p className="empty city-line">
+                You've been {visits.length === 1 ? "once" : `${visits.length} times`}.{" "}
+                <Link to={`/city/${city.id}`}>Your review and visits</Link>
+              </p>
+            )}
           </div>
 
-          {/* The same panel the city page carries, minus the roll-up of who
-              else has been: on a friend's own write-up that would count the
-              person whose page this is. */}
+          {/* The same panel the city page carries, all three tabs. Leaving
+              the roll-up off here was my own tidiness and it cost information:
+              the person reading a recommendation wants to know who else rated
+              the place, including the author of the page they are on. */}
           <CityPanel
             city={city}
             nights={nights}
             onNights={setNights}
             budgetId={budgetId}
             onBudget={setBudgetId}
-            showWhoElse={false}
           />
         </div>
       </div>
+
+      {/* The ticket and where to buy it, on the page. This was behind the link
+          below, which is a page load between reading that somewhere is worth
+          going and being able to go — the whole reason anyone opens a friend's
+          write-up in the first place. */}
+      <section className="going">
+        <p className="field-label">Getting there</p>
+
+        <BoardingPass city={city} nights={nights} />
+      </section>
+
+      <div className="spots-head">
+        <h2 style={{ border: "none", margin: 0, padding: 0 }}>Spots</h2>
+        <button className="ghost" onClick={() => setAddingSpot(true)}>
+          + Add a spot
+        </button>
+      </div>
+      <p className="lede">
+        The things you'd actually tell someone about {city.name}, with a link or a photo if you
+        have one.
+      </p>
+      <SpotList city={city} />
+
+      {addingSpot && <SpotForm city={city} onClose={() => setAddingSpot(false)} />}
     </section>
   );
 }

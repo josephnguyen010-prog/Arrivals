@@ -436,10 +436,14 @@ which is a different question from *what do the people I follow make of this pla
 one is the one you have while looking at a city. An earlier version of this README described this
 section as though it existed; it didn't, and now it does.
 
-The same panel is on a friend's write-up, minus that third tab — reading somebody on a city you
-have never been to is exactly when *what would this cost me* comes up, and it used to be on the far
-side of a link. The link is still there for the ticket and the booking, and it is no longer hidden
-on cities you haven't visited, which is where it was least use.
+A friend's write-up carries the whole of it now — the panel with all three tabs, the ticket, the
+booking links and the spots — rather than a link to where those things live. It was three separate
+half-fixes before: the link was hidden on unvisited cities, then shown, then the cost was moved
+over but the ticket left behind. Reading somebody on a city you have never been to *is* the moment
+you want to know what going costs and how to do it, and each click between that thought and the
+answer was one nobody had a reason for. What stays on the city page is your own record — your
+review and your visits — and that is what the line at the end of a friend's page now points at,
+only when you have been.
 
 The tab is only there when somebody has been. Twenty-six of the forty-four cities have no entry,
 and a tab asks to be clicked in a way a section below the fold does not — one that opened on
