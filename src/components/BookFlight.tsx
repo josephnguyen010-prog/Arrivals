@@ -41,19 +41,44 @@ export function BookFlight({
     <div className={picking ? "book picking" : "book"}>
       <p className="field-label">Book it</p>
 
-      {/* The calendar hangs off this rather than sitting in the flow: the panel
-          is height-locked to the pass beside it, so a picker that pushed the
-          layout would stretch the ticket every time it opened. */}
-      <div className="book-date">
-        <div className="book-field">
-          <span className="book-label">Depart</span>
-          <button
-            className={picking ? "date-btn on" : "date-btn"}
-            aria-expanded={picking}
-            onClick={() => setPicking((open) => !open)}
-          >
-            {formatDate(depart)}
-          </button>
+      {/* Depart and Nights sit side by side, and the calendar hangs off the pair
+          rather than the flow. The panel is height-locked to the pass beside it,
+          so a picker that pushed the layout would stretch the ticket open every
+          time — and a stacked column of fields wouldn't fit the ticket's height
+          at all. */}
+      <div className="book-picker">
+        <div className="book-fields">
+          <div className="book-field">
+            <span className="book-label">Depart</span>
+            <button
+              className={picking ? "date-btn on" : "date-btn"}
+              aria-expanded={picking}
+              onClick={() => setPicking((open) => !open)}
+            >
+              {formatDate(depart)}
+            </button>
+          </div>
+
+          <div className="book-field nights">
+            <span className="book-label">Nights</span>
+            <input
+              type="number"
+              min={0}
+              max={90}
+              value={nights}
+              aria-describedby="book-return"
+              onChange={(event) =>
+                setNights(clampNights(Number(event.target.value)))
+              }
+            />
+          </div>
+
+          <div className="book-field book-back">
+            <span className="book-label">Back</span>
+            <span className="book-static" id="book-return">
+              {back ? formatDate(back) : "One way"}
+            </span>
+          </div>
         </div>
 
         {picking && (
@@ -68,24 +93,6 @@ export function BookFlight({
           />
         )}
       </div>
-
-      <div className="book-field">
-        <span className="book-label">Nights</span>
-        <input
-          type="number"
-          min={0}
-          max={90}
-          value={nights}
-          aria-describedby="book-return"
-          onChange={(event) =>
-            setNights(clampNights(Number(event.target.value)))
-          }
-        />
-      </div>
-
-      <p className="book-return" id="book-return">
-        {back ? `Back ${formatDate(back)}` : "One way"}
-      </p>
 
       <div className="book-links">
         {links.map((link) => (
@@ -103,9 +110,8 @@ export function BookFlight({
       </div>
 
       <p className="book-note">
-        Opens a live search for {cityName}. Arrivals doesn't sell tickets, so
-        the seats and the prices are theirs — and unlike the fare above, they're
-        real.
+        A live search for {cityName}. Arrivals doesn't sell tickets, so those
+        prices are real.
       </p>
     </div>
   );

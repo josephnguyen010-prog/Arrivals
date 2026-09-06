@@ -194,10 +194,21 @@ that has gone stale between the fetch and the click. **The link is worth more th
 because what it opens is true.**
 
 So the right-hand column of the ticket is **Book it**: a departure date, a number of nights, and
-three links out. It is locked to the pass's height rather than sized to its own content, so the two
-read as one object with a shared bottom edge — which is why the calendar hangs off the date field
-as a popover instead of sitting in the flow. A picker that pushed the layout would have stretched
-the ticket every time it opened. `lib/booking.ts` builds them and is tested — including the one bug that would be
+three links out, sharing a bottom edge with the ticket so the two read as one object.
+
+The direction of that fit is the whole trick. Stretching the ticket down to meet a tall panel
+ruined it — a boarding pass with a hand's width of nothing between the fare and the barcode. So the
+panel is laid out to come in *under* the ticket's own height instead: the fields run across in
+three columns rather than down in three rows, and the two comparison sites share the row beneath
+Google. That took the panel from 388px to 250px against a ticket that is 262px, and the ticket now
+sets the height while the panel stretches the last twelve pixels to meet it.
+
+Widening the panel is what paid for that, and it was free: the row was 1034px inside a 1124px
+column, so there were ninety pixels going spare on the right. More width means fewer wrapped lines
+means less height.
+
+The calendar hangs off the field row as a popover for the same reason — inline, it added four
+hundred pixels to the panel and dragged the ticket open with it every time it was clicked. `lib/booking.ts` builds them and is tested — including the one bug that would be
 invisible and awful, which is `toISOString()` shifting a local midnight back a day and booking
 everyone west of Greenwich onto the wrong flight.
 

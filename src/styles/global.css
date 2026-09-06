@@ -2039,7 +2039,7 @@ select option {
    column also absorbs the dead space a 720px ticket leaves on a wide page. */
 .pass-row {
   display: grid;
-  grid-template-columns: minmax(0, 720px) minmax(220px, 290px);
+  grid-template-columns: minmax(0, 1fr) 380px;
   gap: 24px;
   align-items: stretch;
   margin-top: 12px;
@@ -2050,10 +2050,16 @@ select option {
 .book {
   display: flex;
   flex-direction: column;
-  padding: 15px 17px 17px;
+  padding: 14px 17px 16px;
   border: 1px solid var(--rule);
   border-radius: 4px;
   background: var(--surface);
+}
+
+/* The panel's own padding is the gap above the heading; the shared label
+   margin would double it. */
+.book > .field-label {
+  margin-top: 0;
 }
 
 .book-field {
@@ -2061,7 +2067,7 @@ select option {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 11px;
+  margin-top: 10px;
 }
 
 .book-label {
@@ -2088,21 +2094,69 @@ select option {
   background: none;
 }
 
-.book-return {
-  margin: 8px 0 0;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-}
-
-.book-date {
+.book-picker {
   position: relative;
-  margin-top: 11px;
+  margin-top: 10px;
 }
 
-.book-date .book-field {
+/* Side by side, and each label over its control rather than beside it: two
+   stacked rows of label-and-field is 50px taller than the ticket allows. */
+.book-fields {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* One height across a button, an input and a bare span, so the three labels
+   above them share a baseline. Aligning the row to its bottom instead put the
+   labels at three different heights, because the controls aren't. */
+.book-fields .date-btn,
+.book-fields input,
+.book-fields .book-static {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.book-fields .book-field {
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 4px;
   margin-top: 0;
+}
+
+.book-fields .book-field.nights {
+  flex: 0 0 66px;
+}
+
+/* Not a control — the date the nights add up to, set like one so the row
+   reads as three columns of the same thing. `book-back` rather than `back`:
+   the app already has a global `.back` link style, and a bare modifier picked
+   up its uppercase, its inline-block and its bottom margin. */
+.book-fields .book-field.book-back {
+  flex: 0 0 auto;
+}
+
+.book-static {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.book-fields .date-btn {
+  width: 100%;
+  text-align: center;
+}
+
+.book-fields input {
+  width: 100%;
 }
 
 /* Absolute, so opening it doesn't change the panel's height and drag the
@@ -2119,17 +2173,23 @@ select option {
 }
 
 .book-links {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 7px;
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid var(--rule);
+}
+
+/* Google spans both columns: it is the one the ticket points at by name, and
+   the other two are the second opinion sharing the row underneath. */
+.book-links .book-go.primary {
+  grid-column: 1 / -1;
 }
 
 .book-go {
   display: block;
-  padding: 9px 12px;
+  padding: 8px 12px;
   border: 1px solid var(--rule);
   border-radius: 3px;
   font-family: var(--mono);
@@ -2167,7 +2227,7 @@ select option {
 }
 
 .book-note {
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   font-size: 11px;
   line-height: 1.4;
   color: var(--muted);
@@ -2182,6 +2242,16 @@ select option {
 
   .book {
     max-width: 720px;
+  }
+
+  /* Stacked, the panel has the whole width and no ticket to match, so the
+     buttons stop sharing a row. */
+  .book-links {
+    grid-template-columns: 1fr;
+  }
+
+  .book-links .book-go.primary {
+    grid-column: auto;
   }
 }
 
