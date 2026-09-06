@@ -1779,6 +1779,12 @@ select option {
   border-top: 1px solid var(--rule);
 }
 
+/* Ruled off at the bottom as well as the top. The controls used to sit under
+   an open edge, which is why the gap above Pace had to be guessed at. */
+.budget-split > div:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
 .budget-split dt {
   font-family: var(--mono);
   font-size: 9.5px;
@@ -1816,7 +1822,7 @@ select option {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 14px;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 .budget-nights {
