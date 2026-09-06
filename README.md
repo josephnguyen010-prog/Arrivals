@@ -194,7 +194,10 @@ that has gone stale between the fetch and the click. **The link is worth more th
 because what it opens is true.**
 
 So the right-hand column of the ticket is **Book it**: a departure date, a number of nights, and
-three links out. `lib/booking.ts` builds them and is tested — including the one bug that would be
+three links out. It is locked to the pass's height rather than sized to its own content, so the two
+read as one object with a shared bottom edge — which is why the calendar hangs off the date field
+as a popover instead of sitting in the flow. A picker that pushed the layout would have stretched
+the ticket every time it opened. `lib/booking.ts` builds them and is tested — including the one bug that would be
 invisible and awful, which is `toISOString()` shifting a local midnight back a day and booking
 everyone west of Greenwich onto the wrong flight.
 

@@ -1770,7 +1770,12 @@ select option {
   border-top: 1px solid var(--rule);
 }
 
+/* A column, so the body can be told to fill a card the row has stretched —
+   otherwise the stub's ground and the barcode stop where the content does and
+   the bottom of the ticket is empty. */
 .pass {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   background: var(--surface);
   border: 1px solid var(--rule);
@@ -1796,9 +1801,12 @@ select option {
 .pass-body {
   display: grid;
   grid-template-columns: 1fr auto;
+  flex: 1 1 auto;
 }
 
 .pass-main {
+  display: flex;
+  flex-direction: column;
   padding: 16px 20px 14px;
   min-width: 0;
 }
@@ -1915,7 +1923,11 @@ select option {
   align-items: flex-end;
   gap: 2px;
   height: 26px;
-  margin-top: 15px;
+  flex: 0 0 auto;
+  /* Auto rather than a fixed gap: when the pass is stretched to match the
+     panel beside it, the slack collects here and the code sits on the base. */
+  margin-top: auto;
+  padding-top: 15px;
 }
 
 .pass-barcode i {
@@ -1971,11 +1983,6 @@ select option {
   font-size: 11px;
   line-height: 1.35;
   color: var(--muted);
-}
-
-.boarding-pass .cost-disclaimer {
-  max-width: 720px;
-  margin-top: 10px;
 }
 
 /* Under about 640px the stub cannot hold its column, so the tear turns
@@ -2034,13 +2041,15 @@ select option {
   display: grid;
   grid-template-columns: minmax(0, 720px) minmax(220px, 290px);
   gap: 24px;
-  align-items: start;
+  align-items: stretch;
   margin-top: 12px;
 }
 
 /* Quieter than the pass on purpose — bordered, but no shadow. The ticket is
    the object on this page; this is the controls sitting next to it. */
 .book {
+  display: flex;
+  flex-direction: column;
   padding: 15px 17px 17px;
   border: 1px solid var(--rule);
   border-radius: 4px;
@@ -2087,16 +2096,33 @@ select option {
   color: var(--muted);
 }
 
+.book-date {
+  position: relative;
+  margin-top: 11px;
+}
+
+.book-date .book-field {
+  margin-top: 0;
+}
+
+/* Absolute, so opening it doesn't change the panel's height and drag the
+   ticket beside it taller. */
 .book .cal {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 0;
+  right: 0;
+  z-index: 5;
   max-width: none;
-  margin: 12px 0 4px;
+  margin: 0;
+  box-shadow: var(--shadow);
 }
 
 .book-links {
   display: flex;
   flex-direction: column;
   gap: 7px;
-  margin-top: 15px;
+  margin-top: auto;
   padding-top: 14px;
   border-top: 1px solid var(--rule);
 }
@@ -2130,6 +2156,14 @@ select option {
 
 .book-go.primary:hover {
   color: #fff;
+}
+
+/* Hidden rather than removed while the calendar is open: the popover covers
+   most of this and a half-covered paragraph reads as a rendering fault, but
+   taking it out of the flow would let the ticket beside it shrink. */
+.book.picking .book-links,
+.book.picking .book-note {
+  visibility: hidden;
 }
 
 .book-note {

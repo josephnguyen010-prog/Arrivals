@@ -14,7 +14,15 @@ import { addDays, formatDate, startOfDay } from "../lib/dates";
  * feed that costs money and goes stale between the fetch and the click. The
  * link is worth more than the table, because what it opens is true.
  */
-export function BookFlight({ from, to, cityName }: { from: string; to?: string; cityName: string }) {
+export function BookFlight({
+  from,
+  to,
+  cityName,
+}: {
+  from: string;
+  to?: string;
+  cityName: string;
+}) {
   const today = useMemo(() => startOfDay(new Date()), []);
   const [depart, setDepart] = useState(() => addDays(today, 30));
   const [nights, setNights] = useState(7);
@@ -30,27 +38,36 @@ export function BookFlight({ from, to, cityName }: { from: string; to?: string; 
   const links = bookingLinks({ from, to, depart, back });
 
   return (
-    <div className="book">
+    <div className={picking ? "book picking" : "book"}>
       <p className="field-label">Book it</p>
 
-      <div className="book-field">
-        <span className="book-label">Depart</span>
-        <button className={picking ? "date-btn on" : "date-btn"} aria-expanded={picking} onClick={() => setPicking((open) => !open)}>
-          {formatDate(depart)}
-        </button>
-      </div>
+      {/* The calendar hangs off this rather than sitting in the flow: the panel
+          is height-locked to the pass beside it, so a picker that pushed the
+          layout would stretch the ticket every time it opened. */}
+      <div className="book-date">
+        <div className="book-field">
+          <span className="book-label">Depart</span>
+          <button
+            className={picking ? "date-btn on" : "date-btn"}
+            aria-expanded={picking}
+            onClick={() => setPicking((open) => !open)}
+          >
+            {formatDate(depart)}
+          </button>
+        </div>
 
-      {picking && (
-        <Calendar
-          value={depart}
-          min={today}
-          max={horizon}
-          onPick={(next) => {
-            setDepart(next);
-            setPicking(false);
-          }}
-        />
-      )}
+        {picking && (
+          <Calendar
+            value={depart}
+            min={today}
+            max={horizon}
+            onPick={(next) => {
+              setDepart(next);
+              setPicking(false);
+            }}
+          />
+        )}
+      </div>
 
       <div className="book-field">
         <span className="book-label">Nights</span>
@@ -60,7 +77,9 @@ export function BookFlight({ from, to, cityName }: { from: string; to?: string; 
           max={90}
           value={nights}
           aria-describedby="book-return"
-          onChange={(event) => setNights(clampNights(Number(event.target.value)))}
+          onChange={(event) =>
+            setNights(clampNights(Number(event.target.value)))
+          }
         />
       </div>
 
@@ -84,8 +103,9 @@ export function BookFlight({ from, to, cityName }: { from: string; to?: string; 
       </div>
 
       <p className="book-note">
-        Opens a live search for {cityName}. Arrivals doesn't sell tickets, so the seats and the
-        prices are theirs — and unlike the fare above, they're real.
+        Opens a live search for {cityName}. Arrivals doesn't sell tickets, so
+        the seats and the prices are theirs — and unlike the fare above, they're
+        real.
       </p>
     </div>
   );

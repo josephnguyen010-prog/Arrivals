@@ -159,11 +159,6 @@ export function BoardingPass({ city }: { city: City }) {
 
         <BookFlight from={home.code} to={arrival?.code} cityName={city.name} />
       </div>
-
-      <p className="cost-disclaimer">
-        The fare is an estimate from distance and season, not a quote — a real one depends on the
-        airline and the day. <b>Book it</b> opens a live search, where the prices are.
-      </p>
     </div>
   );
 }
