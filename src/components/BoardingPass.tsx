@@ -157,7 +157,9 @@ export function BoardingPass({ city }: { city: City }) {
           </div>
         </div>
 
-        <BookFlight from={home.code} to={arrival?.code} cityName={city.name} />
+        <div className="book-col">
+          <BookFlight from={home.code} to={arrival?.code} cityName={city.name} />
+        </div>
       </div>
     </div>
   );

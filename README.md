@@ -208,7 +208,36 @@ column, so there were ninety pixels going spare on the right. More width means f
 means less height.
 
 The calendar hangs off the field row as a popover for the same reason — inline, it added four
-hundred pixels to the panel and dragged the ticket open with it every time it was clicked. `lib/booking.ts` builds them and is tested — including the one bug that would be
+hundred pixels to the panel and dragged the ticket open with it every time it was clicked.
+
+### Live flights, when there's a key
+
+Set `VITE_FLIGHTS_API` and the panel stops being only a handoff: it lists what is actually flying —
+airline, times, duration, stops and price, cheapest marked — from `api/flights.js` in the portfolio
+repo, a serverless function holding a SerpApi key and caching each route for six hours. `.env.example`
+has the wiring. Unset, which is the default and what anyone cloning this gets, nothing is fetched
+and the panel is exactly what it was.
+
+Three things this had to get right, and they are all the same thing:
+
+- **The key is never in the app.** Arrivals is a static bundle and Vite inlines `VITE_*` into
+  readable page source, so the variable holds a URL and the function holds the secret. The function
+  validates the route and dates against `^[A-Z]{3}$` and `^\d{4}-\d{2}-\d{2}$` before calling out,
+  or it is an open proxy to any SerpApi engine on somebody else's quota.
+- **Every failure looks like no answer.** A 503 from a missing key, a 502 from a spent quota, an
+  aborted fetch, a body that isn't the shape we expect, a response with an empty list — all of them
+  return `null` and the panel falls back to the modelled fare and plain links. A visitor cannot act
+  on *quota exhausted* and should never be shown it. The fallback is the feature.
+- **The list can never stretch the ticket.** A flight list is the one element here whose length
+  nobody controls, so the panel is lifted out of the grid's height calculation entirely — the column
+  is `position: relative` with no intrinsic height, the panel fills it absolutely, and the list takes
+  the leftover with `flex: 1 1 0` and scrolls. The ticket sets the height; the list lives inside
+  whatever is left, which is about three flights.
+
+The cost is the honest part. SerpApi is 250 searches a month free, then $25/mo, and it is a scraper
+in front of Google's page rather than an airline feed — so it breaks when Google changes, and that
+is maintenance somebody owns. The six-hour cache is what makes the quota per-route-per-day instead
+of per-visitor. If the key ever lapses, nothing breaks; the ticket goes back to estimating. `lib/booking.ts` builds them and is tested — including the one bug that would be
 invisible and awful, which is `toISOString()` shifting a local midnight back a day and booking
 everyone west of Greenwich onto the wrong flight.
 

@@ -1,7 +1,13 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Calendar } from "./Calendar";
-import { BOOKING_HORIZON_DAYS, bookingLinks } from "../lib/booking";
+import { FlightList } from "./FlightList";
+import { BOOKING_HORIZON_DAYS, bookingLinks, isoDate } from "../lib/booking";
 import { addDays, formatDate, startOfDay } from "../lib/dates";
+import {
+  fetchLiveFlights,
+  liveFlightsEnabled,
+  type LiveFlights,
+} from "../lib/liveFlights";
 
 /**
  * The half of the ticket the app can't print. Everything on the pass beside
@@ -9,10 +15,11 @@ import { addDays, formatDate, startOfDay } from "../lib/dates";
  * can be bought. This is the handoff: pick the dates, then go where the seats
  * actually are.
  *
- * Deliberately not a listings table. Rendering live flights would mean quoting
- * prices Arrivals can't honour, through a booking flow it doesn't have, off a
- * feed that costs money and goes stale between the fetch and the click. The
- * link is worth more than the table, because what it opens is true.
+ * With `VITE_FLIGHTS_API` set it also lists what is actually flying — airline,
+ * times, stops and price, through a serverless proxy holding the key. Without
+ * it, and on every failure, the panel is exactly what it was: a modelled fare
+ * and three search links. The fallback is the feature, not the consolation.
+ * A visitor cannot act on "quota exhausted" and should never be shown it.
  */
 export function BookFlight({
   from,
@@ -31,15 +38,53 @@ export function BookFlight({
   const horizon = useMemo(() => addDays(today, BOOKING_HORIZON_DAYS), [today]);
   const back = nights > 0 ? addDays(depart, nights) : undefined;
 
+  const [live, setLive] = useState<LiveFlights | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  // Keyed on the query rather than the Date objects, which are new on every
+  // render and would refetch forever.
+  const departKey = isoDate(depart);
+  const backKey = back ? isoDate(back) : "";
+
+  useEffect(() => {
+    if (!to || !liveFlightsEnabled()) return;
+
+    const controller = new AbortController();
+    setLoading(true);
+    setLive(null);
+
+    fetchLiveFlights(
+      { from, to, depart: departKey, back: backKey || undefined },
+      { signal: controller.signal },
+    ).then((result) => {
+      if (controller.signal.aborted) return;
+      setLive(result);
+      setLoading(false);
+    });
+
+    return () => controller.abort();
+  }, [from, to, departKey, backKey]);
+
   // Without both airports there is nothing to search for. The pass shows the
   // city's name on its own in that case, and this shows nothing at all.
   if (!to) return null;
 
   const links = bookingLinks({ from, to, depart, back });
 
+  // The panel has one height, shared with the ticket, so the listings and the
+  // three fallback buttons cannot both have it. Live wins when it has anything.
+  const showLive = liveFlightsEnabled() && (loading || live !== null);
+
   return (
     <div className={picking ? "book picking" : "book"}>
-      <p className="field-label">Book it</p>
+      <div className="book-head">
+        <p className="field-label">Book it</p>
+        {showLive && (
+          <span className="book-live-tag">
+            Live · Google Flights
+          </span>
+        )}
+      </div>
 
       {/* Depart and Nights sit side by side, and the calendar hangs off the pair
           rather than the flow. The panel is height-locked to the pass beside it,
@@ -94,25 +139,42 @@ export function BookFlight({
         )}
       </div>
 
-      <div className="book-links">
+      {showLive && (
+        <div className="book-live">
+          {loading && (
+            <p className="book-status">Checking what&rsquo;s flying&hellip;</p>
+          )}
+          {live && <FlightList flights={live.flights} cheapest={live.lowest} />}
+        </div>
+      )}
+
+      <div className={showLive ? "book-links compact" : "book-links"}>
         {links.map((link) => (
           <a
             key={link.id}
-            className={link.id === "google" ? "book-go primary" : "book-go"}
+            className={
+              !showLive && link.id === "google" ? "book-go primary" : "book-go"
+            }
             href={link.url}
             target="_blank"
             rel="noreferrer noopener"
           >
             {link.label}
-            {link.id === "google" && <span aria-hidden="true"> →</span>}
+            {!showLive && link.id === "google" && (
+              <span aria-hidden="true"> →</span>
+            )}
           </a>
         ))}
       </div>
 
-      <p className="book-note">
-        A live search for {cityName}. Arrivals doesn't sell tickets, so those
-        prices are real.
-      </p>
+      {/* The list says where the numbers came from, so the note only earns its
+          height when there is no list. */}
+      {!showLive && (
+        <p className="book-note">
+          A live search for {cityName}. Arrivals doesn&rsquo;t sell tickets, so
+          those prices are real.
+        </p>
+      )}
     </div>
   );
 }
