@@ -8,6 +8,12 @@ interface RateInlineProps {
   /** Called with the picked rating; the caller decides what happens next. */
   onPick: (rating: number) => void;
   label: string;
+  /**
+   * Draws the same row but does not take a rating. The empty stars still have
+   * to be shown — they are how a city says it is unrated — so this is not the
+   * read-only `Stars`, which draws nothing at all for a null value.
+   */
+  readOnly?: boolean;
 }
 
 const GAP = 3;
@@ -18,7 +24,7 @@ const ROW = rowWidth(GAP);
  * looks identical whether or not it happens to be editable — it just responds.
  * Hovering previews; leaving puts the real value back.
  */
-export function RateInline({ value, size = 22, onPick, label }: RateInlineProps) {
+export function RateInline({ value, size = 22, onPick, label, readOnly }: RateInlineProps) {
   const gradientId = useId();
   const [hover, setHover] = useState(0);
   const shown = hover || value || 0;
@@ -41,23 +47,32 @@ export function RateInline({ value, size = 22, onPick, label }: RateInlineProps)
     }
   }
 
+  /* Not a disabled slider but not a slider at all: there is no value to
+     adjust and nothing a keyboard could do with it, so it announces itself as
+     an image and leaves the tab order alone. The label says why. */
+  const interaction = readOnly
+    ? ({ role: "img", "aria-label": label } as const)
+    : ({
+        role: "slider",
+        tabIndex: 0,
+        "aria-label": label,
+        "aria-valuemin": 0.5,
+        "aria-valuemax": 5,
+        "aria-valuenow": value ?? undefined,
+        "aria-valuetext": value === null ? "Not rated" : `${value} out of 5 stars`,
+        onMouseMove: (event: MouseEvent<SVGSVGElement>) => setHover(valueFrom(event)),
+        onMouseLeave: () => setHover(0),
+        onClick: (event: MouseEvent<SVGSVGElement>) => onPick(valueFrom(event)),
+        onKeyDown,
+      } as const);
+
   return (
     <svg
-      className="stars rate-inline"
+      className={readOnly ? "stars rate-inline locked" : "stars rate-inline"}
       viewBox={`0 0 ${ROW} ${BOX}`}
       height={height}
       width={(height * ROW) / BOX}
-      role="slider"
-      tabIndex={0}
-      aria-label={label}
-      aria-valuemin={0.5}
-      aria-valuemax={5}
-      aria-valuenow={value ?? undefined}
-      aria-valuetext={value === null ? "Not rated" : `${value} out of 5 stars`}
-      onMouseMove={(event) => setHover(valueFrom(event))}
-      onMouseLeave={() => setHover(0)}
-      onClick={(event) => onPick(valueFrom(event))}
-      onKeyDown={onKeyDown}
+      {...interaction}
     >
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2={ROW} y2="0" gradientUnits="userSpaceOnUse">

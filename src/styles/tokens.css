@@ -18,6 +18,11 @@
   --stamp-bg: #f6f3eb;
   --stamp-ink: #26313a;
   --star-empty: #b3a992;
+  /* The panel's tabs. Off is darker than --muted so an unselected tab reads as
+     live rather than disabled; the two grounds are the card a tab sits in. */
+  --tab-off: #4a5560;
+  --tab-hover: #ded9cd;
+  --tab-on: #f1eee6;
   --fare-bar: #6b7580;
   --air-red: #c8402f;
   --air-blue: #2e5f92;
@@ -39,6 +44,9 @@
     --stamp-bg: #efebe1;
     --stamp-ink: #26313a;
     --star-empty: #44586a;
+    --tab-off: #a6b4bf;
+    --tab-hover: #1e2b35;
+    --tab-on: #24333f;
   /* #44586a itself measured 2.34:1 on the dark ground — too faint for a mark. */
   --fare-bar: #5b6f80;
     --air-red: #e1614c;
@@ -58,6 +66,9 @@
   --stamp-bg: #efebe1;
   --stamp-ink: #26313a;
   --star-empty: #44586a;
+  --tab-off: #a6b4bf;
+  --tab-hover: #1e2b35;
+  --tab-on: #24333f;
   /* #44586a itself measured 2.34:1 on the dark ground — too faint for a mark. */
   --fare-bar: #5b6f80;
   --air-red: #e1614c;
@@ -76,6 +87,11 @@
   --stamp-bg: #f6f3eb;
   --stamp-ink: #26313a;
   --star-empty: #b3a992;
+  /* The panel's tabs. Off is darker than --muted so an unselected tab reads as
+     live rather than disabled; the two grounds are the card a tab sits in. */
+  --tab-off: #4a5560;
+  --tab-hover: #ded9cd;
+  --tab-on: #f1eee6;
   --fare-bar: #6b7580;
   --air-red: #c8402f;
   --air-blue: #2e5f92;

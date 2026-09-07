@@ -333,7 +333,7 @@ Two details that matter more than the feature does:
   when you put the default back.
 - **It reuses the spot-photo pipeline exactly.** Same 900px cap, same JPEG re-encode, same up-front
   budget check, now shared out of `lib/images.ts` and `lib/quota.ts` rather than living inside
-  `lib/spots.ts`. A full set of 44 replacements sits inside the budget.
+  `lib/spots.ts`. A full set of 75 replacements sits inside the budget.
 
 ## Layout
 
@@ -393,7 +393,7 @@ persistence to `localStorage`.
 The sheet has no scroller of its own. A tall panel used to grow a bar down its own edge, inside the
 sheet and beside the content; the veil scrolls the whole sheet instead, and its own bar is hidden.
 
-The search shows nothing until you type. An untouched field used to open onto all 44 cities in
+The search shows nothing until you type. An untouched field used to open onto every city in
 alphabetical order, which is a list nobody reads — and it left the first one highlighted, so Enter
 logged a trip to Amsterdam you hadn't chosen. The sheet is pinned near the top of the veil rather
 than centred, so growing as you type moves only its bottom edge.
@@ -445,7 +445,7 @@ answer was one nobody had a reason for. What stays on the city page is your own 
 review and your visits — and that is what the line at the end of a friend's page now points at,
 only when you have been.
 
-The tab is only there when somebody has been. Twenty-six of the forty-four cities have no entry,
+The tab is only there when somebody has been. Fifty-seven of the seventy-five cities have no entry,
 and a tab asks to be clicked in a way a section below the fold does not — one that opened on
 *nobody you follow has been* would be worse than no tab. It costs no height either way: the cost
 pane is the tallest of the three and sets the panel, so the third tab fits inside a box that was
@@ -489,7 +489,7 @@ Not built yet:
 - **Accounts and a real social graph.** The feed and the friends' notes are invented. Swapping
   `lib/storage.ts` for a Supabase table is the whole migration for the log itself; the social half
   is a real build.
-- **More than 44 cities.** The catalogue is still a hand-written array; the real one is GeoNames.
+- **More than 75 cities.** The catalogue is still a hand-written array; the real one is GeoNames.
   The facts table in `data/facts.ts` is hand-written against the same ids and has the same problem.
 - **Sharing a list.** Lists exist and are editable, but only in your own browser. Making one
   shareable is the point of them and needs the backend.
@@ -506,7 +506,7 @@ Not built yet:
 
 ## Photos
 
-All 44 default city photographs and the 26 spot photographs are CC0, public domain or
+All 75 default city photographs and the 26 spot photographs are CC0, public domain or
 attribution-only, and the credit renders on the city page because CC BY requires it to reach
 whoever is looking at the photo — until the photo is replaced with one of your own, at which point
 there is nobody to credit and the line says so. Share-alike is deliberately excluded: it obliges derivative works to carry the same licence,

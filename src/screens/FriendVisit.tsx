@@ -2,17 +2,19 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { BoardingPass } from "../components/BoardingPass";
 import { CityPanel } from "../components/CityPanel";
-import { SpotForm } from "../components/SpotForm";
 import { SpotList } from "../components/SpotList";
 import { CityPhoto } from "../components/CityPhoto";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
-import { Stars } from "../components/Stars";
 import { requireCity } from "../data/cities";
 import type { BudgetLevelId } from "../data/costs";
+import { dailyCostFor } from "../data/costs";
 import { FEED } from "../data/seed";
-import { formatStay } from "../lib/trips";
+import { cheapestMonth } from "../lib/cityStats";
 import { isWished, visitsFor } from "../lib/ranking";
+import { tripCost } from "../lib/tripCost";
 import { useLog } from "../state/LogContext";
+import { useSpots } from "../state/SpotsContext";
+import { useProfile } from "../state/ProfileContext";
 
 /**
  * Somebody else's trip, opened from the feed. Deliberately not the city page:
@@ -28,13 +30,14 @@ import { useLog } from "../state/LogContext";
 export function FriendVisit() {
   const { id = "" } = useParams();
   const { log, toggleWishlist } = useLog();
+  const { forCity } = useSpots();
+  const { profile } = useProfile();
   const item = FEED.find((entry) => entry.id === id);
 
   /* The trip you might take, not the one they took. Local to this screen —
      the city page keeps its own, and neither should move the other. */
   const [nights, setNights] = useState(5);
   const [budgetId, setBudgetId] = useState<BudgetLevelId>("comfortable");
-  const [addingSpot, setAddingSpot] = useState(false);
 
   if (!item) {
     return (
@@ -50,6 +53,15 @@ export function FriendVisit() {
   const city = requireCity(item.city);
   const wished = isWished(log, city.id);
   const visits = visitsFor(log, city.id);
+  const mySpots = forCity(city.id);
+  /* Reading a friend on somewhere you have never been is the moment the
+     question "what would that cost me" arrives, and this column had nothing in
+     it to answer with. Same three figures the city page gives an unvisited
+     city, and gone once you have been — by then you have your own record and
+     these are the least interesting numbers on the page. */
+  const daily = dailyCostFor(city.id);
+  const cheapest = cheapestMonth(city.id);
+  const week = tripCost(city, profile.homeAirport, 7, "comfortable");
 
   return (
     <section className="screen">
@@ -76,21 +88,10 @@ export function FriendVisit() {
             </p>
             <h1>{city.name}</h1>
 
-            <div className="friend-by">
-              <b>{item.who}</b>
-              <span className="handle">{item.handle}</span>
-              <span className="when">
-                {item.day} {item.when} · {formatStay(item.nights)}
-              </span>
-            </div>
-
-            <div className="city-rating">
-              <Stars value={item.rating} />
-              <small>{item.who.split(" ")[0]}'s rating</small>
-            </div>
-
-            <p className="friend-say">{item.note}</p>
-
+            {/* Who went, when, and what they gave it live in the panel to the
+                right, on their row — one card for the person, rather than a
+                letterhead here repeating the name, the date and the stars that
+                are already on screen a column across. */}
             <div className="tags">
               {item.tags.map((tag) => (
                 <span className="tag" key={tag}>
@@ -98,6 +99,31 @@ export function FriendVisit() {
                 </span>
               ))}
             </div>
+
+            {visits.length === 0 && (
+              <div className="city-meta">
+                {daily !== undefined && (
+                  <div className="pstat left">
+                    <b>${daily}</b>
+                    <span>A day there</span>
+                  </div>
+                )}
+                {week !== null && (
+                  <div className="pstat left">
+                    <b>${week.total.toLocaleString()}</b>
+                    <span>
+                      {week.flights === null ? "A week, on the ground" : `A week from ${week.fromCode}`}
+                    </span>
+                  </div>
+                )}
+                {cheapest && (
+                  <div className="pstat left">
+                    <b>{cheapest}</b>
+                    <span>Cheapest to fly</span>
+                  </div>
+                )}
+              </div>
+            )}
 
             <button
               className={wished ? "wish-btn on" : "wish-btn"}
@@ -120,16 +146,20 @@ export function FriendVisit() {
             )}
           </div>
 
-          {/* The same panel the city page carries, all three tabs. Leaving
-              the roll-up off here was my own tidiness and it cost information:
-              the person reading a recommendation wants to know who else rated
-              the place, including the author of the page they are on. */}
+          {/* The same panel the city page carries, and on this screen it is
+              also where the write-up lives. Printing the note in the middle
+              column as well put the same paragraph on screen twice — so the
+              column keeps whose trip this is, the rating and what to do about
+              it, and the panel opens on what they actually said, with anyone
+              else who has been underneath it. */}
           <CityPanel
             city={city}
             nights={nights}
             onNights={setNights}
             budgetId={budgetId}
             onBudget={setBudgetId}
+            currentEntry={item.id}
+            openOn="who"
           />
         </div>
       </div>
@@ -144,19 +174,20 @@ export function FriendVisit() {
         <BoardingPass city={city} nights={nights} />
       </section>
 
-      <div className="spots-head">
-        <h2 style={{ border: "none", margin: 0, padding: 0 }}>Spots</h2>
-        <button className="ghost" onClick={() => setAddingSpot(true)}>
-          + Add a spot
-        </button>
-      </div>
-      <p className="lede">
-        The things you'd actually tell someone about {city.name}, with a link or a photo if you
-        have one.
-      </p>
-      <SpotList city={city} />
-
-      {addingSpot && <SpotForm city={city} onClose={() => setAddingSpot(false)} />}
+      {/* Read-only here, and only when you have some. This is somebody else's
+          trip to a city you may never have set foot in, so there is nothing to
+          add from — spots start in the log flow, on a trip of your own. Yours
+          still show, and still open to edit, because a page about the place is
+          where you would look for them. */}
+      {mySpots.length > 0 && (
+        <>
+          <div className="spots-head">
+            <h2 style={{ border: "none", margin: 0, padding: 0 }}>Your spots</h2>
+          </div>
+          <p className="lede">What you kept from {city.name}.</p>
+          <SpotList city={city} empty={null} />
+        </>
+      )}
     </section>
   );
 }

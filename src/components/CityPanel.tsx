@@ -26,19 +26,22 @@ export function CityPanel({
   onNights,
   budgetId,
   onBudget,
-  showWhoElse = true,
+  currentEntry,
+  openOn,
 }: {
   city: City;
   nights: number;
   onNights: (nights: number) => void;
   budgetId: BudgetLevelId;
   onBudget: (id: BudgetLevelId) => void;
-  /** Off on a friend's own write-up, where a roll-up of who else has been
-      would include the person whose page you are reading. */
-  showWhoElse?: boolean;
+  /** The feed entry whose page this is, printed in full at the top of "Who
+      else has been" instead of clamped and linked to itself. */
+  currentEntry?: string;
+  /** Which pane to open on. A friend's write-up opens on theirs, because on
+      that screen the pane is the write-up — landing on the city's history
+      would hide the thing the page was opened to read. */
+  openOn?: string;
 }) {
-  const [index, setIndex] = useState(0);
-
   const panes = [
     { id: "notes", label: "Notes", node: <CityNotes city={city} heading={false} /> },
     {
@@ -56,17 +59,24 @@ export function CityPanel({
     },
   ];
 
-  /* Only when somebody has. Twenty-six of the forty-four cities have no entry,
+  /* Only when somebody has. Fifty-seven of the seventy-five cities have no entry,
      and an always-present tab would open on "nobody you follow has been" for
      most of the catalogue — a tab asks to be clicked in a way a section below
      the fold does not. */
-  if (showWhoElse && anyoneBeen(city.id)) {
+  if (anyoneBeen(city.id)) {
     panes.push({
       id: "who",
       label: "Who else has been",
-      node: <WhoElse city={city.id} heading={false} />,
+      node: <WhoElse city={city.id} heading={false} current={currentEntry} />,
     });
   }
+
+  /* After the panes exist, so an opening tab can be named rather than counted;
+     lazily, so turning the panel by hand isn't undone on the next render. */
+  const [index, setIndex] = useState(() => {
+    const wanted = panes.findIndex((pane) => pane.id === openOn);
+    return wanted === -1 ? 0 : wanted;
+  });
 
   const go = (next: number) => setIndex((next + panes.length) % panes.length);
 

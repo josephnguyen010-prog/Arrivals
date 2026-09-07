@@ -5,6 +5,8 @@ import { createRoot } from "react-dom/client";
 // fallback. The hash never reaches the server.
 import { HashRouter } from "react-router-dom";
 import { App } from "./App";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { ListsProvider } from "./state/ListsContext";
 import { LogProvider } from "./state/LogContext";
 import { PhotosProvider } from "./state/PhotosContext";
@@ -17,20 +19,28 @@ if (!container) throw new Error("Missing #root");
 
 createRoot(container).render(
   <StrictMode>
-    <HashRouter>
-      <ProfileProvider>
-        <LogProvider>
-          <ListsProvider>
-            <SpotsProvider>
-              {/* Innermost: every screen reads photos, nothing here writes to
-                  the others, so it can sit closest to what renders. */}
-              <PhotosProvider>
-                <App />
-              </PhotosProvider>
-            </SpotsProvider>
-          </ListsProvider>
-        </LogProvider>
-      </ProfileProvider>
-    </HashRouter>
+    {/* Outside the providers as well as the screens: the state each one loads
+        is read from localStorage in a useState initializer, which runs during
+        render and takes the tree down with it if it throws. */}
+    <ErrorBoundary>
+      <HashRouter>
+        {/* Inside the router and above everything else: it only needs to know
+            the route changed, and nothing below it should have to care. */}
+        <ScrollToTop />
+        <ProfileProvider>
+          <LogProvider>
+            <ListsProvider>
+              <SpotsProvider>
+                {/* Innermost: every screen reads photos, nothing here writes to
+                    the others, so it can sit closest to what renders. */}
+                <PhotosProvider>
+                  <App />
+                </PhotosProvider>
+              </SpotsProvider>
+            </ListsProvider>
+          </LogProvider>
+        </ProfileProvider>
+      </HashRouter>
+    </ErrorBoundary>
   </StrictMode>,
 );

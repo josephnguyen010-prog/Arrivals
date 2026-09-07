@@ -103,9 +103,14 @@ export interface CityList {
   id: string;
   title: string;
   by: string;
-  /** Total cities in the list; seeded lists show more than they store. */
-  count: number;
   blurb: string;
+  /**
+   * Every city in the list. There used to be a `count` beside this holding
+   * what the list *claimed*, because the seeded ones named more cities than
+   * they stored — so a card read "14 cities" over a page showing five, and the
+   * page carried a note apologising for it. The lists are complete now, and a
+   * total that can disagree with the thing it counts is worth nobody's time.
+   */
   cities: CityId[];
   /** Yours to edit, rather than someone else's to read. */
   mine?: boolean;

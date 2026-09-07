@@ -9,15 +9,21 @@ import { RateCity } from "../components/RateCity";
 import { SpotForm } from "../components/SpotForm";
 import { SpotList } from "../components/SpotList";
 import { Stamp } from "../components/Stamp";
+import { Stars } from "../components/Stars";
 import { cityById } from "../data/cities";
 import type { BudgetLevelId } from "../data/costs";
+import { dailyCostFor } from "../data/costs";
 import { isWished, rankOf, ratingOf, visitsFor } from "../lib/ranking";
+import { cheapestMonth, friendsVerdict, rankingLine } from "../lib/cityStats";
+import { tripCost } from "../lib/tripCost";
 import { formatNights } from "../lib/trips";
 import { useLog } from "../state/LogContext";
+import { useProfile } from "../state/ProfileContext";
 
 export function CityPage() {
   const { id = "" } = useParams();
   const { log, toggleWishlist } = useLog();
+  const { profile } = useProfile();
   const [addingSpot, setAddingSpot] = useState(false);
   /* One trip, shared. The cost block and the booking panel both describe the
      same journey, so a length owned by either of them would let the page show
@@ -43,7 +49,19 @@ export function CityPage() {
   const wished = isWished(log, city.id);
   const rank = rankOf(log, city.id);
   const visits = visitsFor(log, city.id);
+  /** Been, as against merely rated: a spot is something you found while there. */
+  const visited = visits.length > 0;
   const review = log.reviews[city.id];
+  /* What everyone else makes of it, beside what you make of it. There is no
+     global user base to average — "people" here means the ones you follow. */
+  const friends = friendsVerdict(city.id);
+  const daily = dailyCostFor(city.id);
+  const cheapest = cheapestMonth(city.id);
+  /* A fixed week at the middle budget, not the panel's slider: this is a
+     headline you read at a glance, and it should not move when someone drags
+     something further down the page. Flights are in it only when there is a
+     home airport to fly from; without one it is the ground half and says so. */
+  const week = tripCost(city, profile.homeAirport, 7, "comfortable");
 
   return (
     <section className="screen">
@@ -80,7 +98,22 @@ export function CityPage() {
                 as a column with its heading missing. */}
             <div className="city-rating">
               <RateCity city={city} />
-              {rating === null && <small>Tap to rate</small>}
+              {rating === null && <small>{visited ? "Tap to rate" : "Log a visit to rate"}</small>}
+
+              {/* Theirs beside yours, and labelled, because two rows of stars
+                  on one line otherwise leaves you working out which is which.
+                  Only on somewhere you have not been: once you have your own
+                  visit and your own rank, an average of two friends is the
+                  least interesting number on the page. */}
+              {!visited && friends && (
+                <span className="friends-avg">
+                  <Stars value={friends.average} size={13} />
+                  <small>
+                    {round(friends.average)} from {friends.count}{" "}
+                    {friends.count === 1 ? "friend" : "friends"}
+                  </small>
+                </span>
+              )}
             </div>
 
             {/* Four of the same kind of thing: a number and what it counts. */}
@@ -114,10 +147,40 @@ export function CityPage() {
                 )}
               </div>
             )}
+            {/* Somewhere you have not been has no rank, no visits and no dates,
+                which is the hole this fills — and the figures that belong there
+                are the ones that answer "should I go" rather than "what did I
+                make of it". A page about a city you have been to already has
+                its own numbers and does not need these. */}
+            {!visited && (
+              <div className="city-meta">
+                {daily !== undefined && (
+                  <div className="pstat left">
+                    <b>${daily}</b>
+                    <span>A day there</span>
+                  </div>
+                )}
+                {week !== null && (
+                  <div className="pstat left">
+                    <b>${week.total.toLocaleString()}</b>
+                    <span>{week.flights === null ? "A week, on the ground" : `A week from ${week.fromCode}`}</span>
+                  </div>
+                )}
+                {cheapest && (
+                  <div className="pstat left">
+                    <b>{cheapest}</b>
+                    <span>Cheapest to fly</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* The rank in cities rather than in arithmetic. It used to read
+                "ranked against the other cities you gave 4.5 stars", which
+                described the mechanism and told you nothing you had not just
+                done yourself. */}
             <p className="empty city-line">
-              {rating === null
-                ? "Log a visit and it slots into your ranking."
-                : `Ranked against the other cities you gave ${rating} stars.`}
+              {rankingLine(log, city.id) ?? "Log a visit and it slots into your ranking."}
             </p>
 
             <button
@@ -208,22 +271,37 @@ export function CityPage() {
       )}
 
 
+      {/* A spot is something you found while you were there, so adding one is
+          for cities you have actually been to. The way in is logging the trip
+          — the log flow asks for a spot as you go — and this button is for the
+          second and third, once the visit is on record. Before that there is
+          nothing to add to, and offering it invited people to write notes on
+          places they had never been. */}
       <div className="spots-head">
         <h2 style={{ border: "none", margin: 0, padding: 0 }}>Spots</h2>
-        <button className="ghost" onClick={() => setAddingSpot(true)}>
-          + Add a spot
-        </button>
+        {visited && (
+          <button className="ghost" onClick={() => setAddingSpot(true)}>
+            + Add a spot
+          </button>
+        )}
       </div>
       <p className="lede">
-        The things you'd actually tell someone about {city.name}, with a link or a photo if you have one.
+        {visited
+          ? `The things you'd actually tell someone about ${city.name}, with a link or a photo if you have one.`
+          : `Spots come out of trips you've taken. Log a visit to ${city.name} and you can start keeping them.`}
       </p>
-      <SpotList city={city} />
+      <SpotList city={city} empty={visited ? undefined : null} />
 
-      {addingSpot && <SpotForm city={city} onClose={() => setAddingSpot(false)} />}
+      {addingSpot && visited && <SpotForm city={city} onClose={() => setAddingSpot(false)} />}
       {editingPhoto && <CityPhotoEditor city={city} onClose={() => setEditingPhoto(false)} />}
       {editingReview && visits.length > 0 && (
         <ReviewEditor city={city} onClose={() => setEditingReview(false)} />
       )}
     </section>
   );
+}
+
+/** One decimal, and no trailing ".0" on a whole number. */
+function round(value: number): string {
+  return (Math.round(value * 10) / 10).toString();
 }

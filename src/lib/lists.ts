@@ -1,4 +1,5 @@
 import type { CityId, CityList } from "../types";
+import { isKnownCity } from "../data/cities";
 
 const KEY = "arrivals.lists.v1";
 /** Pre-rename key. Read once so a rename doesn't wipe someone's lists. */
@@ -11,10 +12,18 @@ export function loadMyLists(): CityList[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter(
-      (list): list is CityList =>
-        list && typeof list.id === "string" && typeof list.title === "string" && Array.isArray(list.cities),
-    );
+    return parsed
+      .filter(
+        (list): list is CityList =>
+          list && typeof list.id === "string" && typeof list.title === "string" && Array.isArray(list.cities),
+      )
+      // Both screens map these straight to `requireCity`, which throws on an id
+      // the catalogue has dropped — and a throw here is the whole app, not the
+      // one list.
+      .map((list) => {
+        const cities = list.cities.filter(isKnownCity);
+        return cities.length === list.cities.length ? list : { ...list, cities };
+      });
   } catch {
     return [];
   }
@@ -34,7 +43,6 @@ export function makeList(title: string, blurb: string, cities: CityId[]): CityLi
     title: title.trim(),
     blurb: blurb.trim(),
     by: "@joseph",
-    count: cities.length,
     cities,
     mine: true,
   };

@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
+import { isKnownCity } from "../data/cities";
 
 export interface Profile {
   name: string;
@@ -40,9 +41,11 @@ function load(): Profile {
       handle: typeof parsed.handle === "string" ? parsed.handle : DEFAULT_PROFILE.handle,
       bio: typeof parsed.bio === "string" ? parsed.bio : "",
       avatar: typeof parsed.avatar === "string" ? parsed.avatar : "",
-      // Profiles saved before favourites existed have none.
+      // Profiles saved before favourites existed have none. Filtered to what
+      // the catalogue still has: these are handed straight to `requireCity` on
+      // the profile screen, so one stale id would blank the whole app.
       favourites: Array.isArray(parsed.favourites)
-        ? parsed.favourites.slice(0, MAX_FAVOURITES)
+        ? parsed.favourites.filter(isKnownCity).slice(0, MAX_FAVOURITES)
         : DEFAULT_PROFILE.favourites,
       // Profiles saved before homeAirport existed have none.
       homeAirport: typeof parsed.homeAirport === "string" ? parsed.homeAirport : "",

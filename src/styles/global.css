@@ -2806,7 +2806,8 @@ select option {
   border-top: 1px solid var(--rule);
 }
 
-.whos a {
+.whos a,
+.whos .who-row {
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -2854,6 +2855,19 @@ select option {
   font-size: 13px;
   line-height: 1.45;
   color: var(--muted);
+}
+
+/* The write-up on its own page, rather than a pointer to it. Fourteen of the
+   nineteen notes run past two lines, and there is no click here that would
+   reach the rest — this row is the page you are already on — so it prints
+   whole, and in the colour of something meant to be read rather than scanned. */
+.who-note.whole {
+  display: block;
+  -webkit-line-clamp: none;
+  overflow: visible;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
 }
 
 .who-go {
@@ -3220,35 +3234,54 @@ select option {
 /* Named tabs, which are also the panes' headings. Set like a field label so
    the row reads as the heading it replaced rather than as a control strip
    bolted above one. */
+/* Pushed to the edges rather than bunched at the left. The three labels come
+   to 295px of a 314px row, so there is no room to outline each one — a box
+   apiece needs about fifty pixels of padding and wraps the row onto two lines.
+   What a box was for is the point though: these did not look like controls.
+   So they get the affordance without the width — the full row, a real hit
+   area, a tab that sits in a card, and a hover that shows you where it lands. */
 .panel-tabs {
   display: flex;
-  gap: 18px;
+  justify-content: space-between;
+  gap: 6px;
   margin-bottom: 14px;
   border-bottom: 1px solid var(--rule);
 }
 
 .panel-tab {
-  padding: 0 0 8px;
+  padding: 7px 6px;
   border: none;
   border-bottom: 2px solid transparent;
+  border-radius: 3px 3px 0 0;
   margin-bottom: -1px;
   background: none;
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  /* Was --muted, which reads as disabled on a row where nothing else is
+     clickable. Between muted and ink: plainly live, plainly not the one on. */
+  color: var(--tab-off);
   cursor: pointer;
+  transition: background-color 90ms ease, color 90ms ease;
 }
 
+/* The underline arrives before the click does, so the row tells you what it
+   is going to do rather than only what it has done. */
 .panel-tab:hover {
   color: var(--ink);
+  background: var(--tab-hover);
+  border-bottom-color: var(--rule);
 }
 
 /* Inked and underlined: which one is showing must survive a colourblind
-   reader and a printed page, so it is never carried by colour alone. */
-.panel-tab.on {
+   reader and a printed page, so it is never carried by colour alone. The
+   card behind it is what a box would have given, spent on one tab instead
+   of three. */
+.panel-tab.on,
+.panel-tab.on:hover {
   color: var(--ink);
+  background: var(--tab-on);
   border-bottom-color: var(--accent-2);
 }
 
@@ -3324,6 +3357,38 @@ select option {
   gap: 30px;
   margin: 18px 0 20px;
   flex-wrap: wrap;
+}
+
+/* Their average, set off from your own stars by a rule rather than by space
+   alone — the two sit on one line and the eye needs telling where yours ends. */
+/* Nothing to click, so nothing that says it can be. The row is still drawn —
+   empty stars are how a city says it is unrated — it just doesn't invite. */
+.rate-inline.locked {
+  cursor: default;
+}
+
+.friends-avg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 4px;
+  padding-left: 16px;
+  border-left: 1px solid var(--rule);
+}
+
+.friends-avg small {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Two strips of figures now, so the second loses the first's top margin and
+   they read as one block rather than two that happen to be adjacent. */
+.city-meta + .city-meta {
+  margin-top: -6px;
 }
 
 /* The identity block takes the width it needs; the stamped visits take the
@@ -3414,36 +3479,6 @@ select option {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-}
-
-.friend-by {
-  display: flex;
-  align-items: baseline;
-  gap: 9px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-.friend-by b {
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.friend-by .handle,
-.friend-by .when {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-}
-
-/* Their words, set like prose rather than like a caption — it is the reason
-   the screen exists. */
-.friend-say {
-  margin: 16px 0 18px;
-  max-width: 68ch;
-  font-family: var(--display);
-  font-size: 17px;
-  line-height: 1.6;
 }
 
 /* Your verdict and your dates in one band, on the column widths the facts use

@@ -1,14 +1,35 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
+import { CITIES } from "../data/cities";
 import { LISTS } from "../data/seed";
 import { loadMyLists, makeList, saveMyLists } from "../lib/lists";
 import type { CityId, CityList } from "../types";
 
+/**
+ * Every city the app carries, as a list of its own.
+ *
+ * Not an argument like the others are — the catalogue itself, alphabetically.
+ * Nothing else browses the whole thing: the Cities board is what you have
+ * rated, Departures is what you mean to reach, and the only other place all
+ * seventy-five appear is inside a search box you have to already be typing in.
+ * Derived from CITIES rather than written out, so it cannot fall behind the
+ * catalogue it is supposed to be.
+ */
+export const CATALOGUE: CityList = {
+  id: "all",
+  title: "Every city on Arrivals",
+  by: "@arrivals",
+  blurb: "The whole catalogue, in alphabetical order. Not a recommendation — just what there is.",
+  cities: [...CITIES].sort((a, b) => a.name.localeCompare(b.name)).map((city) => city.id),
+};
+
 interface ListsContextValue {
-  /** Yours first, then the seeded ones from people you follow. */
+  /** Yours first, then the seeded ones, then the catalogue. */
   all: CityList[];
   mine: CityList[];
   followed: CityList[];
+  /** Every city there is, for the section that is not anybody's opinion. */
+  catalogue: CityList;
   byId: (id: string) => CityList | undefined;
   create: (title: string, blurb: string, cities: CityId[]) => CityList;
   update: (id: string, patch: Partial<Pick<CityList, "title" | "blurb" | "cities">>) => void;
@@ -33,11 +54,7 @@ export function ListsProvider({ children }: { children: ReactNode }) {
   const update = useCallback(
     (id: string, patch: Partial<Pick<CityList, "title" | "blurb" | "cities">>) => {
       setMine((current) =>
-        current.map((list) =>
-          list.id === id
-            ? { ...list, ...patch, count: patch.cities ? patch.cities.length : list.count }
-            : list,
-        ),
+        current.map((list) => (list.id === id ? { ...list, ...patch } : list)),
       );
     },
     [],
@@ -48,11 +65,12 @@ export function ListsProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<ListsContextValue>(() => {
-    const all = [...mine, ...LISTS];
+    const all = [...mine, ...LISTS, CATALOGUE];
     return {
       all,
       mine,
       followed: LISTS,
+      catalogue: CATALOGUE,
       byId: (id: string) => all.find((list) => list.id === id),
       create,
       update,

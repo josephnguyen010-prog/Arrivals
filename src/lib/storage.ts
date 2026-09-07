@@ -1,4 +1,5 @@
-import type { LogState, Visit } from "../types";
+import type { CityId, LogState, Visit } from "../types";
+import { isKnownCity } from "../data/cities";
 import { SEED_LOG } from "../data/seed";
 
 const KEY = "arrivals.log.v1";
@@ -23,16 +24,41 @@ export function loadLog(): LogState {
     }
     const stored = parsed.reviews && typeof parsed.reviews === "object" ? parsed.reviews : {};
     return {
-      rated: parsed.rated,
-      visits: backfillNights(parsed.visits),
+      rated: knownRatings(parsed.rated),
+      visits: backfillNights(parsed.visits).filter((visit) => isKnownCity(visit.city)),
       // Logs written before Departures existed have no wishlist.
-      wishlist: Array.isArray(parsed.wishlist) ? parsed.wishlist : [],
-      reviews: backfillReviews(stored),
+      wishlist: (Array.isArray(parsed.wishlist) ? parsed.wishlist : []).filter(isKnownCity),
+      reviews: knownReviews(backfillReviews(stored)),
     };
   } catch {
     // Corrupt or unavailable storage shouldn't cost you the app.
     return SEED_LOG;
   }
+}
+
+/**
+ * A saved log, with every city the catalogue no longer carries dropped.
+ *
+ * A stored id is a claim about a catalogue that has since moved on, and the
+ * screens do not treat it as one: the passport, Departures and your favourites
+ * all hand what they find to `requireCity`, which throws. That throw takes the
+ * whole app down, and it does it again on every reload, because the id causing
+ * it is in localStorage — so the state is unrecoverable from inside the app.
+ *
+ * Dropping the row is the only answer that leaves anything working. It loses a
+ * visit to a city that no longer exists, which was already unshowable.
+ */
+function knownRatings(rated: unknown): Record<string, CityId[]> {
+  if (!rated || typeof rated !== "object") return {};
+  const kept: Record<string, CityId[]> = {};
+  for (const [step, ids] of Object.entries(rated as Record<string, unknown>)) {
+    if (Array.isArray(ids)) kept[step] = ids.filter(isKnownCity);
+  }
+  return kept;
+}
+
+function knownReviews(reviews: Record<string, string>): Record<CityId, string> {
+  return Object.fromEntries(Object.entries(reviews).filter(([city]) => isKnownCity(city)));
 }
 
 /**

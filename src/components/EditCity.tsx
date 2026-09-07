@@ -38,10 +38,18 @@ export function EditCity({ city, onClose }: EditCityProps) {
       <div className="edit-row">
         <div>
           <b>Rating</b>
-          {/* Editable in place — the same control as the city page. */}
-          <RateInline value={rating} size={18} onPick={setPending} label={`Rate ${city.name}`} />
+          {/* Editable in place — the same control as the city page, and gated
+              the same way: a rating comes out of a trip, so there is nothing
+              to change until one is logged. */}
+          <RateInline
+            value={rating}
+            size={18}
+            onPick={setPending}
+            readOnly={visits.length === 0}
+            label={visits.length === 0 ? `Log a visit to rate ${city.name}` : `Rate ${city.name}`}
+          />
         </div>
-        <span className="edit-hint">Tap the stars</span>
+        <span className="edit-hint">{visits.length === 0 ? "Log a visit first" : "Tap the stars"}</span>
       </div>
 
       <p className="field-label">Visits</p>

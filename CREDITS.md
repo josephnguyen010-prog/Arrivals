@@ -3,7 +3,7 @@
 Every city photograph in `src/assets/cities/` comes from [Wikimedia Commons](https://commons.wikimedia.org),
 cropped to 3:2 and re-encoded. No other changes were made.
 
-**All 44 are CC0, public domain or attribution-only.** Share-alike images were deliberately
+**All 75 are CC0, public domain or attribution-only.** Share-alike images were deliberately
 excluded: CC BY-SA obliges derivative works to carry the same licence, which is a problem once
 photos sit inside a product.
 
@@ -13,50 +13,81 @@ the full record; the app is what actually discharges the obligation.
 
 | City | Author | Licence | File |
 | --- | --- | --- | --- |
+| Accra | Ben Sutherland (on Flickr) | CC BY 2.0 | `Ghana 54th Pic002 B005.jpg` |
+| Addis Ababa | Sailko | CC BY 3.0 | `Addis abeba, chiesa della trinità, esterno 02.jpg` |
 | Amsterdam | Jorge LÃ¡scar | CC BY 2.0 | `Swans in a canal, Oudezijds Voorburgwal, with Bridge 105 (5822070926).jpg` |
+| Ann Arbor | Dwight Burdette | CC BY 3.0 | `Ann Arbor, Michigan Skyline From Thompson Street Parking Structure.JPG` |
+| Athens | Jebulon | CC0 | `Acropolis Parthenon Athens Greece.jpg` |
 | Austin | rutlo | CC BY 2.0 | `Austin Skyline From Mopac.JPG` |
 | Bangkok | Swaminathan | CC BY 2.0 | `Statetower.jpg` |
 | Barcelona | M McBey | CC BY 2.0 | `Evening light over Barcelona.jpg` |
-| Berlin | Bleppo | Public domain | `Berlin Skyline voll.jpg` |
+| Beijing | Philip Nalangan | CC BY 4.0 | `Forbidden City Beijing China1.jpg` |
+| Berlin | Gary Todd | CC0 | `Berlin Brandenburg Gate (28150532233).jpg` |
+| Blacksburg | Eric T Gunther | CC BY 3.0 | `Virginia Tech Burruss Hall from Drillfield.JPG` |
+| Bogota | No machine-readable author provided. Nelammog assumed (based on copyright claims). | Public domain | `Bogota-centro.JPG` |
 | Boston | Nelson48 | Public domain | `Boston Financial District skyline.jpg` |
+| Budapest | Laurens R. Krol | CC BY 4.0 | `2016-10-14 Hungary, Budapest DSC 0047 DxO.jpg` |
 | Buenos Aires | Deensel | CC BY 2.0 | `Puerto Madero, Buenos Aires (40689219792) (cropped).jpg` |
-| Cairo | Jorge LÃ¡scar | CC BY 2.0 | `Cairo Opera House, Al Hurriyah Park and the Nile river (14797782354).jpg` |
+| Busan | Bernard Gagnon | CC0 | `Gamcheon Culture Village.jpg` |
+| Cairo | someone10x | CC BY 2.0 | `Giza pyramid complex (9200944628).jpg` |
 | Cape Town | Danie van der Merwe | CC BY 2.0 | `Table Mountain DanieVDM.jpg` |
-| Chicago | Eric Pancer | CC BY 2.0 | `St. Charles Air Line Bridge and ex-B&O bridge with Chicago skyline.jpg` |
+| Chengdu | George Lu | CC BY 2.0 | `Panda in Chengdu Research Base of Giant Panda Breeding - 7708872342.jpg` |
+| Chicago | edward stojakovic | CC BY 2.0 | `Chicago Skyline (7819742226).jpg` |
 | Copenhagen | OleNeitzel | CC BY 4.0 | `Nyhavn houses and boats.jpg` |
+| Cusco | Pavel Špindler | CC BY 3.0 | `Cusco - Plaza de Armas - panoramio.jpg` |
 | Delhi | Vyacheslav Argenberg | CC BY 4.0 | `Delhi, India, India Gate.jpg` |
 | Denver | Quintin Soloviev | CC BY 4.0 | `Denver, Colorado skyline (cropped).jpg` |
+| Dublin | P. Hughes | CC BY 4.0 | `Dubln - River Liffey with Ha'Penny Bridge in distance.jpg` |
 | Hanoi | David McKelvey | CC BY 2.0 | `Street markets, Urban Discovery Tour, Hanoi (7060671921).jpg` |
 | Ho Chi Minh City | dronepicr | CC BY 2.0 | `Ho Chi Minh city (39514086172).jpg` |
 | Hong Kong | Diliff | CC BY 3.0 | `Hong Kong Skyline - Dec 2007.jpg` |
 | Honolulu | Cumulus Clouds | CC BY 2.5 | `Waikiki Beach from Diamond Head.jpg` |
 | Istanbul | Hunanuk | CC0 | `Historical peninsula and modern skyline of Istanbul.jpg` |
+| Jakarta | Government of Jakarta | Public domain | `SCBD at night.jpg` |
+| Krakow | Craig Wyzik | CC BY 2.0 | `Krakow market Cloth Hall.jpg` |
+| Kuala Lumpur | ELIZABETH XIONG | CC BY 4.0 | `Kuala Lumpur skyline and Petronas Twin Towers night view from Kampung Baru.jpg 01.jpg` |
 | Kyoto | Kovacs Bela | CC BY 3.0 | `Kiyomizu-dera Temple, Kyoto - panoramio.jpg` |
 | Las Vegas | Notdjey | CC BY 2.0 | `Las Vegas by night 2019 - 46671323131.jpg` |
+| Lima | magicmonkey | CC BY 2.0 | `Lima Peru coast.jpg` |
 | Lisbon | Dale Cruse | CC BY 4.0 | `Alfama Rooftops and Tagus River View, Lisbon (54733828355).jpg` |
 | London | Dronepicr | CC BY 3.0 | `Tower Bridge London (193364901).jpeg` |
-| Los Angeles | Serouj | Public domain | `Downtown Los Angeles California.jpg` |
+| Los Angeles | Kevin Stanchfield | CC BY 2.0 | `Downtown LA at Sunset..jpg` |
+| Madrid | Marek Ślusarczyk (Tupungato) Photo portfolio | CC BY 3.0 | `32 Plaza Mayor, Madrid - sidewalk cafes of Plaza Mayor square in Madrid, Spain Spanje.jpg` |
+| Manila | Vyacheslav Argenberg | CC BY 4.0 | `Manila, Rizal Park skyline, Philippines.jpg` |
 | Marrakesh | Jorge LÃ¡scar | CC BY 2.0 | `Jemaa el-Fnaa (7346166250).jpg` |
 | Mexico City | Gobierno CDMX | CC0 | `Sobrevuelos CDMX HJ2A4913 (25514321687) (cropped).jpg` |
-| Miami | Averette | CC BY 3.0 | `Biscayne Bay south.jpg` |
-| New Orleans | George Bannister | CC BY 2.0 | `New Orleans from the Air September 2019 - Central Business District Skyline (cropped).jpg` |
+| Miami | P. Hughes | CC BY 4.0 | `Miami Beach - Ocean Drive (2023).jpg` |
+| Minneapolis | Tony Webster | CC BY 2.0 | `Minneapolis Skyline and Stone Arch (15188008214).jpg` |
+| Nairobi | Jorge Láscar | CC BY 2.0 | `Lascar Nairobi's skyline from Uhuru Park (4519272483).jpg` |
+| New Orleans | Nicolas Henderson | CC BY 2.0 | `New Orleans October 2019 - The French Quarter 01.jpg` |
 | New York | Jakub HaÅ‚un | CC BY 4.0 | `Manhattan skyline from Upper New York Bay, 20231001 1041 0889.jpg` |
 | Osaka | 663highland | CC BY 2.5 | `Osaka Castle 03bs3200.jpg` |
-| Paris | Jebulon | CC0 | `Pont Alexandre III depuis pont de la Concorde Paris.jpg` |
-| Philadelphia | Goldcup | CC0 | `Columbia Bridge Turn 2014.jpg` |
+| Oxford | Lumaag | CC0 | `High Street Oxford west from The Queen's College 2026-06-19.jpg` |
+| Paris | Pierre Blaché | CC0 | `Eiffel Tower from Pont Alexandre-III, Paris 31 August 2019.jpg` |
+| Philadelphia | Bronzeage10 | CC BY 4.0 | `Philadelphia Skyline from the Camden Waterfront.jpg` |
 | Porto | Dale Cruse | CC BY 4.0 | `Nighttime View of the Douro Riverfront in Porto, Portugal (54803354871).jpg` |
 | Prague | Lucas Garron | CC0 | `Prague Castle at Night viewed from Charles Bridge.jpg` |
+| Reykjavik | Andrew Smales | CC0 | `Reykjavik, Iceland aerial cityscape (Unsplash).jpg` |
 | Rio de Janeiro | Nan Palmero | CC BY 2.0 | `Rio de Janeiro at Night from Sugarloaf (16176006390).jpg` |
 | Rome | Diliff | CC BY 3.0 | `Trevi Fountain, Rome, Italy 2 - May 2007.jpg` |
-| San Francisco | Craig Howell | CC BY 2.0 | `Zeppelin-ride-020100925-195 (5029394846).jpg` |
+| San Francisco | Chris Leipelt | CC0 | `Above Golden Gate Bridge (Unsplash).jpg` |
+| Santiago | Ricardo Hurtubia | CC BY 2.0 | `Panorama de Santiago 2.jpg` |
+| Sao Paulo | Wilfredor | CC0 | `Avenue and the downtown skyline of Sao Paulo.jpg` |
 | Seattle | Seattle Municipal Archives | CC BY 2.0 | `Space Needle and skyline from Kerry Park, 2000.jpg` |
 | Seoul | USAGI_POST | CC0 | `Han River Seoul skyline Pixabay 1214950.jpg` |
+| Shanghai | Ermell | CC0 | `Shanghai skyline waterfront pudong 5166168 69 70.jpg` |
+| Siem Reap | shankar s. | CC BY 2.0 | `A sweeping panorama of the Angkor Wat (pre-) sunrise scene (50232886447).jpg` |
 | Singapore | cegoh (Jason Goh) | CC0 | `Skyline of the Central Business District of Singapore seen from across Marina Bay - 20140129.jpg` |
 | Sydney | sv1ambo | CC BY 2.0 | `Sydney Opera House and Sydney Harbour Bridge (5106362112).jpg` |
 | Taipei | Sinchen.Lin | CC BY 2.0 | `Taipei Skyline 2016.jpg` |
 | Tokyo | Ville Miettinen | CC BY 2.0 | `Sunset in Shinjuku.jpg` |
 | Toronto | Peter_Glyn | CC0 | `Toronto Skyline, Ontario Canada.jpg` |
+| Vatican City | Vyacheslav Argenberg | CC BY 4.0 | `Rome, Vatican, Italy, Saint Peter's Square as seen from Michelangelo dome.jpg` |
+| Venice | Dimitris Kamaras | CC BY 2.0 | `Grand Canal & the Rialto bridge, Venice (30963056685).jpg` |
+| Vienna | Wetchup | CC0 | `Back View of Belvedere Palace and Garden.jpg` |
 | Washington | Carol M. Highsmith | Public domain | `July 4th fireworks, Washington, D.C. (LOC).jpg` |
+| Xi'an | xiquinhosilva | CC BY 2.0 | `51714-Terracota-Army.jpg` |
+| Zanzibar City | Dr. Ondřej Havelka (cestovatel) | CC BY 4.0 | `Harbour at the picturesque Stone Town.jpg` |
 
 Source page for any of these: `https://commons.wikimedia.org/wiki/File:<filename>`.
 

@@ -7,13 +7,23 @@ import type { City, Spot } from "../types";
 import { SpotForm } from "./SpotForm";
 
 /** Grouped by category, because that is how you'd ask for one. */
-export function SpotList({ city }: { city: City }) {
+export function SpotList({
+  city,
+  empty,
+}: {
+  city: City;
+  /** What an empty list reads as. `null` prints nothing, for the screens where
+      you cannot add one anyway — an invitation you can't accept is worse than
+      no line at all. */
+  empty?: string | null;
+}) {
   const { forCity } = useSpots();
   const [editing, setEditing] = useState<Spot | null>(null);
   const spots = forCity(city.id);
 
   if (spots.length === 0) {
-    return <p className="empty">Nothing yet. The first one is usually where you ate.</p>;
+    if (empty === null) return null;
+    return <p className="empty">{empty ?? "Nothing yet. The first one is usually where you ate."}</p>;
   }
 
   return (

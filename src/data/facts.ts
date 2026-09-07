@@ -18,12 +18,40 @@ export interface CityFacts {
 }
 
 export const CITY_FACTS: Record<CityId, CityFacts> = {
+  accra: {
+    history:
+      "A Ga trading town that grew up around three European forts and became the capital of the first African colony to win independence.",
+    dishes: ["Jollof rice", "Waakye", "Banku with tilapia"],
+    landmarks: ["Independence Arch", "Kwame Nkrumah Memorial Park", "Makola Market"],
+    fact: "Ghana went free in 1957, the first in sub-Saharan Africa, and half the continent followed within a decade.",
+  },
+  addis: {
+    history:
+      "Founded in 1886 and named new flower; Ethiopia was never colonised, so it kept its own calendar and its own script.",
+    dishes: ["Injera with doro wat", "Kitfo", "Shiro"],
+    landmarks: ["Holy Trinity Cathedral", "The National Museum and Lucy", "Merkato"],
+    fact: "The Ethiopian calendar runs seven to eight years behind this one, and the day is counted from dawn.",
+  },
   amsterdam: {
     history:
       "A fishing village that dammed the Amstel around 1270 and spent the 17th century as the richest port in the world.",
     dishes: ["Stroopwafel", "Bitterballen", "Raw herring"],
     landmarks: ["The canal ring", "Rijksmuseum", "Anne Frank House"],
     fact: "The houses are narrow because tax was charged on the width of the canal frontage.",
+  },
+  annarbor: {
+    history:
+      "Named in 1824 for two settlers' wives, both called Ann, and for the burr oak stands around them; the university moved up from Detroit in 1837 and never left.",
+    dishes: ["A Zingerman's reuben", "Detroit-style pizza", "Cider and doughnuts"],
+    landmarks: ["Michigan Stadium", "The Diag", "Nichols Arboretum"],
+    fact: "Michigan Stadium holds more than 107,000 people, which makes it the largest stadium in the United States.",
+  },
+  athens: {
+    history:
+      "Lived in for more than three thousand years without a break, and the place the word democracy was coined.",
+    dishes: ["Souvlaki", "Moussaka", "Loukoumades"],
+    landmarks: ["The Acropolis", "The Ancient Agora", "Plaka"],
+    fact: "The Parthenon's columns swell slightly in the middle so that from a distance they read as straight.",
   },
   austin: {
     history:
@@ -50,12 +78,33 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     landmarks: ["Sagrada Família", "Park Güell", "La Rambla"],
     fact: "The Sagrada Família has been under construction since 1882 and still isn't finished.",
   },
+  beijing: {
+    history:
+      "A capital on and off since Kublai Khan made it the seat of the Yuan in the 1270s, rebuilt by the Ming around the Forbidden City in the 1400s.",
+    dishes: ["Peking duck", "Zhajiangmian", "Jianbing"],
+    landmarks: ["The Forbidden City", "The Temple of Heaven", "The Great Wall at Mutianyu"],
+    fact: "The Forbidden City was closed to ordinary people for nearly five centuries, and close to a thousand of its buildings still stand.",
+  },
   berlin: {
     history:
       "Prussian capital, then German, then cut in two by a wall for 28 years until 1989.",
     dishes: ["Currywurst", "Döner kebab", "Berliner doughnut"],
     landmarks: ["Brandenburg Gate", "Reichstag", "East Side Gallery"],
     fact: "The city has more bridges than Venice — somewhere around 900 of them.",
+  },
+  blacksburg: {
+    history:
+      "A crossroads town laid out in 1798 and given its shape by the land-grant college founded here in 1872, along with the grey Hokie Stone quarried up the road that faces almost every building on campus.",
+    dishes: ["Country ham biscuits", "Brunswick stew", "Apple butter"],
+    landmarks: ["Burruss Hall", "The Drillfield", "Lane Stadium"],
+    fact: "The crowd jumping to Enter Sandman at Lane Stadium has registered on seismographs.",
+  },
+  bogota: {
+    history:
+      "Founded in 1538 on a plateau 2,600 metres up, which is why sitting near the equator does nothing for the temperature.",
+    dishes: ["Ajiaco", "Bandeja paisa", "Arepas"],
+    landmarks: ["Monserrate", "La Candelaria", "The Gold Museum"],
+    fact: "Every Sunday a hundred kilometres of road shut to cars completely and the city rides bicycles instead.",
   },
   boston: {
     history:
@@ -70,6 +119,20 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     dishes: ["Asado", "Empanadas", "Dulce de leche"],
     landmarks: ["Teatro Colón", "Caminito, La Boca", "Recoleta Cemetery"],
     fact: "Its widest street, 9 de Julio, runs to sixteen lanes.",
+  },
+  budapest: {
+    history:
+      "Buda and Pest sat on opposite banks as separate cities until a chain bridge and then a merger joined them in 1873.",
+    dishes: ["Goulash", "Lángos", "Chimney cake"],
+    landmarks: ["The Parliament Building", "Fisherman's Bastion", "Széchenyi Baths"],
+    fact: "More than a hundred thermal springs run under the city, which is why the baths predate the country.",
+  },
+  busan: {
+    history:
+      "A fishing port that grew into the country's second city, and the one corner of the peninsula the front never reached during the Korean War.",
+    dishes: ["Dwaeji gukbap", "Milmyeon", "Ssiat hotteok"],
+    landmarks: ["Gamcheon Culture Village", "Haeundae Beach", "Jagalchi Fish Market"],
+    fact: "Gamcheon's painted hillside was a refugee settlement long before it was a photograph.",
   },
   cairo: {
     history:
@@ -92,6 +155,13 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     landmarks: ["The Zócalo", "Frida Kahlo Museum", "Teotihuacan"],
     fact: "Built on a drained lake, the city has sunk about ten metres in the last century.",
   },
+  chengdu: {
+    history:
+      "Over two thousand years old and never once renamed, which almost no Chinese city of its age can say.",
+    dishes: ["Mapo tofu", "Dan dan noodles", "Hotpot"],
+    landmarks: ["The Giant Panda Breeding Base", "Wuhou Shrine", "The teahouses in People's Park"],
+    fact: "The numbing half of Sichuan heat is not chilli but a peppercorn, and it is a citrus relative.",
+  },
   chicago: {
     history:
       "Burned down in 1871, and answered by inventing the steel-framed skyscraper.",
@@ -105,6 +175,13 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     dishes: ["Smørrebrød", "Frikadeller", "Wienerbrød"],
     landmarks: ["Nyhavn", "Tivoli Gardens", "The Little Mermaid"],
     fact: "Around half of all commutes are made by bicycle, and the bridges have their own rush hour.",
+  },
+  cusco: {
+    history:
+      "The Inca capital, laid out in the shape of a puma, with Spanish churches set straight onto Inca foundations.",
+    dishes: ["Cuy", "Rocoto relleno", "Chicha morada"],
+    landmarks: ["Sacsayhuamán", "Qorikancha", "The Plaza de Armas"],
+    fact: "The Inca stonework is cut so closely that a knife blade will not go between the blocks.",
   },
   dc: {
     history:
@@ -130,6 +207,13 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
       "Colorado State Capitol",
     ],
     fact: "One step of the Capitol is exactly a mile above sea level, and it's marked.",
+  },
+  dublin: {
+    history:
+      "Founded by Vikings around a black pool — dubh linn — and the capital since the Normans walled it.",
+    dishes: ["Coddle", "Boxty", "Soda bread"],
+    landmarks: ["Trinity College and the Book of Kells", "The Ha'penny Bridge", "Kilmainham Gaol"],
+    fact: "Ulysses covers one day here, 16 June 1904, and people still walk the route every year on the date.",
   },
   hanoi: {
     history:
@@ -170,6 +254,27 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     landmarks: ["Hagia Sophia", "The Blue Mosque", "Grand Bazaar"],
     fact: "Commuters cross between Europe and Asia to get to work.",
   },
+  jakarta: {
+    history:
+      "A pepper port the Dutch renamed Batavia in 1619 and ran for three centuries before it took its own name back.",
+    dishes: ["Nasi goreng", "Soto betawi", "Kerak telor"],
+    landmarks: ["The National Monument", "Kota Tua", "Istiqlal Mosque"],
+    fact: "The city is sinking several centimetres a year, which is why Indonesia is building a new capital in Borneo.",
+  },
+  kl: {
+    history:
+      "A tin prospectors' camp at a river junction in the 1850s that was running the country within a century.",
+    dishes: ["Nasi lemak", "Char kway teow", "Roti canai"],
+    landmarks: ["The Petronas Towers", "Batu Caves", "Merdeka Square"],
+    fact: "Kuala Lumpur means muddy confluence, which is exactly what the tin prospectors found there.",
+  },
+  krakow: {
+    history:
+      "Poland's capital until 1596, and the only large Polish city to come through the war more or less intact.",
+    dishes: ["Pierogi", "Obwarzanek", "Zapiekanka"],
+    landmarks: ["The Main Market Square", "Wawel Castle", "Kazimierz"],
+    fact: "A trumpet call sounds from St Mary's tower every hour and stops mid-note, for a trumpeter shot in the 13th century.",
+  },
   kyoto: {
     history:
       "Japan's capital for over a thousand years until 1869, laid out as Heian-kyō on a grid copied from Chang'an and spared the bombing that flattened other cities.",
@@ -183,6 +288,13 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     dishes: ["Tacos", "Korean barbecue", "French dip"],
     landmarks: ["The Hollywood Sign", "Griffith Observatory", "Venice Beach"],
     fact: "The Hollywood sign originally read HOLLYWOODLAND and was an advert for a housing development.",
+  },
+  lima: {
+    history:
+      "Founded by Pizarro in 1535 as the City of Kings, and the seat of Spanish South America for two centuries.",
+    dishes: ["Ceviche", "Lomo saltado", "Ají de gallina"],
+    landmarks: ["The Plaza Mayor", "Huaca Pucllana", "The Malecón in Miraflores"],
+    fact: "It sits in a desert and it almost never rains, yet it is grey and damp for half the year.",
   },
   lisbon: {
     history:
@@ -198,6 +310,20 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     landmarks: ["Tower of London", "The British Museum", "Westminster"],
     fact: "The Metropolitan line, opened in 1863, was the first underground railway anywhere.",
   },
+  madrid: {
+    history:
+      "A Moorish fortress made capital in 1561 for the plainest of reasons: it sits in the exact middle of the peninsula.",
+    dishes: ["Cocido madrileño", "Bocadillo de calamares", "Churros con chocolate"],
+    landmarks: ["The Prado", "Plaza Mayor", "Retiro Park"],
+    fact: "Dinner starts around ten at night, and the city has more bars per head than anywhere else in Europe.",
+  },
+  manila: {
+    history:
+      "A Spanish walled city from 1571 and the Pacific end of the galleon trade, rebuilt from rubble after 1945.",
+    dishes: ["Adobo", "Sisig", "Halo-halo"],
+    landmarks: ["Intramuros", "Rizal Park", "San Agustin Church"],
+    fact: "For 250 years one galleon a year carried silver from here to Acapulco and silk back the other way.",
+  },
   marra: {
     history:
       "Founded by the Almoravids in 1070 as the base for an empire that reached into Spain, and one of Morocco's four imperial cities.",
@@ -211,6 +337,20 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     dishes: ["Cuban sandwich", "Stone crab", "Pastelitos"],
     landmarks: ["The Art Deco District", "Little Havana", "Vizcaya"],
     fact: "It's the only major American city founded by a woman, Julia Tuttle.",
+  },
+  minneapolis: {
+    history:
+      "Milled the world's flour on the falls of the Mississippi, the only true waterfall on the whole river.",
+    dishes: ["Juicy Lucy", "Walleye", "Hotdish"],
+    landmarks: ["The Stone Arch Bridge", "Minnehaha Falls", "The Walker Art Center"],
+    fact: "Eleven kilometres of enclosed skyways stitch downtown together, because January sits well below freezing.",
+  },
+  nairobi: {
+    history:
+      "A railway depot pitched in a swamp in 1899, capital of British East Africa and then of Kenya.",
+    dishes: ["Nyama choma", "Ugali", "Mandazi"],
+    landmarks: ["Nairobi National Park", "The Karen Blixen Museum", "The Giraffe Centre"],
+    fact: "It is the only capital with a national park inside the city limits, so the lions have a skyline behind them.",
   },
   neworleans: {
     history:
@@ -236,6 +376,13 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     dishes: ["Takoyaki", "Okonomiyaki", "Kushikatsu"],
     landmarks: ["Osaka Castle", "Dotonbori", "Shinsekai"],
     fact: "Instant noodles were invented here in 1958, and there's a museum about it.",
+  },
+  oxford: {
+    history:
+      "Teaching has gone on here since at least 1096, which makes it the oldest university in the English-speaking world and the town the word campus was never needed for.",
+    dishes: ["Oxford sausage", "Cream tea", "A Sunday roast"],
+    landmarks: ["The Radcliffe Camera", "Christ Church", "The Bodleian Library"],
+    fact: "The Bodleian is owed a copy of every book published in Britain, and it has never lent one out — it refused even Charles I.",
   },
   paris: {
     history:
@@ -269,6 +416,13 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     landmarks: ["Charles Bridge", "Prague Castle", "The Astronomical Clock"],
     fact: "The astronomical clock has been running since 1410, the oldest one still working.",
   },
+  reykjavik: {
+    history:
+      "Settled in 874 and the northernmost capital of any sovereign state on earth.",
+    dishes: ["Plokkfiskur", "Hot dogs with crispy onions", "Rye bread ice cream"],
+    landmarks: ["Hallgrímskirkja", "Harpa", "The old harbour"],
+    fact: "Nearly every building is heated by geothermal water, so the hot tap runs with a faint smell of sulphur.",
+  },
   rio: {
     history:
       "Portuguese from 1565 and Brazil's capital until Brasília took over in 1960; the court itself moved here in 1808, fleeing Napoleon.",
@@ -282,6 +436,20 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     dishes: ["Cacio e pepe", "Carbonara", "Supplì"],
     landmarks: ["The Colosseum", "The Pantheon", "Trevi Fountain"],
     fact: "Around a million and a half euros a year is fished out of the Trevi Fountain and given to charity.",
+  },
+  santiago: {
+    history:
+      "Founded in 1541 in a valley pinned between the Andes and the coastal range.",
+    dishes: ["Completo", "Pastel de choclo", "Empanada de pino"],
+    landmarks: ["Cerro San Cristóbal", "Plaza de Armas", "Barrio Bellavista"],
+    fact: "After winter rain clears the air the Andes stand straight over the streets, six thousand metres up.",
+  },
+  saopaulo: {
+    history:
+      "A Jesuit mission of 1554 that coffee money turned into the largest city in the southern hemisphere.",
+    dishes: ["Feijoada", "Pastel", "Mortadella sandwich"],
+    landmarks: ["Avenida Paulista", "The Municipal Market", "Ibirapuera Park"],
+    fact: "More people of Japanese descent live here than anywhere else outside Japan itself.",
   },
   seattle: {
     history:
@@ -311,6 +479,20 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     dishes: ["Sourdough", "Cioppino", "Mission burrito"],
     landmarks: ["Golden Gate Bridge", "Alcatraz", "The cable cars"],
     fact: "The Golden Gate Bridge is painted continuously — the crew finishes one end and starts again at the other.",
+  },
+  shanghai: {
+    history:
+      "A walled market town on the Huangpu until the treaty ports of the 1840s turned it into the busiest harbour in Asia.",
+    dishes: ["Xiaolongbao", "Shengjianbao", "Hairy crab"],
+    landmarks: ["The Bund", "Yu Garden", "The Oriental Pearl Tower"],
+    fact: "Pudong, the skyline in every photograph of the city, was farmland and warehouses until 1990.",
+  },
+  siemreap: {
+    history:
+      "A small town beside Angkor, capital of the Khmer Empire, which held perhaps a million people when London held fifty thousand.",
+    dishes: ["Fish amok", "Lok lak", "Num banh chok"],
+    landmarks: ["Angkor Wat", "The Bayon", "Ta Prohm"],
+    fact: "Angkor Wat is on Cambodia's flag — the only building on any national flag in the world.",
   },
   singapore: {
     history:
@@ -351,12 +533,47 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     landmarks: ["CN Tower", "St. Lawrence Market", "The Distillery District"],
     fact: "The CN Tower was the tallest free-standing structure in the world for 32 years.",
   },
+  vatican: {
+    history:
+      "The smallest sovereign state on earth, drawn up in 1929 around the basilica built over St Peter's tomb.",
+    dishes: ["Cacio e pepe", "Supplì", "Maritozzo"],
+    landmarks: ["St Peter's Basilica", "The Sistine Chapel", "The Vatican Museums"],
+    fact: "At about a fifth of a square mile, the whole country would fit inside Central Park eight times.",
+  },
   vegas: {
     history:
       "A railroad water stop that legalised gambling in 1931 and built the Strip on it.",
     dishes: ["Shrimp cocktail", "Buffet prime rib", "Chinatown pho"],
     landmarks: ["The Strip", "Fremont Street", "The Bellagio fountains"],
     fact: "The Luxor's beam is the brightest in the world, and pulls in its own swarm of moths and the bats that eat them.",
+  },
+  venice: {
+    history:
+      "Built on wooden piles in a lagoon by mainlanders in flight, and then a republic of its own for a thousand years.",
+    dishes: ["Sarde in saor", "Cicchetti", "Risotto al nero di seppia"],
+    landmarks: ["St Mark's Basilica", "The Rialto Bridge", "The Grand Canal"],
+    fact: "The whole city stands on millions of alder piles, which petrified underwater instead of rotting.",
+  },
+  vienna: {
+    history:
+      "A Roman frontier camp that spent six centuries as the Habsburg seat, running an empire from the Hofburg.",
+    dishes: ["Wiener schnitzel", "Sachertorte", "Tafelspitz"],
+    landmarks: ["Schönbrunn Palace", "St Stephen's Cathedral", "The Belvedere"],
+    fact: "The tap water is Alpine spring water, piped in from the mountains since 1873 and never treated.",
+  },
+  xian: {
+    history:
+      "The eastern end of the Silk Road and the capital of thirteen dynasties, inside Ming walls that still run the whole circuit.",
+    dishes: ["Roujiamo", "Biangbiang noodles", "Yangrou paomo"],
+    landmarks: ["The Terracotta Army", "The city walls", "The Muslim Quarter"],
+    fact: "The Terracotta Army turned up in 1974 under farmers digging a well, and no two of the faces are the same.",
+  },
+  zanzibar: {
+    history:
+      "The Omani sultans' capital and the hinge of the East African spice and slave trades, in coral-stone houses that still stand.",
+    dishes: ["Zanzibar pizza", "Urojo soup", "Pilau"],
+    landmarks: ["Stone Town", "The House of Wonders", "Forodhani Gardens"],
+    fact: "The shortest war in recorded history was fought here in 1896 and was over in about thirty-eight minutes.",
   },
 };
 

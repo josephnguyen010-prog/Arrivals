@@ -7,7 +7,7 @@ import { useLists } from "../state/ListsContext";
 import type { CityList } from "../types";
 
 export function Lists() {
-  const { mine, followed, create } = useLists();
+  const { mine, followed, catalogue, create } = useLists();
   const [making, setMaking] = useState(false);
   const navigate = useNavigate();
 
@@ -45,6 +45,18 @@ export function Lists() {
         ))}
       </div>
 
+      {/* Last, and under its own heading: it is the catalogue rather than a
+          list somebody made, and filing it with the others would put a
+          reference table among four arguments. */}
+      <h2 style={{ marginTop: "36px" }}>Everywhere else</h2>
+      <p className="lede">
+        Nothing else shows you all of them — the board is what you've rated, Departures is what
+        you mean to reach.
+      </p>
+      <div className="lists">
+        <ListCard list={catalogue} />
+      </div>
+
       {making && (
         <ListEditor
           onClose={() => setMaking(false)}
@@ -71,7 +83,7 @@ function ListCard({ list }: { list: CityList }) {
       <h3>{list.title}</h3>
       {list.blurb && <p>{list.blurb}</p>}
       <span className="by">
-        {list.count} {list.count === 1 ? "city" : "cities"} · {list.by}
+        {list.cities.length} {list.cities.length === 1 ? "city" : "cities"} · {list.by}
       </span>
     </Link>
   );

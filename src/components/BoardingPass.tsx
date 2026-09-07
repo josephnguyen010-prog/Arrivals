@@ -14,7 +14,7 @@ const PLANE_ICON =
  * The ticket, printed rather than bought: where you'd fly from, where you'd
  * land, how far and how long, and what the seat costs. Everything on it is
  * derived — great-circle distance, a fare curve, the destination's latitude —
- * so it fills itself in for all 44 cities without a booking to hang on.
+ * so it fills itself in for every city without a booking to hang on.
  *
  * The stub carries the fare because that is where a real pass puts the number
  * you keep, and because it is the one figure on here that is an estimate. Torn
