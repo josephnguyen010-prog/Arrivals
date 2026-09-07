@@ -3,7 +3,7 @@
 Every city photograph in `src/assets/cities/` comes from [Wikimedia Commons](https://commons.wikimedia.org),
 cropped to 3:2 and re-encoded. No other changes were made.
 
-**All 75 are CC0, public domain or attribution-only.** Share-alike images were deliberately
+**All 80 are CC0, public domain or attribution-only.** Share-alike images were deliberately
 excluded: CC BY-SA obliges derivative works to carry the same licence, which is a problem once
 photos sit inside a product.
 
@@ -18,6 +18,7 @@ the full record; the app is what actually discharges the obligation.
 | Amsterdam | Jorge LÃ¡scar | CC BY 2.0 | `Swans in a canal, Oudezijds Voorburgwal, with Bridge 105 (5822070926).jpg` |
 | Ann Arbor | Dwight Burdette | CC BY 3.0 | `Ann Arbor, Michigan Skyline From Thompson Street Parking Structure.JPG` |
 | Athens | Jebulon | CC0 | `Acropolis Parthenon Athens Greece.jpg` |
+| Auckland | Pseudopanax | Public domain | `Auckland CBD skyline from Waitemata Harbour entrance.jpg` |
 | Austin | rutlo | CC BY 2.0 | `Austin Skyline From Mopac.JPG` |
 | Bangkok | Swaminathan | CC BY 2.0 | `Statetower.jpg` |
 | Barcelona | M McBey | CC BY 2.0 | `Evening light over Barcelona.jpg` |
@@ -37,7 +38,9 @@ the full record; the app is what actually discharges the obligation.
 | Cusco | Pavel Špindler | CC BY 3.0 | `Cusco - Plaza de Armas - panoramio.jpg` |
 | Delhi | Vyacheslav Argenberg | CC BY 4.0 | `Delhi, India, India Gate.jpg` |
 | Denver | Quintin Soloviev | CC BY 4.0 | `Denver, Colorado skyline (cropped).jpg` |
+| Dubai | Francisco Anzola | CC BY 3.0 | `Dubai Marina (222830069).jpeg` |
 | Dublin | P. Hughes | CC BY 4.0 | `Dubln - River Liffey with Ha'Penny Bridge in distance.jpg` |
+| Dubrovnik | dronepicr | CC BY 2.0 | `City wall in the Old Town of Dubrovnik, Croatia (48738652708).jpg` |
 | Hanoi | David McKelvey | CC BY 2.0 | `Street markets, Urban Discovery Tour, Hanoi (7060671921).jpg` |
 | Ho Chi Minh City | dronepicr | CC BY 2.0 | `Ho Chi Minh city (39514086172).jpg` |
 | Hong Kong | Diliff | CC BY 3.0 | `Hong Kong Skyline - Dec 2007.jpg` |
@@ -58,6 +61,7 @@ the full record; the app is what actually discharges the obligation.
 | Mexico City | Gobierno CDMX | CC0 | `Sobrevuelos CDMX HJ2A4913 (25514321687) (cropped).jpg` |
 | Miami | P. Hughes | CC BY 4.0 | `Miami Beach - Ocean Drive (2023).jpg` |
 | Minneapolis | Tony Webster | CC BY 2.0 | `Minneapolis Skyline and Stone Arch (15188008214).jpg` |
+| Montreal | Taxiarchos228 | CC BY 3.0 | `Montreal - QC - Skyline.jpg` |
 | Nairobi | Jorge Láscar | CC BY 2.0 | `Lascar Nairobi's skyline from Uhuru Park (4519272483).jpg` |
 | New Orleans | Nicolas Henderson | CC BY 2.0 | `New Orleans October 2019 - The French Quarter 01.jpg` |
 | New York | Jakub HaÅ‚un | CC BY 4.0 | `Manhattan skyline from Upper New York Bay, 20231001 1041 0889.jpg` |
@@ -82,6 +86,7 @@ the full record; the app is what actually discharges the obligation.
 | Taipei | Sinchen.Lin | CC BY 2.0 | `Taipei Skyline 2016.jpg` |
 | Tokyo | Ville Miettinen | CC BY 2.0 | `Sunset in Shinjuku.jpg` |
 | Toronto | Peter_Glyn | CC0 | `Toronto Skyline, Ontario Canada.jpg` |
+| Vancouver | Jerry Meaden | CC BY 2.0 | `Over the Vancouver (15382980215).jpg` |
 | Vatican City | Vyacheslav Argenberg | CC BY 4.0 | `Rome, Vatican, Italy, Saint Peter's Square as seen from Michelangelo dome.jpg` |
 | Venice | Dimitris Kamaras | CC BY 2.0 | `Grand Canal & the Rialto bridge, Venice (30963056685).jpg` |
 | Vienna | Wetchup | CC0 | `Back View of Belvedere Palace and Garden.jpg` |

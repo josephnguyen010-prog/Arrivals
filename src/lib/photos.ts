@@ -3,7 +3,7 @@ import { writeCapped } from "./quota";
 
 const KEY = "arrivals.photos.v1";
 /**
- * Smaller than the spots budget on purpose: there are 75 cities and only one
+ * Smaller than the spots budget on purpose: there are 80 cities and only one
  * photo each, so a full set at ~100KB a photo sits well inside this.
  */
 const BUDGET_BYTES = 3_000_000;

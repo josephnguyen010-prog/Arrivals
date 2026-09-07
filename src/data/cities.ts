@@ -72,6 +72,11 @@ import vatican from "../assets/cities/vatican.jpg";
 import venice from "../assets/cities/venice.jpg";
 import vienna from "../assets/cities/vienna.jpg";
 import zanzibar from "../assets/cities/zanzibar.jpg";
+import auckland from "../assets/cities/auckland.jpg";
+import dubai from "../assets/cities/dubai.jpg";
+import dubrovnik from "../assets/cities/dubrovnik.jpg";
+import montreal from "../assets/cities/montreal.jpg";
+import vancouver from "../assets/cities/vancouver.jpg";
 import annarbor from "../assets/cities/annarbor.jpg";
 import blacksburg from "../assets/cities/blacksburg.jpg";
 import oxford from "../assets/cities/oxford.jpg";
@@ -87,6 +92,7 @@ export const CITIES: City[] = [
   { id: "amsterdam", name: "Amsterdam", country: "Netherlands", region: "Europe", photo: amsterdam },
   { id: "annarbor", name: "Ann Arbor", country: "United States", region: "Americas", photo: annarbor },
   { id: "athens", name: "Athens", country: "Greece", region: "Europe", photo: athens },
+  { id: "auckland", name: "Auckland", country: "New Zealand", region: "Oceania", photo: auckland },
   { id: "austin", name: "Austin", country: "United States", region: "Americas", photo: austin },
   { id: "bangkok", name: "Bangkok", country: "Thailand", region: "Asia", photo: bangkok },
   { id: "barcelona", name: "Barcelona", country: "Spain", region: "Europe", photo: barcelona },
@@ -106,7 +112,9 @@ export const CITIES: City[] = [
   { id: "cusco", name: "Cusco", country: "Peru", region: "Americas", photo: cusco },
   { id: "delhi", name: "Delhi", country: "India", region: "Asia", photo: delhi },
   { id: "denver", name: "Denver", country: "United States", region: "Americas", photo: denver },
+  { id: "dubai", name: "Dubai", country: "United Arab Emirates", region: "Asia", photo: dubai },
   { id: "dublin", name: "Dublin", country: "Ireland", region: "Europe", photo: dublin },
+  { id: "dubrovnik", name: "Dubrovnik", country: "Croatia", region: "Europe", photo: dubrovnik },
   { id: "hanoi", name: "Hanoi", country: "Vietnam", region: "Asia", photo: hanoi },
   { id: "hcmc", name: "Ho Chi Minh City", country: "Vietnam", region: "Asia", photo: hcmc },
   { id: "honolulu", name: "Honolulu", country: "United States", region: "Americas", photo: honolulu },
@@ -127,6 +135,7 @@ export const CITIES: City[] = [
   { id: "cdmx", name: "Mexico City", country: "Mexico", region: "Americas", photo: cdmx },
   { id: "miami", name: "Miami", country: "United States", region: "Americas", photo: miami },
   { id: "minneapolis", name: "Minneapolis", country: "United States", region: "Americas", photo: minneapolis },
+  { id: "montreal", name: "Montreal", country: "Canada", region: "Americas", photo: montreal },
   { id: "nairobi", name: "Nairobi", country: "Kenya", region: "Africa", photo: nairobi },
   { id: "neworleans", name: "New Orleans", country: "United States", region: "Americas", photo: neworleans },
   { id: "nyc", name: "New York", country: "United States", region: "Americas", photo: nyc },
@@ -151,6 +160,7 @@ export const CITIES: City[] = [
   { id: "taipei", name: "Taipei", country: "Taiwan", region: "Asia", photo: taipei },
   { id: "tokyo", name: "Tokyo", country: "Japan", region: "Asia", photo: tokyo },
   { id: "toronto", name: "Toronto", country: "Canada", region: "Americas", photo: toronto },
+  { id: "vancouver", name: "Vancouver", country: "Canada", region: "Americas", photo: vancouver },
   { id: "vatican", name: "Vatican City", country: "Vatican City", region: "Europe", photo: vatican },
   { id: "venice", name: "Venice", country: "Italy", region: "Europe", photo: venice },
   { id: "vienna", name: "Vienna", country: "Austria", region: "Europe", photo: vienna },

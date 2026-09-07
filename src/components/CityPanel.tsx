@@ -59,7 +59,7 @@ export function CityPanel({
     },
   ];
 
-  /* Only when somebody has. Fifty-seven of the seventy-five cities have no entry,
+  /* Only when somebody has. Sixty-two of the eighty cities have no entry,
      and an always-present tab would open on "nobody you follow has been" for
      most of the catalogue — a tab asks to be clicked in a way a section below
      the fold does not. */

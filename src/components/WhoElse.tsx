@@ -18,7 +18,7 @@ import type { CityId, FeedItem } from "../types";
  */
 /** Whether anyone you follow has been, so the panel can leave the tab off
  *  rather than offer one that opens on "nobody has". Twenty-six of the
- *  seventy-five cities have no entry, and a tab invites a click in a way a
+ *  eighty cities have no entry, and a tab invites a click in a way a
  *  section further down the page does not. */
 export function anyoneBeen(city: CityId): boolean {
   return FEED.some((item) => item.city === city);

@@ -11,7 +11,7 @@ import type { CityId, CityList } from "../types";
  * Not an argument like the others are — the catalogue itself, alphabetically.
  * Nothing else browses the whole thing: the Cities board is what you have
  * rated, Departures is what you mean to reach, and the only other place all
- * seventy-five appear is inside a search box you have to already be typing in.
+ * eighty appear is inside a search box you have to already be typing in.
  * Derived from CITIES rather than written out, so it cannot fall behind the
  * catalogue it is supposed to be.
  */

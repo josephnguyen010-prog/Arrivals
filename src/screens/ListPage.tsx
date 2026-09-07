@@ -120,7 +120,7 @@ export function ListPage() {
 
       {/* Worth the room only once a list is long enough to lose something in.
           Six cities fit on a screen and sorting them is a solution to nothing;
-          the catalogue is seventy-five. The same control the Departures board
+          the catalogue is eighty. The same control the Departures board
           uses, so the two screens answer the same question the same way. */}
       {list.cities.length > FILTERABLE && (
         <div className="filterbar">

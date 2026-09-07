@@ -53,6 +53,13 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     landmarks: ["The Acropolis", "The Ancient Agora", "Plaka"],
     fact: "The Parthenon's columns swell slightly in the middle so that from a distance they read as straight.",
   },
+  auckland: {
+    history:
+      "Built across an isthmus the Maori called Tamaki Makaurau, and briefly the capital before Wellington took it in 1865.",
+    dishes: ["Hangi", "Whitebait fritters", "Fish and chips"],
+    landmarks: ["The Sky Tower", "Mount Eden", "Waiheke Island"],
+    fact: "The city sits on a field of about fifty volcanoes, and the field is dormant rather than extinct.",
+  },
   austin: {
     history:
       "Founded as Waterloo and renamed in 1839 when it was picked as the capital of the Republic of Texas.",
@@ -208,12 +215,26 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     ],
     fact: "One step of the Capitol is exactly a mile above sea level, and it's marked.",
   },
+  dubai: {
+    history:
+      "A pearling and trading town on a creek, a few thousand people strong, until oil arrived in 1966 — almost everything you can see is younger than that.",
+    dishes: ["Shawarma", "Machboos", "Luqaimat"],
+    landmarks: ["The Burj Khalifa", "Dubai Creek", "The Gold Souk"],
+    fact: "The Burj Khalifa is tall enough that you can watch the sun set from the base, take the lift up, and watch it set again.",
+  },
   dublin: {
     history:
       "Founded by Vikings around a black pool — dubh linn — and the capital since the Normans walled it.",
     dishes: ["Coddle", "Boxty", "Soda bread"],
     landmarks: ["Trinity College and the Book of Kells", "The Ha'penny Bridge", "Kilmainham Gaol"],
     fact: "Ulysses covers one day here, 16 June 1904, and people still walk the route every year on the date.",
+  },
+  dubrovnik: {
+    history:
+      "A merchant republic called Ragusa that kept its independence for centuries by paying off whoever was strongest, inside walls that still run unbroken.",
+    dishes: ["Black risotto", "Peka", "Rozata"],
+    landmarks: ["The city walls", "Stradun", "Lokrum"],
+    fact: "Ragusa abolished the slave trade in 1416, centuries before most of Europe thought to.",
   },
   hanoi: {
     history:
@@ -344,6 +365,13 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     dishes: ["Juicy Lucy", "Walleye", "Hotdish"],
     landmarks: ["The Stone Arch Bridge", "Minnehaha Falls", "The Walker Art Center"],
     fact: "Eleven kilometres of enclosed skyways stitch downtown together, because January sits well below freezing.",
+  },
+  montreal: {
+    history:
+      "A fur-trading post founded in 1642 on an island in the St Lawrence, and still the largest French-speaking city in the Americas.",
+    dishes: ["Poutine", "Montreal-style bagels", "Smoked meat"],
+    landmarks: ["Notre-Dame Basilica", "Mount Royal", "The Old Port"],
+    fact: "Winter moves the city underground: the RESO runs about thirty kilometres of tunnels beneath the centre.",
   },
   nairobi: {
     history:
@@ -532,6 +560,13 @@ export const CITY_FACTS: Record<CityId, CityFacts> = {
     dishes: ["Peameal bacon sandwich", "Butter tart", "Roti"],
     landmarks: ["CN Tower", "St. Lawrence Market", "The Distillery District"],
     fact: "The CN Tower was the tallest free-standing structure in the world for 32 years.",
+  },
+  vancouver: {
+    history:
+      "A sawmill settlement that became Canada's Pacific port the moment the railway reached it in 1887.",
+    dishes: ["Japadog", "Salmon candy", "Nanaimo bars"],
+    landmarks: ["Stanley Park", "Granville Island", "The Capilano Suspension Bridge"],
+    fact: "You can ski in the morning and be on a beach by the afternoon, which very few cities can say honestly.",
   },
   vatican: {
     history:
