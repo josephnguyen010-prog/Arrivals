@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Logo } from "./Logo";
 import { useTheme } from "../lib/useTheme";
 import { CitySearch } from "./CitySearch";
 import { NavTabs } from "./NavTabs";
@@ -30,8 +31,11 @@ export function TopBar({ onLogVisit }: TopBarProps) {
       <header className="topbar">
         <div className="topbar-in">
           <Link className="wordmark" to="/">
-            <b>Arrivals</b>
-            <span>Cities, logged</span>
+            <Logo />
+            <span className="wordmark-text">
+              <b>Arrivals</b>
+              <span>Cities, logged</span>
+            </span>
           </Link>
 
           <span className="spacer" />

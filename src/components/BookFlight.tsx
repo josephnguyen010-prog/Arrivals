@@ -145,7 +145,13 @@ export function BookFlight({
         </div>
       )}
 
+      {/* The listing above is read-only — the panel quotes fares and sells
+          nothing — so this row is the only way out of it, and it says so.
+          Under a list of prices three bare names read as a footer credit for
+          where the numbers came from, which is what the tag up in the head
+          already says; a verb and three buttons read as the way to buy. */}
       <div className={showLive ? "book-links compact" : "book-links"}>
+        {showLive && <span className="book-links-label">Book on</span>}
         {links.map((link) => (
           <a
             key={link.id}
@@ -156,10 +162,11 @@ export function BookFlight({
             target="_blank"
             rel="noreferrer noopener"
           >
-            {link.label}
-            {!showLive && link.id === "google" && (
-              <span aria-hidden="true"> →</span>
-            )}
+            {showLive ? link.short : link.label}
+            <span className="book-go-out" aria-hidden="true">
+              ↗
+            </span>
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         ))}
       </div>

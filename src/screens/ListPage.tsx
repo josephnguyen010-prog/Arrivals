@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { CityCard } from "../components/CityCard";
 import { ListEditor } from "../components/ListEditor";
-import { requireCity, REGIONS } from "../data/cities";
+import { requireCity } from "../data/cities";
+import { groupCities, initialOf, regionOf } from "../lib/grouping";
 import { ratingOf, visitsFor } from "../lib/ranking";
 import { useLists } from "../state/ListsContext";
 import { useLog } from "../state/LogContext";
@@ -30,7 +31,6 @@ export function ListPage() {
   const { byId, update, remove } = useLists();
   const { log } = useLog();
   const [editing, setEditing] = useState(false);
-  const [region, setRegion] = useState("all");
   const [sort, setSort] = useState<Sort>("listed");
   const navigate = useNavigate();
 
@@ -50,11 +50,10 @@ export function ListPage() {
   const rated = list.cities.filter((cityId) => ratingOf(log, cityId) !== null);
   const missing = list.cities.length - rated.length;
 
-  /* Filtered and sorted for display only — the list itself is untouched, so
-     turning the page by region cannot quietly rewrite somebody's order. */
+  /* Sorted for display only — the list itself is untouched, so turning the
+     page by region cannot quietly rewrite somebody's order. */
   const shown = (() => {
-    const cities = list.cities.map(requireCity);
-    const inRegion = region === "all" ? cities : cities.filter((city) => city.region === region);
+    const inRegion = list.cities.map(requireCity);
     if (sort === "name") return [...inRegion].sort((a, b) => a.name.localeCompare(b.name));
     if (sort === "region") {
       return [...inRegion].sort(
@@ -75,6 +74,11 @@ export function ListPage() {
     }
     return inRegion;
   })();
+
+  const groups = groupCities(
+    shown,
+    sort === "name" ? initialOf : sort === "region" ? regionOf : null,
+  );
 
   /* What each card is numbered. The position is the city's place in the list
      as written, so it survives filtering and sorting — a card that reads 12
@@ -120,28 +124,12 @@ export function ListPage() {
 
       {/* Worth the room only once a list is long enough to lose something in.
           Six cities fit on a screen and sorting them is a solution to nothing;
-          the catalogue is eighty. The same control the Departures board
-          uses, so the two screens answer the same question the same way. */}
+          the catalogue is eighty. The same control the Departures board uses,
+          so the two screens answer the same question the same way — including
+          having dropped the region filter that used to sit at the other end of
+          this bar arguing with the region sort. */}
       {list.cities.length > FILTERABLE && (
         <div className="filterbar">
-          <select
-            className={region === "all" ? "filter" : "filter on"}
-            aria-label="Filter by region"
-            value={region}
-            onChange={(event) => setRegion(event.target.value)}
-          >
-            <option value="all">Region</option>
-            {REGIONS.filter((name) =>
-              list.cities.some((cityId) => requireCity(cityId).region === name),
-            ).map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
-
-          <span className="spacer" />
-
           <span className="sort-label">Sort by</span>
           <select
             className="filter"
@@ -160,20 +148,27 @@ export function ListPage() {
 
       {list.cities.length === 0 ? (
         <p className="empty">No cities in this list yet.</p>
-      ) : shown.length === 0 ? (
-        <p className="empty">Nothing in this list is in {region}.</p>
       ) : (
         <ol className="list-grid">
-          {shown.map((city) => (
-            <li key={city.id}>
-              <span className="list-pos">{position.get(city.id)}</span>
-              <CityCard
-                city={city}
-                to={`/city/${city.id}`}
-                rating={ratingOf(log, city.id)}
-                visits={visitsFor(log, city.id).length}
-              />
-            </li>
+          {groups.map((group, index) => (
+            <Fragment key={`${group.key}-${index}`}>
+              {/* The head is a list item here rather than a bare heading: this
+                  grid is an <ol>, and anything else between its items is
+                  invalid. The numbers are the city's place in the list as
+                  written, so a run that starts partway down still reads 12. */}
+              {group.key && <li className="group-head">{group.key}</li>}
+              {group.cities.map((city) => (
+                <li key={city.id}>
+                  <span className="list-pos">{position.get(city.id)}</span>
+                  <CityCard
+                    city={city}
+                    to={`/city/${city.id}`}
+                    rating={ratingOf(log, city.id)}
+                    visits={visitsFor(log, city.id).length}
+                  />
+                </li>
+              ))}
+            </Fragment>
           ))}
         </ol>
       )}

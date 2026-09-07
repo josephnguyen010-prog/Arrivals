@@ -157,14 +157,25 @@ h2 {
   flex-wrap: wrap;
 }
 
+/* The mark and the name, side by side. The two lines of type keep their own
+   column so the stamp centres against the pair rather than sitting on the
+   first line with the tagline hanging off its corner. */
 .wordmark {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 11px;
   flex: none;
 }
 
-.wordmark b {
+.wordmark-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Scoped to the text column, not the whole lockup: `.wordmark span` would also
+   catch the column itself and set the name in 9px Courier. */
+.wordmark-text b {
   font-family: var(--display);
   font-weight: normal;
   font-size: 21px;
@@ -173,12 +184,32 @@ h2 {
   line-height: 1;
 }
 
-.wordmark span {
+.wordmark-text > span {
   font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+/* The stamp tilts the way a hand-cancelled one does, and straightens under the
+   pointer. Small enough to read as the mark settling rather than as a toy. */
+.logo {
+  flex: none;
+  transform: rotate(-4deg);
+  transition: transform 0.18s ease;
+}
+
+.wordmark:hover .logo {
+  transform: rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo,
+  .wordmark:hover .logo {
+    transition: none;
+    transform: rotate(-4deg);
+  }
 }
 
 /* In the bar rather than in the page, and unboxed: a bordered strip floating
@@ -770,6 +801,44 @@ select option {
   gap: 16px 12px;
 }
 
+/* A dictionary's running head: the letter or the region the run underneath it
+   files under. It spans the whole row rather than sitting in a column, or it
+   would read as a card that lost its picture; the rule runs out to the right
+   edge so the eye can carry the head across every card it covers.
+
+   Not sticky. The topbar above it already is, and it wraps to two rows on a
+   narrow window — a second sticky layer would have to guess the height of the
+   first and would sit wrong every time it guessed low. On paper the running
+   head doesn't follow you down the page either. */
+.group-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 -6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* The grid's row gap already separates the head from the run it opens, so only
+   the space above it is the head's to add — and the first one opens nothing it
+   needs separating from. */
+.grid > .group-head:first-child,
+.list-grid > .group-head:first-child {
+  margin-top: 0;
+}
+
+.group-head::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
 .card {
   display: block;
   width: 100%;
@@ -995,9 +1064,21 @@ select option {
 }
 
 /* Your own stamp: a line in the margin of everyone else's trips. */
+/* Every line is its own grid, so `auto` tracks were measured per row and each
+   row landed its own way: "· 4 nights" sets 6.6px wider than "· 3 weeks" in
+   this monospace, which dragged that row's stars 6.6px left of the row above
+   and left the whole column looking shaken rather than set. A grid can only
+   align columns within itself, and there is one grid per line.
+
+   So both right-hand tracks are named instead of measured. Neither number is
+   arbitrary: the star row is an SVG of exactly 80.73px at size 13 (a 108-unit
+   viewBox scaled to 14.95px tall), and the longest date the feed can print is
+   "09 Aug 2023 · 13 nights" — 23 monospaced characters at 11px, or 151.8px.
+   Rounded up, 81px and 152px. The date track keeps `auto` as its maximum so a
+   longer string than that grows its own row rather than being clipped. */
 .fline {
   display: grid;
-  grid-template-columns: 26px minmax(0, 1fr) auto auto;
+  grid-template-columns: 26px minmax(0, 1fr) 81px minmax(152px, auto);
   align-items: center;
   gap: 12px;
   padding: 10px 6px;
@@ -1022,11 +1103,25 @@ select option {
   color: var(--ink);
 }
 
+/* Left in its track, not flush to the row's edge — the point of fixing the
+   width is that every date starts at the same place. `nowrap` because a track
+   sized for the longest string should never be the thing that wraps one. */
 .fline .when {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Under this there is no room for four named tracks, and a column that lines
+   up perfectly while running off the side of the screen is worse than a ragged
+   one that fits. The dates go back to sizing themselves. */
+@media (max-width: 560px) {
+  .fline {
+    grid-template-columns: 26px minmax(0, 1fr) auto auto;
+    gap: 8px;
+  }
 }
 
 .tags {
@@ -2154,15 +2249,8 @@ select option {
   font-size: 27px;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.1;
   color: var(--ink);
-}
-
-.pass-band {
-  font-family: var(--mono);
-  font-size: 12.5px;
-  font-variant-numeric: tabular-nums;
-  color: var(--accent-2);
 }
 
 .pass-stub-note {
@@ -2535,40 +2623,87 @@ select option {
   grid-column: 1 / -1;
 }
 
+/* Sitting under the listing these are the only way out of the panel, so they
+   shed padding and nothing else: the border stays, the ground stays, and the
+   verb in front of them says what they do. Borderless they read as a caption
+   under the prices rather than as the three places you can go buy one. */
 .book-links.compact {
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
+  display: flex;
+  align-items: stretch;
+  gap: 5px;
   padding-top: 8px;
 }
 
-.book-links.compact .book-go {
-  padding: 5px 4px;
-  border-color: transparent;
-  font-size: 10px;
-  letter-spacing: 0.06em;
+.book-links-label {
+  flex: 0 0 auto;
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-.book-links.compact .book-go:hover {
-  border-color: var(--rule);
+/* Equal thirds of what the label leaves; `min-width: 0` so the longest name
+   shrinks the set rather than pushing the row wider than the panel. */
+.book-links.compact .book-go {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 5px 6px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
 }
 
 .book-go {
-  display: block;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   padding: 8px 12px;
   border: 1px solid var(--rule);
   border-radius: 3px;
+  background: var(--surface-2);
   font-family: var(--mono);
   font-size: 11.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-align: center;
   text-decoration: none;
-  color: var(--muted);
+  color: var(--ink);
 }
 
 .book-go:hover {
   border-color: var(--accent-2);
-  color: var(--ink);
+  color: var(--accent-2);
+}
+
+/* The arrow is the part that says "and then you leave", so it is the part
+   that moves. Muted until the hover, or it competes with the name. */
+.book-go-out {
+  font-size: 0.92em;
+  line-height: 1;
+  color: var(--muted);
+  transition: transform 0.12s ease;
+}
+
+.book-go:hover .book-go-out {
+  color: var(--accent-2);
+  transform: translate(1px, -1px);
+}
+
+.book-go.primary .book-go-out {
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-go-out {
+    transition: none;
+  }
+
+  .book-go:hover .book-go-out {
+    transform: none;
+  }
 }
 
 /* Google is the one the pass points at by name, so it carries the weight and
@@ -2628,6 +2763,16 @@ select option {
 
   .book-links .book-go.primary {
     grid-column: auto;
+  }
+
+  /* Stacked there is no ticket to match and no height to save, so the row
+     becomes a column and the label takes its own line. */
+  .book-links.compact {
+    flex-wrap: wrap;
+  }
+
+  .book-links-label {
+    flex-basis: 100%;
   }
 }
 

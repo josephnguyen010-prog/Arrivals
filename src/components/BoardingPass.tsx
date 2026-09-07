@@ -140,17 +140,20 @@ export function BoardingPass({ city, nights }: { city: City; nights: number }) {
               <Barcode seed={`${home.code}${arrival?.code ?? city.id}`} />
             </div>
 
-            {/* The range, not the typical fare. The breakdown directly above
-                this already gives the typical one, and printing the same
-                number twice in one section is how the page read before. The
-                spread between seasons is the thing the pass can add. */}
+            {/* One figure in the big type, not two. The stub still can't be
+                the typical fare — "What it costs" prints that as Flights, and
+                the same number twice on one page is what this was rewritten
+                to stop — so the seasonal spread stays. But two numbers won't
+                share a 142px hero slot: `$830–$1,250` sets 173px wide at 27px
+                and breaks after the dash, leaving a line that ends in what
+                reads as a hyphen. So the cheap season takes the slot alone,
+                being the figure you'd act on, and the peak moves down into the
+                note beside the months the grid already names. */}
             <div className="pass-stub">
-              <span className="pass-stub-label">Fare range</span>
-              <b className="pass-fare">
-                ${fare.low.toLocaleString()}–${fare.high.toLocaleString()}
-              </b>
+              <span className="pass-stub-label">Fare from</span>
+              <b className="pass-fare">${fare.low.toLocaleString()}</b>
               <span className="pass-stub-note">
-                Cheap season to peak · return, economy
+                Up to ${fare.high.toLocaleString()} at peak · return, economy
               </span>
             </div>
           </div>

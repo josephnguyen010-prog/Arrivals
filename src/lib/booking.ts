@@ -28,6 +28,8 @@ export interface Trip {
 export interface BookingLink {
   id: string;
   label: string;
+  /** For the row under the live list, where three full names won't fit. */
+  short: string;
   url: string;
 }
 
@@ -67,9 +69,9 @@ export function kayakUrl(trip: Trip): string {
 /** Google first: it is the one the user asked for by name, and the least loaded. */
 export function bookingLinks(trip: Trip): BookingLink[] {
   return [
-    { id: "google", label: "Google Flights", url: googleFlightsUrl(trip) },
-    { id: "skyscanner", label: "Skyscanner", url: skyscannerUrl(trip) },
-    { id: "kayak", label: "Kayak", url: kayakUrl(trip) },
+    { id: "google", label: "Google Flights", short: "Google", url: googleFlightsUrl(trip) },
+    { id: "skyscanner", label: "Skyscanner", short: "Skyscanner", url: skyscannerUrl(trip) },
+    { id: "kayak", label: "Kayak", short: "Kayak", url: kayakUrl(trip) },
   ];
 }
 

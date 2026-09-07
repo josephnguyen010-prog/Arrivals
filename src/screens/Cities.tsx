@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { CityCard } from "../components/CityCard";
 import { EditCity } from "../components/EditCity";
 import { RateCity } from "../components/RateCity";
 import { CITIES, REGIONS } from "../data/cities";
+import { groupCities, initialOf } from "../lib/grouping";
 import { RATING_STEPS, isWished, orderedIds, ratingOf, visitsFor } from "../lib/ranking";
 import { useLog } from "../state/LogContext";
 import type { City } from "../types";
@@ -62,6 +63,16 @@ export function Cities() {
       return ao - bo;
     });
   }, [log, rating, region, sort]);
+
+  /* Only the alphabetical order files under anything. The other three are
+     rankings, and a ranking is one run from best down — chopping it into
+     headed sections would be chopping up the answer. The region filter stays:
+     there is no region *sort* on this screen for it to collide with, so it is
+     the only way to narrow the shelf to one continent. */
+  const groups = useMemo(
+    () => groupCities(rows, sort === "name" ? initialOf : null),
+    [rows, sort],
+  );
 
   return (
     <section className="screen">
@@ -142,18 +153,23 @@ export function Cities() {
         </p>
       ) : (
         <div className={tight ? "grid tight" : "grid"}>
-          {rows.map((city) => (
-            <CityCard
-              key={city.id}
-              city={city}
-              to={`/city/${city.id}`}
-              rating={ratingOf(log, city.id)}
-              visits={visitsFor(log, city.id).length}
-              wished={isWished(log, city.id)}
-              onToggleWish={() => toggleWishlist(city.id)}
-              onEdit={() => setEditing(city)}
-              stars={<RateCity city={city} size={13} />}
-            />
+          {groups.map((group, index) => (
+            <Fragment key={`${group.key}-${index}`}>
+              {group.key && <h3 className="group-head">{group.key}</h3>}
+              {group.cities.map((city) => (
+                <CityCard
+                  key={city.id}
+                  city={city}
+                  to={`/city/${city.id}`}
+                  rating={ratingOf(log, city.id)}
+                  visits={visitsFor(log, city.id).length}
+                  wished={isWished(log, city.id)}
+                  onToggleWish={() => toggleWishlist(city.id)}
+                  onEdit={() => setEditing(city)}
+                  stars={<RateCity city={city} size={13} />}
+                />
+              ))}
+            </Fragment>
           ))}
         </div>
       )}

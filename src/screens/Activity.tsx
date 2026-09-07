@@ -138,7 +138,12 @@ function YourLine({ visit, you, initials }: { visit: Visit; you: string; initial
         <b>{you.split(" ")[0]}</b> stamped <b>{city.name}</b>
         {visit.note ? ` — ${visit.note}` : ""}
       </span>
-      {rating !== null && <Stars value={rating} size={13} />}
+      {/* Always rendered, never conditional. The line is a grid with a track
+          reserved for it, and a `&&` that returns false puts no item in that
+          track at all — so an unrated visit would slide its date up into the
+          star column and undo the alignment for every row around it. Stars
+          draws nothing for a null rating, which is what belongs there. */}
+      <Stars value={rating} size={13} />
       <span className="when">
         {visit.day} {visit.when}
         {typeof visit.nights === "number" && ` · ${formatStay(visit.nights)}`}
