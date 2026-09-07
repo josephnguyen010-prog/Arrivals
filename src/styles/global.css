@@ -3348,6 +3348,36 @@ select option {
 /* A margin rather than none, so the line still clears the standing above it
    when there is no stat strip between them. It collapses against the strip's
    own bottom margin when there is. */
+/* The arrivals counter, set like the stats above it: the figure large, its
+   caption small and lettered underneath. It used to carry a sentence
+   explaining itself, which is a lot of prose to hang on a number that is
+   already legible. */
+.arrivals-count {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 20px 0 0;
+}
+
+.arrivals-count b {
+  font-family: var(--mono);
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--accent-2);
+  /* Tabular figures, or the line shivers sideways whenever a digit changes
+     width — which, on a number that moves every second, is constantly. */
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.arrivals-count > span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 .city-line {
   margin: 18px 0 0;
 }

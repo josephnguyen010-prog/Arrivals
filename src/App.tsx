@@ -55,8 +55,8 @@ export function App() {
         </p>
         <p className="note">
           Photographs from Wikimedia Commons, all CC0 or attribution-only, credited on each city's
-          page and in CREDITS.md. Friends and their notes are invented. <b>Arrivals</b> is a working
-          title.
+          page and in CREDITS.md. Friends and their notes are invented, and the arrivals counters are
+          rounded estimates rather than a measured figure. <b>Arrivals</b> is a working title.
         </p>
         <p className="byline">
           By <b>Joseph Nguyen</b>

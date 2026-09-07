@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BoardingPass } from "../components/BoardingPass";
+import { ArrivalsCounter } from "../components/ArrivalsCounter";
 import { CityPanel } from "../components/CityPanel";
 import { CityPhotoEditor } from "../components/CityPhotoEditor";
 import { PhotoCreditLine } from "../components/PhotoCreditLine";
@@ -14,7 +15,7 @@ import { cityById } from "../data/cities";
 import type { BudgetLevelId } from "../data/costs";
 import { dailyCostFor } from "../data/costs";
 import { isWished, rankOf, ratingOf, visitsFor } from "../lib/ranking";
-import { cheapestMonth, friendsVerdict, rankingLine } from "../lib/cityStats";
+import { cheapestMonth, friendsVerdict } from "../lib/cityStats";
 import { tripCost } from "../lib/tripCost";
 import { formatNights } from "../lib/trips";
 import { useLog } from "../state/LogContext";
@@ -179,9 +180,11 @@ export function CityPage() {
                 "ranked against the other cities you gave 4.5 stars", which
                 described the mechanism and told you nothing you had not just
                 done yourself. */}
-            <p className="empty city-line">
-              {rankingLine(log, city.id) ?? "Log a visit and it slots into your ranking."}
-            </p>
+            {/* Where your ranking used to be explained back to you. A city page
+                is about the city, and "you put it below Ho Chi Minh City" was
+                the app talking about its own bookkeeping — true, and no reason
+                to be interested. The arrivals counter is about the place. */}
+            <ArrivalsCounter city={city} />
 
             <button
               className={wished ? "wish-btn on" : "wish-btn"}

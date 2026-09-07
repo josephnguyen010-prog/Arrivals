@@ -1,9 +1,7 @@
-import { requireCity } from "../data/cities";
 import { coordsFor } from "../data/coords";
 import { MONTHS, seasonIdFor, seasonProfile } from "../data/fares";
 import { FEED } from "../data/seed";
-import { orderedIds } from "./ranking";
-import type { City, CityId, LogState } from "../types";
+import type { CityId } from "../types";
 
 /**
  * The numbers a city page can put beside your own.
@@ -28,41 +26,6 @@ export function friendsVerdict(city: CityId): FriendsVerdict | null {
     count: been.length,
     average: been.reduce((sum, item) => sum + item.rating, 0) / been.length,
   };
-}
-
-/** The cities immediately either side of it in your ranking. */
-export function ratingNeighbours(
-  log: LogState,
-  city: CityId,
-): { better: City | null; worse: City | null } {
-  const ordered = orderedIds(log);
-  const at = ordered.indexOf(city);
-  if (at === -1) return { better: null, worse: null };
-  return {
-    better: at > 0 ? requireCity(ordered[at - 1]) : null,
-    worse: at < ordered.length - 1 ? requireCity(ordered[at + 1]) : null,
-  };
-}
-
-/**
- * What the rank actually means, in cities rather than in arithmetic.
- *
- * "Ranked against the other cities you gave 4.5 stars" described the mechanism
- * and told you nothing — you already knew what you had given it. The two names
- * either side are the same fact made concrete, and they are the thing the
- * comparison flow went to the trouble of working out.
- *
- * Null when the city is unrated; the page has its own line for that.
- */
-export function rankingLine(log: LogState, city: CityId): string | null {
-  const ordered = orderedIds(log);
-  if (!ordered.includes(city)) return null;
-  if (ordered.length === 1) return "The only city you've rated so far.";
-
-  const { better, worse } = ratingNeighbours(log, city);
-  if (!better) return `Your highest-rated city, just above ${worse!.name}.`;
-  if (!worse) return `The bottom of your list, just below ${better.name}.`;
-  return `You put it below ${better.name} and above ${worse.name}.`;
 }
 
 /**
