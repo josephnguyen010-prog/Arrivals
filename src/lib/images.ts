@@ -4,7 +4,7 @@
  * before it is ever stored.
  */
 export const MAX_EDGE = 900;
-export const JPEG_QUALITY = 0.72;
+const JPEG_QUALITY = 0.72;
 
 /**
  * Reads a picked image, scales its longest edge down to MAX_EDGE and re-encodes

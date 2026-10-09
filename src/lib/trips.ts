@@ -1,4 +1,4 @@
-import { REGIONS, CITIES, cityById } from "../data/cities";
+import { cityById } from "../data/cities";
 import type { LogState, Visit } from "../types";
 
 /**
@@ -90,11 +90,3 @@ export function longestStays(log: LogState, limit = 5): { country: string; stay:
     .sort((a, b) => b.stay.nights - a.stay.nights || a.country.localeCompare(b.country))
     .slice(0, limit);
 }
-
-/** Countries in a region that this app has a city for — the denominator. */
-export function countriesIn(region: string): string[] {
-  const names = new Set(CITIES.filter((city) => city.region === region).map((city) => city.country));
-  return [...names].sort((a, b) => a.localeCompare(b));
-}
-
-export { REGIONS };
