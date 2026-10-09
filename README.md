@@ -3,24 +3,27 @@
 Letterboxd, but for cities. Rate the places you've been, log every trip separately, and keep a
 ranking that's built from comparisons rather than guesswork.
 
-**Arrivals is a working title**, named for the arrival stamp in a passport and the board in an
-airport. It replaced `Postmark`, which collided with ActiveCampaign's transactional email service —
-a developer-facing product, and so the worst possible audience to share a name with.
+**[Try it live →](https://josephnguyen010-prog.github.io/Joseph-Nguyen-Portfolio/arrivals/)** (seeded
+with demo data; everything you add stays in your own browser)
 
-Worth knowing if the name comes up again: the stamp-flavoured names are saturated by direct
-competitors in exactly this category. **Stamped: Travel Tracker & Map**, **Stamp: Travel Tracker**,
-**Stampie** and **WanderStamp** all already track places you've been, and **Passage** is a travel
-app too. `Arrivals` and `Port of Entry` were the passport words left standing.
+- **Comparison ranking.** A new city is placed by asking which of two places you preferred, binary
+  search style: three questions settle an eight-city band instead of eight.
+- **Trips, not just places.** Every visit is logged separately with dates, a note and a spot worth
+  remembering; the app works out nights spent per city and per country.
+- **Departures.** For places you haven't been: an estimated trip cost by season, a boarding pass, and
+  a handoff to book it, with live fares when a flight API is configured.
+- **Social layer.** An activity feed, friends' write-ups, and who you follow that has been to a city.
+- **Passport, lists and countries** by continent, plus light and dark themes.
 
-The trade-off: a common English word is hard to trademark and hard to search for. `Port of Entry` is
-more ownable and more literally passport, but it's three words and shortens badly.
+Built with React 18, TypeScript and Vite, with no backend: state lives in `localStorage`. 242 tests
+cover the pure logic (ranking, search, dates, fares, trip lengths, booking links).
 
 ## Running it
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm test         # ranking logic
+npm test         # the pure logic: ranking, search, dates, fares, trips
 npm run build    # typecheck + production build
 ```
 
@@ -33,7 +36,23 @@ both matter if you move it anywhere else:
 - `HashRouter` rather than `BrowserRouter`. GitHub Pages has no SPA fallback, so a real path like
   `/arrivals/cities` would 404 on refresh. The hash never reaches the server.
 
-To update the copy in the portfolio: `npm run build`, then replace `public/arrivals/` there.
+To update the copy in the portfolio: `npm run build`, then replace `public/arrivals/` there. Set
+`VITE_FLIGHTS_API` before building: Vite inlines it at build time, so a build without it ships with
+no live flights and nothing warns you.
+
+## The name
+
+**Arrivals is a working title**, named for the arrival stamp in a passport and the board in an
+airport. It replaced `Postmark`, which collided with ActiveCampaign's transactional email service —
+a developer-facing product, and so the worst possible audience to share a name with.
+
+Worth knowing if the name comes up again: the stamp-flavoured names are saturated by direct
+competitors in exactly this category. **Stamped: Travel Tracker & Map**, **Stamp: Travel Tracker**,
+**Stampie** and **WanderStamp** all already track places you've been, and **Passage** is a travel
+app too. `Arrivals` and `Port of Entry` were the passport words left standing.
+
+The trade-off: a common English word is hard to trademark and hard to search for. `Port of Entry` is
+more ownable and more literally passport, but it's three words and shortens badly.
 
 ## The idea
 
@@ -351,12 +370,20 @@ src/
   data/fares.ts         the fare curve, the market and the seasons, pure and tested
   lib/booking.ts        the search URLs the ticket hands off to, pure and tested
   lib/trips.ts          how long a trip was, and how long you have spent in a country
+  lib/tripCost.ts       the trip cost breakdown and its spread across seasons
+  lib/liveFlights.ts    live flight listings via the portfolio's /api/flights proxy
+  lib/cityStats.ts      the numbers a city page puts beside your own
+  lib/countries.ts      per-continent country progress
+  lib/grouping.ts       running heads (letter or region) for a sorted grid
+  lib/visitors.ts       the arrivals counter on each city
+  lib/useTheme.ts       follows the OS theme until you pick one
   data/coords.ts        city coordinates and great-circle distance
   data/airports.ts      airports, the gateway flag, and the nearest-airport join
   state/                LogContext, ListsContext, SpotsContext, PhotosContext, ProfileContext
   data/                 city catalogue, city facts, photo credits, seed data
   components/           Stars, CityCard, Stamp, Calendar, BoardingPass, BookFlight, the flows
-  screens/              Profile, Activity, Cities, Departures, Passport, Lists, ListPage, CityPage
+  screens/              Profile, Activity, Cities, Departures, Passport, Lists, ListPage, CityPage,
+                        CountryList, FriendVisit
   styles/tokens.css     the palette, both themes
 ```
 
@@ -429,8 +456,7 @@ They only actually mix because the feed carries real dates. It used to carry rel
 all nineteen friend entries sorted above all thirteen of your trips and the screen read as two lists
 stacked. Both kinds are dated `day` + `when` now and sort through one function, `daysAgo`.
 
-**Who else has been** is the panel's third tab — who you follow that has been here — who you
-follow that has been here, what they gave it, when they went and for how long, each row opening
+**Who else has been** is the panel's third tab: who you follow that has been here, what they gave it, when they went and for how long, each row opening
 their write-up rather than the city. The Activity feed answers *what has anyone been doing lately*,
 which is a different question from *what do the people I follow make of this place*, and the second
 one is the one you have while looking at a city. An earlier version of this README described this
