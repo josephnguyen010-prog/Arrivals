@@ -33,8 +33,7 @@ export function Passport() {
     <section className="screen">
       <h2>Every visit, stamped in order</h2>
       <p className="lede">
-        A city can appear here more than once. That is the whole point of the passport: you rate the
-        city, but you stamp the trip.
+        Every trip gets its own stamp, so a city you keep going back to shows up each time.
       </p>
 
       {years.length === 0 && <p className="empty">No visits logged yet.</p>}

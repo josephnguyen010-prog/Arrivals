@@ -22,8 +22,7 @@ export function Lists() {
         </button>
       </div>
       <p className="lede">
-        The shareable object. A list is a set of cities plus an argument for why they belong
-        together, and the order is part of the argument.
+        A handful of cities and the reason they belong together. The order counts.
       </p>
 
       {mine.length === 0 ? (
@@ -50,8 +49,7 @@ export function Lists() {
           reference table among four arguments. */}
       <h2 style={{ marginTop: "36px" }}>Everywhere else</h2>
       <p className="lede">
-        Nothing else shows you all of them — the board is what you've rated, Departures is what
-        you mean to reach.
+        Every city you can log on Arrivals, in one place.
       </p>
       <div className="lists">
         <ListCard list={catalogue} />

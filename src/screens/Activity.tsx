@@ -47,8 +47,8 @@ export function Activity() {
     <section className="screen">
       <h2>From people you follow</h2>
       <p className="lede">
-        What they said about where they went, and your own stamps in among it — one column,
-        newest first.
+        Where the people you follow have been and what they made of it, with your own trips
+        mixed in. Newest first.
       </p>
 
       <div className="feed">

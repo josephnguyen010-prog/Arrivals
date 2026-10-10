@@ -1631,6 +1631,20 @@ select option {
   background: var(--accent);
 }
 
+/* With a mouse, a dozen crosses over a dozen photographs turned the board into
+   a page of delete buttons. Where hover exists they wait for it (and for
+   keyboard focus); on touch they stay, since there is nothing to hover. */
+@media (hover: hover) and (pointer: fine) {
+  .pin.remove {
+    opacity: 0;
+  }
+
+  .card:hover .pin.remove,
+  .pin.remove:focus-visible {
+    opacity: 1;
+  }
+}
+
 /* ------------------------------------------------------- departures --- */
 
 /* ----------------------------------------------------- profile page --- */
@@ -3319,6 +3333,20 @@ select option {
 
 .photo-line .ghost {
   white-space: nowrap;
+  padding: 0; /* the button's own padding pushed it off the credit's left edge */
+}
+
+/* The way to the fix, so it has to look like a link rather than like the rest
+   of the sentence. */
+.boarding-pass-empty a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+.boarding-pass-empty a:hover {
+  color: var(--accent);
 }
 
 .photo-credit a:hover {
@@ -4345,6 +4373,15 @@ select option {
   .navtabs {
     flex-wrap: nowrap;
     overflow-x: auto;
+    scrollbar-width: none;
+    /* Fade the far edge so a cut-off tab reads as "more this way". */
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+    padding-right: 24px;
+  }
+
+  .navtabs::-webkit-scrollbar {
+    display: none;
   }
 
   .navtabs a {
@@ -4412,4 +4449,40 @@ select option {
     display: none;
   }
 
+}
+
+/* ------------------------------------------------------------ phone --- */
+
+@media (max-width: 560px) {
+  /* The wordmark, the two icons and the button fit on one line; letting the
+     button wrap left it alone on a row of its own above the tabs. */
+  .topbar-in {
+    gap: 6px;
+  }
+
+  .log-btn {
+    padding: 8px 11px;
+    font-size: 13px;
+  }
+
+  /* Five stats on one line do not fit, and wrapping them freely left a ragged
+     two, two and one with the hairlines in odd places. Three to a row, a
+     hairline before every one that is not first in its row. */
+  .pstats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 0;
+    width: 100%;
+  }
+
+  .pstats .pstat,
+  .pstats .pstat + .pstat {
+    text-align: center;
+    padding: 0 8px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .pstats .pstat:nth-child(3n + 1) {
+    border-left: 0;
+  }
 }

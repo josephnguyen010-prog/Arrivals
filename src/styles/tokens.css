@@ -13,7 +13,7 @@
   --surface: #f1eee6;
   --surface-2: #dcd7c9;
   --ink: #1b2730;
-  --muted: #6b7580;
+  --muted: #56606a; /* 4.8:1 on --bg: it carries the 10-11px small caps */
   --rule: #c9c3b3;
   --stamp-bg: #f6f3eb;
   --stamp-ink: #26313a;
@@ -82,7 +82,7 @@
   --surface: #f1eee6;
   --surface-2: #dcd7c9;
   --ink: #1b2730;
-  --muted: #6b7580;
+  --muted: #56606a; /* 4.8:1 on --bg: it carries the 10-11px small caps */
   --rule: #c9c3b3;
   --stamp-bg: #f6f3eb;
   --stamp-ink: #26313a;

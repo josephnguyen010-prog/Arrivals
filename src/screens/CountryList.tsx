@@ -61,7 +61,7 @@ export function CountryList() {
       <p className="lede">
         {done === total
           ? `Every country ${profile.name.split(" ")[0]} can log here has a stamp in it.`
-          : `Counted against the cities Arrivals carries, so every line without a stamp is somewhere you could log tomorrow.`}
+          : `Out of the countries Arrivals has cities in. Anything without a stamp, you could log tomorrow.`}
       </p>
 
       <ul className="checklist">

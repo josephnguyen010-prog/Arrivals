@@ -5,7 +5,7 @@ const LINKS = [
   { to: "/activity", label: "Activity", end: false },
   { to: "/cities", label: "Cities", end: false },
   { to: "/departures", label: "Departures", end: false },
-  { to: "/passport", label: "MyPassport", end: false },
+  { to: "/passport", label: "Passport", end: false },
   { to: "/lists", label: "Lists", end: false },
 ];
 

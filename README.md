@@ -67,7 +67,7 @@ question or two in practice. The ordering that falls out is a real ranked list, 
 
 **You rate the city, but you log the trip.** Films get watched a hundred times a year; cities get
 visited maybe three. A city-shaped log would be too quiet to be worth opening. So the unit is a
-visit, and the MyPassport screen shows them in order, with repeat trips marked `↻ visit 2`. It's
+visit, and the Passport screen shows them in order, with repeat trips marked `↻ visit 2`. It's
 ruled off by year rather than by month: at this rate of travel a month header sits over one row
 almost every time, which splits the date in two and strands the day in the margin, a long way from
 the header that gives it meaning. Years actually group, and each row carries its date whole.
@@ -414,7 +414,7 @@ rather than a rename.
 
 Working: rating, the comparison flow, the ranking, filters and sorts, Departures, spots with links
 and photos, city notes, replacing a city's photo with your own, the trip cost, the boarding pass
-and the handoff to book it, the MyPassport screen, per-city pages, lists you can create and reorder, both themes, and
+and the handoff to book it, the Passport screen, per-city pages, lists you can create and reorder, both themes, and
 persistence to `localStorage`.
 
 The sheet has no scroller of its own. A tall panel used to grow a bar down its own edge, inside the

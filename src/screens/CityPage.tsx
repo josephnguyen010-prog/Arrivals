@@ -264,8 +264,10 @@ export function CityPage() {
                   </time>
                   {/* Your own words about the trip, where there are some. The
                       feed's notes belong to other people; this is the column
-                      the app had for everyone but you. */}
-                  <span>{visit.note ?? "Stamped"}</span>
+                      the app had for everyone but you. A trip without a note
+                      leaves it empty rather than filling it with a word that
+                      says nothing. */}
+                  {visit.note && <span>{visit.note}</span>}
                 </li>
               ))}
             </ul>
