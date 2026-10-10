@@ -79,7 +79,7 @@ catalogue problem is solved.
 ## Profile
 
 The landing screen: your four favourite cities, recent activity, and previews of Departures and
-MyPassport down the side. Favourites are chosen and ordered by hand rather than taken from the top
+Passport down the side. Favourites are chosen and ordered by hand rather than taken from the top
 of the ranking — the city you'd tell someone about isn't always the one you scored highest, and
 that gap is the interesting part.
 
