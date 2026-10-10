@@ -492,7 +492,7 @@ a guess.
 The feed's friends have lengths too. They always did — buried in a tag string reading `"10 days"` —
 which is why the tags now carry only what kind of trip it was.
 
-It shows under each date in MyPassport, beside each visit on the city page, on your own lines in
+It shows under each date in Passport, beside each visit on the city page, on your own lines in
 Activity, and totalled per country on the region lists. A log saved before the field existed gets
 the seeded trips' lengths handed back once, the same way `backfillReviews` does it and for the same
 reason — otherwise every one of those screens shows nothing for ever, which reads as the feature
