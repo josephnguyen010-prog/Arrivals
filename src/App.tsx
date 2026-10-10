@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { LogVisitFlow } from "./components/LogVisitFlow";
 import { ProfileHeader } from "./components/ProfileHeader";
 import { TopBar } from "./components/TopBar";
+import { About } from "./screens/About";
 import { Activity } from "./screens/Activity";
 import { Cities } from "./screens/Cities";
 import { CityPage } from "./screens/CityPage";
@@ -24,7 +25,8 @@ export function App() {
   // height on Profile than everywhere else, so every tab change jolted it up
   // or down the page. Below, the one fixed thing on the screen is the row you
   // navigate with, and the block that comes and goes does it underneath.
-  const onProfile = useLocation().pathname === "/";
+  const path = useLocation().pathname;
+  const onProfile = path === "/";
 
   return (
     <>
@@ -45,21 +47,19 @@ export function App() {
           <Route path="/lists" element={<Lists />} />
           <Route path="/list/:id" element={<ListPage />} />
           <Route path="/city/:id" element={<CityPage />} />
+          <Route path="/about" element={<About />} />
         </Routes>
 
-        <p className="note">
-          <b>Prototype.</b> Ratings are yours to set, but the ordering is real: when you give a city
-          the same star rating as one you've already logged, it runs a binary-search insertion to work
-          out which of the two you actually preferred. That is why it only ever asks a question or two.
-          Your log is saved in this browser.
-        </p>
-        <p className="note">
-          Photographs from Wikimedia Commons, all CC0 or attribution-only, credited on each city's
-          page and in CREDITS.md. Friends and their notes are invented, and the arrivals counters are
-          rounded estimates rather than a measured figure. <b>Arrivals</b> is a working title.
-        </p>
+        {/* One line under every screen; what it is and what is invented lives
+            on the About page rather than repeated beneath each one. */}
         <p className="byline">
           By <b>Joseph Nguyen</b>
+          {path !== "/about" && (
+            <>
+              {" · "}
+              <Link to="/about">About this prototype</Link>
+            </>
+          )}
         </p>
       </div>
 
